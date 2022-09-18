@@ -11,7 +11,7 @@ export default function testUserCode(userLanguage: string,
 
 function codeSuffix(userLanguage: string, amountOfParameters: number, questionName: string, tests: Array<any>): void {
     let functionCallSuffix: string;
-    switch(userLanguage) { //different languages have different 
+    switch(userLanguage) { //different languages have different formats for calling function
         case "Python":
             
     }
