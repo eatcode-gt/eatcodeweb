@@ -2,7 +2,7 @@ import express, { Express, Request, Response } from 'express'; //server manager 
 import dotenv from 'dotenv'; //allows use of enviroment variables in ./.env
 import cors from 'cors'; //cross origin resource sharing middleware
 import testUserCode from './test-user-code'
-import problemData from './problem-data'; //this does not work rn
+import problemData from './problem-data.json';
 
 dotenv.config(); //load .env file
 
