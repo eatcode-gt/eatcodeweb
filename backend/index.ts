@@ -6,9 +6,9 @@ import problemData from './problem-data.json';
 
 dotenv.config(); //load .env file
 
-const app: Express = express();
-app.use(cors);
-const port = process.env.PORT;
+const app: Express = express(); //see line 1
+const port = process.env.PORT; //see line 2
+app.use(cors); //see line 3
 
 app.get('/', (req: Request, res: Response) => { //get requests to eatcode.com/
   res.send('placeholder');
@@ -22,10 +22,12 @@ app.post('/login', (req: Request, res: Response) => { //post requests to eatcode
   res.send('placeholder');
 });
 
+
 app.post('/problems', (req: Request, res: Response) => { //post requests to eatcode.com/problems
   const { userCode, userLanguage, questionID }: { userCode: string, userLanguage: string, questionID: number } = req.body; //destructure POST from client
-  const { questionName, amountOfParameters, tests }: { questionName: string, amountOfParameters: number, tests: Array<any> } = problemData[questionID]; //pull question data from json
-  let result = testUserCode(userLanguage, questionID, userCode, questionName, amountOfParameters, tests); //abstraction to test code against cases
+  const { questionName, tests }: { questionName: string, tests: Array<any> } = problemData.problems[questionID]; //pull question data from json
+  let result = testUserCode(userLanguage, userCode, questionName, tests); //abstraction to test code against cases
+  res.end(result); //send result back to client
 });
 
 app.listen(port, () => { //server listens to requests on port {port}
