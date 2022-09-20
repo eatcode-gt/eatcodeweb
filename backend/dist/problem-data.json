@@ -1,0 +1,25 @@
+{
+    "problems": [
+        {
+            "questionName": "McProblem",
+            "tests": [
+                {
+                    "parameters": "nugget",
+                    "expectedOutput": ["McNugget"]
+                },
+                {
+                    "parameters": "Clough Undergraduate Learning Commons",
+                    "expectedOutput": ["McCloughundergraduatelearningcommons"]
+                },
+                {
+                    "parameters": "8347293850",
+                    "expectedOutput": ["Mc8347293850"]
+                },
+                {
+                    "parameters": "a7",
+                    "expectedOutput": ["McA7"]
+                }
+            ]
+        }
+    ]
+}
