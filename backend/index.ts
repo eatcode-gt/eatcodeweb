@@ -12,8 +12,7 @@ dotenv.config(); //load .env file
 
 const app: Express = express(); //see line 1
 
-const port = process.env.PORT; //see line 2     (not working)
-// const port = 3002;
+const port = process.env.PORT; //see line 2
 
 app.use(express.json());
 app.use(cors()); //see line 3 (modified by gio, originally use(cors))
