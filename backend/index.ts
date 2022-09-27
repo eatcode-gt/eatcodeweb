@@ -3,8 +3,11 @@ import dotenv from 'dotenv'; //allows use of enviroment variables in ./.env
 import cors from 'cors'; //cross origin resource sharing middleware
 import testUserCode from './test-user-code'
 import problemData from './problem-data.json';
+import { decode } from 'punycode';
+
 const mongoose = require('mongoose');
 const jwt = require("jsonwebtoken");
+const UserModel = require('../models/Users');
 
 dotenv.config(); //load .env file
 
@@ -35,6 +38,14 @@ app.post("/sendUserToken", async (req: Request, res: Response) => {
   const token = req.body.token;
   const decoded = jwt.decode(token);
   console.log(decoded);
+
+  const user = {
+    userID: decoded.sub,
+    name: decoded.name,
+    email: decoded.email,
+  };
+  const newUser = new UserModel(user);
+  await newUser.save();
   
   res.json(decoded);
 });

@@ -17,13 +17,16 @@ const dotenv_1 = __importDefault(require("dotenv")); //allows use of enviroment 
 const cors_1 = __importDefault(require("cors")); //cross origin resource sharing middleware
 const test_user_code_1 = __importDefault(require("./test-user-code"));
 const problem_data_json_1 = __importDefault(require("./problem-data.json"));
+const mongoose = require('mongoose');
 const jwt = require("jsonwebtoken");
+const UserModel = require('../models/Users');
 dotenv_1.default.config(); //load .env file
 const app = (0, express_1.default)(); //see line 1
 // const port = process.env.PORT; //see line 2
 const port = 3002;
 app.use(express_1.default.json());
 app.use((0, cors_1.default)()); //see line 3
+mongoose.connect("mongodb+srv://Giovanni1014:ggg123@site.pmp1rxz.mongodb.net/?retryWrites=true&w=majority");
 app.get('/', (req, res) => {
     res.send('placeholder');
 });
@@ -37,6 +40,13 @@ app.post("/sendUserToken", (req, res) => __awaiter(void 0, void 0, void 0, funct
     const token = req.body.token;
     const decoded = jwt.decode(token);
     console.log(decoded);
+    const user = {
+        userID: decoded.sub,
+        name: decoded.name,
+        email: decoded.email,
+    };
+    const newUser = new UserModel(user);
+    yield newUser.save();
     res.json(decoded);
 }));
 app.post('/problems', (req, res) => {
