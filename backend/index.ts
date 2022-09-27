@@ -44,8 +44,19 @@ app.post("/login", async (req: Request, res: Response) => { //post requests to e
   };
   const newUser = new UserModel(user);
   await newUser.save();
-  
-  res.json(decoded);
+  res.json({sub:decoded.sub});
+});
+
+app.post('/userInfo', (req: Request, res: Response) => {
+  const userSub = req.body.sub;
+  console.log(userSub);
+  UserModel.find({userID:userSub}, (err: Error, result: Response) => {
+    if (err) {
+      res.json(err);
+    } else {
+      res.json({result:result});
+    }
+  });
 });
 
 

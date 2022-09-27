@@ -46,8 +46,20 @@ app.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     };
     const newUser = new UserModel(user);
     yield newUser.save();
-    res.json(decoded);
+    res.json({ sub: decoded.sub });
 }));
+app.post('/userInfo', (req, res) => {
+    const userSub = req.body.sub;
+    console.log(userSub);
+    UserModel.find({ userID: userSub }, (err, result) => {
+        if (err) {
+            res.json(err);
+        }
+        else {
+            res.json({ result: result });
+        }
+    });
+});
 app.post('/problems', (req, res) => {
     const { userCode, userLanguage, questionID } = req.body; //destructure POST from client
     const { questionName, tests } = problem_data_json_1.default.problems[questionID]; //pull question data from json
