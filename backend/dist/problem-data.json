@@ -2,6 +2,7 @@
     "problems": [
         {
             "questionName": "McProblem",
+            "amountOfParameters": 1,
             "tests": [
                 {
                     "parameters": "nugget",
