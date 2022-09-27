@@ -3,7 +3,6 @@ import dotenv from 'dotenv'; //allows use of enviroment variables in ./.env
 import cors from 'cors'; //cross origin resource sharing middleware
 import testUserCode from './test-user-code'
 import problemData from './problem-data.json';
-import { decode } from 'punycode';
 
 const mongoose = require('mongoose');
 const jwt = require("jsonwebtoken");
@@ -12,12 +11,14 @@ const UserModel = require('../models/Users');
 dotenv.config(); //load .env file
 
 const app: Express = express(); //see line 1
-// const port = process.env.PORT; //see line 2
+
+// const port = process.env.PORT; //see line 2     (not working)
 const port = 3002;
 
 app.use(express.json());
-app.use(cors()); //see line 3
+app.use(cors()); //see line 3 (modified by gio, originally use(cors))
 
+// Connect to mongodb, (you need to set your ip on mongodb site in order to run this successfully)
 mongoose.connect(
   "mongodb+srv://Giovanni1014:ggg123@site.pmp1rxz.mongodb.net/?retryWrites=true&w=majority"
 );
@@ -30,11 +31,8 @@ app.post('/register', (req: Request, res: Response) => { //post requests to eatc
   res.send('placeholder');
 });
 
-app.post('/login', (req: Request, res: Response) => { //post requests to eatcode.com/login
-  res.send('placeholder');
-});
-
-app.post("/sendUserToken", async (req: Request, res: Response) => {
+// TODO: check if user is already in DB, if yes then don't create new user.
+app.post("/login", async (req: Request, res: Response) => { //post requests to eatcode.com/login
   const token = req.body.token;
   const decoded = jwt.decode(token);
   console.log(decoded);

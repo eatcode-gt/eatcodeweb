@@ -22,10 +22,11 @@ const jwt = require("jsonwebtoken");
 const UserModel = require('../models/Users');
 dotenv_1.default.config(); //load .env file
 const app = (0, express_1.default)(); //see line 1
-// const port = process.env.PORT; //see line 2
+// const port = process.env.PORT; //see line 2     (not working)
 const port = 3002;
 app.use(express_1.default.json());
-app.use((0, cors_1.default)()); //see line 3
+app.use((0, cors_1.default)()); //see line 3 (modified by gio, originally use(cors))
+// Connect to mongodb, (you need to set your ip on mongodb site in order to run this successfully)
 mongoose.connect("mongodb+srv://Giovanni1014:ggg123@site.pmp1rxz.mongodb.net/?retryWrites=true&w=majority");
 app.get('/', (req, res) => {
     res.send('placeholder');
@@ -33,10 +34,8 @@ app.get('/', (req, res) => {
 app.post('/register', (req, res) => {
     res.send('placeholder');
 });
-app.post('/login', (req, res) => {
-    res.send('placeholder');
-});
-app.post("/sendUserToken", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+// TODO: check if user is already in DB, if yes then don't create new user.
+app.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const token = req.body.token;
     const decoded = jwt.decode(token);
     console.log(decoded);

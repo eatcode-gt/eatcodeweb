@@ -4,18 +4,15 @@ import Axios from "axios";
 
 function App() {
 
-  const sendUserToken = (token) => {
-    Axios.post("http://localhost:3002/sendUserToken", {
-      token
+  function handleCredentialResponse(response) {
+    Axios.post("http://localhost:3002/login", {
+      token: response.credential
     }).then((response) => {
       console.log(response.data);
     });
-  };
-
-  function handleCredentialResponse(response) {
-    sendUserToken(response.credential);
   }
 
+  // not sure if this(useEffect) is the right way to do it, it doesn't work if we manually refresh it
   useEffect(() => {
     // Imports google's library (can't import the usual way cuz we're using React)
     const script = document.createElement('script');
