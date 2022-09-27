@@ -3,22 +3,29 @@ import { useEffect } from "react";
 import Axios from "axios";
 
 function App() {
-
+  
+  // sends the token to backend, and retrieve sub(UserID) from backend.
   function handleCredentialResponse(response) {
     Axios.post("http://localhost:3002/login", {
       token: response.credential
     }).then((response) => {
       console.log(response.data);
+      getUserInfo(response.data.sub); // just for showcasing.
     });
   }
 
-  // not sure if this(useEffect) is the right way to do it, it doesn't work if we manually refresh it
+  // Use sub(UserID) to retrieve user info in db.
+  function getUserInfo(userID) {
+    Axios.post("http://localhost:3002/userInfo", {
+      sub: userID
+    }).then((response) => {
+      console.log(response.data);
+    });
+  }
+
+  
+  // not sure if this(useEffect) is the right way to do it, sometimes the page doesn't load
   useEffect(() => {
-    // Imports google's library (can't import the usual way cuz we're using React)
-    const script = document.createElement('script');
-    script.src = "https://accounts.google.com/gsi/client";
-    script.async = true;
-    document.body.appendChild(script);
     const google = window.google;
 
     // Initialize google auth using our OAuth 2.0 Client ID

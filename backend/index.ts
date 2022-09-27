@@ -12,15 +12,15 @@ dotenv.config(); //load .env file
 
 const app: Express = express(); //see line 1
 
-// const port = process.env.PORT; //see line 2     (not working)
-const port = 3002;
+const port = process.env.PORT; //see line 2     (not working)
+// const port = 3002;
 
 app.use(express.json());
 app.use(cors()); //see line 3 (modified by gio, originally use(cors))
 
 // Connect to mongodb, (you need to set your ip on mongodb site in order to run this successfully)
 mongoose.connect(
-  "mongodb+srv://Giovanni1014:ggg123@site.pmp1rxz.mongodb.net/?retryWrites=true&w=majority"
+  process.env.MONGO_DB_CONNECT
 );
 
 app.get('/', (req: Request, res: Response) => { //get requests to eatcode.com/
