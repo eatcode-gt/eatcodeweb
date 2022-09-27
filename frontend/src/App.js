@@ -24,7 +24,7 @@ function App() {
     // Initialize google auth using our OAuth 2.0 Client ID
     google.accounts.id.initialize({
       client_id:
-        "1047038680761-n6ccantuq37vsp6a4f1jk580suh2ej5n.apps.googleusercontent.com",
+        "33451040036-fcevscq8eogthqf0ve60bbdqrs03obpr.apps.googleusercontent.com",
       callback: handleCredentialResponse,
     });
 
