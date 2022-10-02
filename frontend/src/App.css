@@ -65,6 +65,11 @@ html {
   text-align: center;
 }
 
+.problem-name:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 .problem-info {
   display: flex;
   gap: 50px;
