@@ -26,6 +26,16 @@ app.get('/', (req: Request, res: Response) => { //get requests to eatcode.com/
   res.send('placeholder');
 });
 
+// app.get('/problems', (req: Request, res: Response) => {
+//   ProblemModel.find({}, (err, result) => {
+//     if(err) {
+//       res.json(err);
+//     } else {
+//       res.json(result);
+//     }
+//   })
+// })
+
 app.post('/register', (req: Request, res: Response) => { //post requests to eatcode.com/register
   res.send('placeholder');
 });

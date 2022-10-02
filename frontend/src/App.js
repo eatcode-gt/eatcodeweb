@@ -1,4 +1,5 @@
 import './App.css';
+import ProblemBody from './components/ProblemBody';
 import { useEffect } from "react";
 import Axios from "axios";
 
@@ -46,7 +47,7 @@ function App() {
   return (
     <div className="App">
       {/* The Google Login Button */}
-      <div id="buttonDiv"></div>
+      <ProblemBody></ProblemBody>
     </div>
   );
 }
