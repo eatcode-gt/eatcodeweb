@@ -7,6 +7,7 @@ import problemData from './problem-data.json';
 const mongoose = require('mongoose');
 const jwt = require("jsonwebtoken");
 const UserModel = require('../models/Users');
+const ProblemModel = require('../models/Problems.js')
 
 dotenv.config(); //load .env file
 
@@ -25,6 +26,16 @@ mongoose.connect(
 app.get('/', (req: Request, res: Response) => { //get requests to eatcode.com/
   res.send('placeholder');
 });
+
+app.get('/problems', (req: Request, res: Response) => { //gets requests to eatcode.com/problems
+  ProblemModel.find({}, (err: Error, result: Response) => {
+    if(err) {
+      res.json(err);
+    } else {
+      res.json({result:result});
+    }
+  })
+})
 
 app.post('/register', (req: Request, res: Response) => { //post requests to eatcode.com/register
   res.send('placeholder');
