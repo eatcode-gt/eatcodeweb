@@ -1,5 +1,6 @@
 import './App.css';
 import { useState, useEffect } from "react";
+import ProblemBody from './components/ProblemBody';
 import Axios from "axios";
 
 function App() {
@@ -74,6 +75,7 @@ function App() {
       <div id="buttonDiv"></div>
       <h1>Name: {userName}</h1>
       <button onClick={onSignout}> Sign Out </button>
+      {/* To see the problems -> <ProblemBody></ProblemBody> */}
     </div>
   );
 }
