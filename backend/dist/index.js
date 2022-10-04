@@ -22,8 +22,7 @@ const jwt = require("jsonwebtoken");
 const UserModel = require('../models/Users');
 dotenv_1.default.config(); //load .env file
 const app = (0, express_1.default)(); //see line 1
-const port = process.env.PORT; //see line 2     (not working)
-// const port = 3002;
+const port = process.env.PORT; //see line 2
 app.use(express_1.default.json());
 app.use((0, cors_1.default)()); //see line 3 (modified by gio, originally use(cors))
 // Connect to mongodb, (you need to set your ip on mongodb site in order to run this successfully)

@@ -23,7 +23,7 @@ mongoose.connect(
 );
 
 app.get('/', (req: Request, res: Response) => { //get requests to eatcode.com/
-  res.send('placeholder');
+  res.send('placeholder'); 
 });
 
 app.post('/register', (req: Request, res: Response) => { //post requests to eatcode.com/register
