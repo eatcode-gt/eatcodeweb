@@ -28,7 +28,7 @@ app.get('/', (req: Request, res: Response) => { //get requests to eatcode.com/
 
 app.post('/register', (req: Request, res: Response) => { //post requests to eatcode.com/register
   res.send('placeholder');
-});
+}); 
 
 // TODO: check if user is already in DB, if yes then don't create new user.
 app.post("/login", async (req: Request, res: Response) => { //post requests to eatcode.com/login
