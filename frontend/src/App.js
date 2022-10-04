@@ -1,9 +1,9 @@
 import './App.css';
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import Axios from "axios";
 
 function App() {
-  //const [user, setUser] = useState(undefined);
+  const [userName, setUserName] = useState(undefined);
   // sends the token to backend, and retrieve sub(UserID) from backend.
   function handleCredentialResponse(response) {
     Axios.post("http://localhost:3002/getUserID", {
@@ -20,6 +20,9 @@ function App() {
       sub: userID
     }).then((response) => {
       console.log(response.data.result[0]);
+      setUserName(response.data.result[0].name);
+      // Set anything we need on webpage
+
     });
   }
 
@@ -56,10 +59,21 @@ function App() {
       })//.catch(console.error)
   })
 
+  function onSignout() {
+    loadScript("https://accounts.google.com/gsi/client")
+      .then(() => {
+        const google = window.google;
+        google.accounts.id.disableAutoSelect();
+        console.log("Signed out");
+      })
+  }
+
   return (
     <div className="App">
       {/* The Google Login Button */}
       <div id="buttonDiv"></div>
+      <h1>Name: {userName}</h1>
+      <button onClick={onSignout}> Sign Out </button>
     </div>
   );
 }
