@@ -73,9 +73,10 @@ function App() {
     <div className="App">
       {/* The Google Login Button */}
       <div id="buttonDiv"></div>
-      <h1>Name: {userName}</h1>
+      <h1 id="nameBanner">Name: {userName}</h1>
       <button onClick={onSignout}> Sign Out </button>
       {/* To see the problems -> <ProblemBody></ProblemBody> */}
+      <ProblemBody></ProblemBody>
     </div>
   );
 }
