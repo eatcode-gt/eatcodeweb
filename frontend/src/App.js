@@ -3,10 +3,10 @@ import { useEffect } from "react";
 import Axios from "axios";
 
 function App() {
-  
+  //const [user, setUser] = useState(undefined);
   // sends the token to backend, and retrieve sub(UserID) from backend.
   function handleCredentialResponse(response) {
-    Axios.post("http://localhost:3002/login", {
+    Axios.post("http://localhost:3002/getUserID", {
       token: response.credential
     }).then((response) => {
       console.log(response.data);
@@ -19,7 +19,7 @@ function App() {
     Axios.post("http://localhost:3002/userInfo", {
       sub: userID
     }).then((response) => {
-      console.log(response.data);
+      console.log(response.data.result[0]);
     });
   }
 
@@ -38,7 +38,6 @@ function App() {
   useEffect(() => {
     loadScript("https://accounts.google.com/gsi/client")
       .then(() => {
-        //console.log("Hi:",window.google.accounts.id)
         const google = window.google;
 
         // Initialize google auth using our OAuth 2.0 Client ID

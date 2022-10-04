@@ -34,30 +34,37 @@ app.post('/register', (req, res) => {
     res.send('placeholder');
 });
 // TODO: check if user is already in DB, if yes then don't create new user.
-app.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.post("/getUserID", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const token = req.body.token;
     const decoded = jwt.decode(token);
     console.log(decoded);
-    const user = {
-        userID: decoded.sub,
-        name: decoded.name,
-        email: decoded.email,
-    };
-    const newUser = new UserModel(user);
-    yield newUser.save();
+    UserModel.find({ userID: decoded.sub }, (err, result) => {
+        if (err) {
+            res.json(err);
+        }
+        else if (result.length == 0) {
+            const user = {
+                userID: decoded.sub,
+                name: decoded.name,
+                email: decoded.email,
+            };
+            const newUser = new UserModel(user);
+            newUser.save();
+        }
+    });
     res.json({ sub: decoded.sub });
 }));
 app.post('/userInfo', (req, res) => {
     const userSub = req.body.sub;
     console.log(userSub);
-    UserModel.find({ userID: userSub }, (err, result) => {
+    UserModel.find({ userID: userSub }, (err, result) => __awaiter(void 0, void 0, void 0, function* () {
         if (err) {
             res.json(err);
         }
         else {
             res.json({ result: result });
         }
-    });
+    }));
 });
 app.post('/problems', (req, res) => {
     const { userCode, userLanguage, questionID } = req.body; //destructure POST from client
