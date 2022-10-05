@@ -2,6 +2,7 @@ import { colors } from './global/colors'
 import './global/fonts.css';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import HeaderSkip from './components/common/HeaderSkip';
 import Header from './components/common/Header'
 import Landing from './pages/landing';
 import Problems from './pages/problems';
@@ -21,12 +22,13 @@ function App() {
   return (
     <main style={styles.app}>
     <Router>
-      <Header />
       <Routes>
         <Route exact path='/' element={<Landing />} title="eatcode | home"/>
-        <Route path='/problems' element={<Problems />}  title="eatcode | problems"/>
-        <Route path='/login' element={<Login />}  title="eatcode | login"/>
-        <Route path='/user/:userName' element={<User />}  title="eatcode | user"/>
+        <Route element={<HeaderSkip />}>
+          <Route path='/problems' element={<Problems />}  title="eatcode | problems"/>
+          <Route path='/login' element={<Login />}  title="eatcode | login"/>
+          <Route path='/user/:userName' element={<User />}  title="eatcode | user"/>
+        </Route>
       </Routes>
     </Router>
     </main>
