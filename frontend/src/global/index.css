@@ -1,0 +1,93 @@
+body { /*set body defaults*/
+  margin: 0;
+  overflow-x: hidden;
+  min-height: 100vh;
+  min-width: 100vw;
+  font-size: 10px;
+}
+
+html { /*set html defaults*/
+  scroll-behavior: smooth;
+  min-height: 100vh;
+  min-width: 100vw;
+}
+
+/*define relative font sizes*/
+h1 { 
+  font-size: 5em;
+}
+h2 {
+  font-size: 3.8em;
+}
+h3 {
+  font-size: 3.0em;
+}
+h4 {
+  font-size: 2.3em;
+}
+p {
+  font-size: 1.5em;
+}
+
+/*this shit is always annoying to type so lets do it only one time*/
+ul {
+  list-style-type: none; /*removes bullet points on lists*/
+}
+a {
+  text-decoration: none; /*removes underlines on links*/
+}
+
+/*change font size relative to screen width*/
+/*non 1920x1080 will look horrible without this*/
+@media all and (max-width: 700px) {
+  body {
+      font-size: 9px;
+  }
+  p {
+      font-size: 1.35em;
+  }
+  h2 {
+      font-size: 1.7em;
+  }
+}
+@media all and (max-width: 835px) {
+  body {
+      font-size: 12px;
+  }
+}
+@media all and (max-width: 900px) {
+  body {
+      font-size: 15px;
+  }
+}
+@media all and (min-width: 2110px) {
+  body {
+      font-size: 24px;
+  }
+}
+@media all and (min-width: 3510px) {
+  body {
+      font-size: 35px;
+  }
+}
+@media all and (max-width: 500px) {
+  h1 {
+      font-size: 3em !important;
+  }
+  p {
+      font-size: 1.1em;
+  }
+  h2 {
+      font-size: 1.4em;
+  }
+}
+
+/*make text selection more professional*/
+::selection {
+  background: var(--pink); /* WebKit/Blink Browsers */
+  color: var(--grey)
+}
+::-moz-selection {
+  background: var(--pink); /* WebKit/Blink Browsers */
+  color: var(--grey)
+}
