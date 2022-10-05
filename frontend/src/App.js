@@ -26,7 +26,7 @@ function App() {
         <Route exact path='/' element={<Landing />} title="eatcode | home"/>
         <Route path='/problems' element={<Problems />}  title="eatcode | problems"/>
         <Route path='/login' element={<Login />}  title="eatcode | login"/>
-        <Route path='/user/:slug' element={<User />}  title="eatcode | user"/>
+        <Route path='/user/:userName' element={<User />}  title="eatcode | user"/>
       </Routes>
     </Router>
     </main>
