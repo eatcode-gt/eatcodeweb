@@ -123,3 +123,7 @@ html {
 .new {
   background-color: rgb(99, 159, 215);
 }
+
+#nameBanner {
+  color: white;
+}

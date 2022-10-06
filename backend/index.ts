@@ -24,7 +24,7 @@ mongoose.connect(
 );
 
 app.get('/', (req: Request, res: Response) => { //get requests to eatcode.com/
-  res.send('placeholder');
+  res.send('placeholder'); 
 });
 
 app.get('/problems', (req: Request, res: Response) => { //gets requests to eatcode.com/problems
@@ -39,28 +39,36 @@ app.get('/problems', (req: Request, res: Response) => { //gets requests to eatco
 
 app.post('/register', (req: Request, res: Response) => { //post requests to eatcode.com/register
   res.send('placeholder');
-});
-
+}); 
+ 
 // TODO: check if user is already in DB, if yes then don't create new user.
-app.post("/login", async (req: Request, res: Response) => { //post requests to eatcode.com/login
+app.post("/getUserID", async (req: Request, res: Response) => { //post requests to eatcode.com/login
   const token = req.body.token;
   const decoded = jwt.decode(token);
   console.log(decoded);
 
-  const user = {
-    userID: decoded.sub,
-    name: decoded.name,
-    email: decoded.email,
-  };
-  const newUser = new UserModel(user);
-  await newUser.save();
+  UserModel.find({userID:decoded.sub}, (err: Error, result: Array<typeof UserModel>) => { 
+    if (err) {
+      res.json(err);
+    } else if (result.length == 0){
+      const user = {
+        userID: decoded.sub,
+        name: decoded.name,
+        email: decoded.email,
+      };
+      const newUser = new UserModel(user);
+      newUser.save();
+    }
+  });
   res.json({sub:decoded.sub});
 });
+
+
 
 app.post('/userInfo', (req: Request, res: Response) => {
   const userSub = req.body.sub;
   console.log(userSub);
-  UserModel.find({userID:userSub}, (err: Error, result: Response) => {
+  UserModel.find({userID:userSub}, async (err: Error, result: Array<typeof UserModel>) => { 
     if (err) {
       res.json(err);
     } else {
