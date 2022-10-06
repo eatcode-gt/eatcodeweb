@@ -3,7 +3,6 @@ import './global/fonts.css';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HeaderSkip from './components/common/HeaderSkip';
-import Header from './components/common/Header'
 import Landing from './pages/landing';
 import Problems from './pages/problems';
 import Login from './pages/login';

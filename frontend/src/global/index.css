@@ -14,16 +14,20 @@ html { /*set html defaults*/
 
 /*define relative font sizes*/
 h1 { 
-  font-size: 5em;
+  font-size: 15em;
+  margin: 0;
 }
 h2 {
   font-size: 3.8em;
+  margin: 0;
 }
 h3 {
   font-size: 3.0em;
+  margin: 0;
 }
 h4 {
   font-size: 2.3em;
+  margin: 0;
 }
 p {
   font-size: 1.5em;
