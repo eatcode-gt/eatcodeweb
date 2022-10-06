@@ -4,6 +4,7 @@ body { /*set body defaults*/
   min-height: 100vh;
   min-width: 100vw;
   font-size: 10px;
+  overscroll-behavior: none;
 }
 
 html { /*set html defaults*/

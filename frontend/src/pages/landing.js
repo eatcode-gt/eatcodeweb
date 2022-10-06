@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { colors } from '../global/colors';
+import Robot from '../components/landing/Robot'
 import Login from '../components/landing/Login'
 
 const Landing = () => {
@@ -11,7 +12,7 @@ const Landing = () => {
       justifyContent: 'space-between'
     },
     left: {
-      width: '60%',
+      maxWidth: '100%',
       minHeight: '100vh',
       backgroundColor: colors.accent1
     },
@@ -19,12 +20,17 @@ const Landing = () => {
       padding: '15em'
     },
     right: {
-      width: '40%',
+      width: '100%',
       minHeight: '100vh',
       backgroundColor: colors.accent2,
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center'
+    },
+    robot: {
+      position: 'absolute',
+      width: '70%',
+      right: '-13%'
     },
     title: {
       color: colors.white
@@ -42,7 +48,7 @@ const Landing = () => {
         </div>
       </div>
       <div style={styles.right}>
-        {/*<Login />*/}
+        <Robot />
       </div>
     </div>
   );
