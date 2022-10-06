@@ -65,6 +65,7 @@ function App() {
       .then(() => {
         const google = window.google;
         google.accounts.id.disableAutoSelect();
+        setUserName('')
         console.log("Signed out");
       })
   }
