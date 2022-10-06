@@ -22,7 +22,7 @@ function App() {
   const location = useLocation();
   return (
     <main style={styles.app}>
-      <PageTransition preset="roomToBottom" transitionKey={location.key}>
+      <PageTransition preset="moveToLeftFromRight" transitionKey={location.key}>
         <Routes location={location}>
           <Route exact path='/' element={<Landing />} title="eatcode | home"/>
           <Route element={<HeaderSkip />}>

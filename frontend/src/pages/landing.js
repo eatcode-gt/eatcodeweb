@@ -22,7 +22,9 @@ const Landing = () => {
     },
     right: {
       backgroundColor: colors.accent2,
-      maxWidth: '50%'
+      maxWidth: '50%',
+      width: '50%',
+      height: '100%'
     },
     robot: {
       position: 'absolute',
