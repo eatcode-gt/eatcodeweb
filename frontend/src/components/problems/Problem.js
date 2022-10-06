@@ -62,11 +62,11 @@ const Problem = ({ problem }) => {
   }
   return (
     <div style={styles.bar} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-        <h4 style={styles.id}>{problem.id}.&#41;</h4>
-        <h4 style={styles.name}>{problem.name}</h4>
+        <h5 style={styles.id}>{problem.id}.&#41;</h5>
+        <h5 style={styles.name}>{problem.name}</h5>
         <div style={styles.info}>
-          <h4 style={styles.diff}>{diffMap[problem.diff]}</h4>
-          <h4 style={styles.status}>{statusMap[problem.status]}</h4>
+          <h5 style={styles.diff}>{diffMap[problem.diff]}</h5>
+          <h5 style={styles.status}>{statusMap[problem.status]}</h5>
         </div>
     </div>
   )

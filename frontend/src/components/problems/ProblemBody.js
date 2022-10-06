@@ -14,8 +14,18 @@ const ProblemBody = () => {
     {id: 7, name: "Cup With Most Smoothie", diff: 2, status: 1},
     {id: 8, name: "Valid Sandwich", diff: 1, status: 2},
     {id: 9, name: "Remove Topping", diff: 2, status: 0},
-    {id: 10, name: "Longest Valid Sandwich", diff: 0, status: 2},
-    {id: 11, name: "Delete Topping in Linked Burger", diff: 1, status: 0},
+    {id: 10, name: "Longest Valid Sandwich", diff: 2, status: 2},
+    {id: 11, name: "Delete Topping in Linked Burger", diff: 0, status: 1},
+    {id: 12, name: "Trapping Maple Syrup", diff: 0, status: 2},
+    {id: 13, name: "Gray Apple", diff: 1, status: 2},
+    {id: 14, name: "X Salad Intervals", diff: 1, status: 0},
+    {id: 15, name: "Merge Favorite Foods", diff: 1, status: 1},
+    {id: 16, name: "Linked Pizzа", diff: 2, status: 0},
+    {id: 17, name: "Reverse Binary Burger", diff: 0, status: 1},
+    {id: 18, name: "Sus", diff: 1, status: 2},
+    {id: 19, name: "Burger", diff: 2, status: 2},
+    {id: 20, name: "Two Burger", diff: 1, status: 2},
+    {id: 21, name: "Mongo Burger", diff: 2, status: 0},
   ]);
 
   useEffect(() => {

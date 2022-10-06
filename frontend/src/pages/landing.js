@@ -1,48 +1,45 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { colors } from '../global/colors';
-import Login from '../components/landing/Login'
+import Title from '../components/landing/Title'
+import PageLink from '../components/landing/PageLink';
+import Robot from '../components/landing/Robot'
 
 const Landing = () => {
   const styles = {
     content: {
       display: 'flex',
       width: '100vw',
-      justifyContent: 'space-between'
+      justifyContent: 'space-between',
+      backgroundColor: colors.grey
     },
     left: {
-      width: '60%',
-      minHeight: '100vh',
-      backgroundColor: colors.accent1
-    },
-    leftContent: {
-      padding: '15em'
+      margin: 'auto auto',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      gap: '1.2em',
+      marginTop: '20vh'
     },
     right: {
-      width: '40%',
-      minHeight: '100vh',
       backgroundColor: colors.accent2,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center'
+      maxWidth: '50%'
     },
-    title: {
-      color: colors.white
+    robot: {
+      position: 'absolute',
+      width: '40px !important',
+      right: '-43%'
     }
   }
   return (
     <div style={styles.content}>
       <div style={styles.left}>
-        <div style={styles.leftContent}>
-          <h1 style={styles.title}>eatcode</h1>
-          <Link to="/problems"><h2 style={styles.title}>problems</h2></Link>
-          <Link to="/user/racewilliams"><h2 style={styles.title}>user</h2></Link>
-          <Link to="/login"><h2 style={styles.title}>login</h2></Link>
-          <p style={styles.title}>i know this design is butt but its placeholder for now</p>
-        </div>
+        <Title />
+        <PageLink page="problems" utensil="fork" />
+        <PageLink page="login" utensil="spoon" />
+        <PageLink page="user" utensil="knife" />
       </div>
       <div style={styles.right}>
-        {/*<Login />*/}
+        <Robot style={styles.robot} />
       </div>
     </div>
   );

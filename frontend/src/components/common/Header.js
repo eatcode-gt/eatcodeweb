@@ -32,7 +32,7 @@ const Header = () => {
 
   return (
     <nav style={styles.nav}>
-      <Link to="/"><h2 style={styles.title} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}><span style={styles.span}>eat</span>code</h2></Link>
+      <Link to="/"><h3 style={styles.title} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}><span style={styles.span}>eat</span>code</h3></Link>
       <UserNameBox />
     </nav>
   )
