@@ -39,7 +39,8 @@ const ProblemBody = () => {
       display: 'flex',
       gap: '1em',
       padding: '0em 1em',
-      flexDirection: 'column'
+      flexDirection: 'column',
+      overflowY: 'scroll'
     }
   }
 
