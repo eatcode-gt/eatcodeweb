@@ -43,7 +43,7 @@ const UserNameBox = () => {
 
   return (
     <Link to={`/user/${user.userName}`}><div style={styles.userInfo} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      <h3 style={styles.userName}>{user.userName}</h3>
+      <h4 style={styles.userName}>{user.userName}</h4>
       <div style={styles.profilePic} />
     </div></Link>
   )
