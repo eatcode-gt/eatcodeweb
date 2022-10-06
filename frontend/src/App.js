@@ -2,6 +2,7 @@ import './App.css';
 import ProblemBody from './components/ProblemBody';
 import { useEffect } from "react";
 import Axios from "axios";
+import FrontPage from './components/FrontPage';
 
 function App() {
   
@@ -47,7 +48,7 @@ function App() {
   return (
     <div className="App">
       {/* The Google Login Button */}
-      {/* To see the problems -> <ProblemBody></ProblemBody> */}
+      <FrontPage></FrontPage>
     </div>
   );
 }

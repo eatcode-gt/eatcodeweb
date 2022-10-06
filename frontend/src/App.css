@@ -1,5 +1,5 @@
 html {
-  background-color: #1E1E1E;
+  background-color: rgb(30, 30, 30);
 }
 
 .App {
@@ -97,7 +97,7 @@ html {
 
 .problem-even {
   background-color: rgb(255, 255, 255);
-  color: #55A662;
+  color: rgb(85, 166, 98);
 }
 
 .mild {
@@ -122,4 +122,60 @@ html {
 
 .new {
   background-color: rgb(99, 159, 215);
+}
+
+.grid-container {
+  height: 100vh;
+  font-weight: bold;
+  display: grid;
+  grid-template-rows: 1fr ;
+  grid-template-columns: 1fr 1.4fr;
+  
+}
+
+.left-side {
+  background-color: rgb(85, 166, 98);
+  color: rgb(30, 30, 30);
+  text-align: right;
+}
+
+.right-side {
+  background-color: rgb(30, 30, 30);
+  color: rgb(85, 166, 98);
+  text-align: left;
+}
+
+.front-title {
+  font-size: 10rem;
+  padding: 8vh 2vh 0 2vh;
+  letter-spacing: 0.2rem;
+}
+
+.signed-in-text {
+  font-size: 3rem;
+  letter-spacing: 0.1rem;
+  padding: 4vh 2vh 0 2vh;
+}
+
+.menu-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8vh;
+  letter-spacing: 0.1rem;
+  margin-top: 20vh;
+  padding: 0 2vh 0 2vh;
+  font-size: 3rem;
+}
+
+.circle-container {
+  border: 1px solid red;
+  margin: 48vh 0 0 auto;
+}
+
+.circle {
+  border: 1px solid red;
+  border-radius: 100%;
+  background-color: rgb(30, 30, 30);
+  width: 4.4rem;
+  height: 4.4rem;
 }
