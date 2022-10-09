@@ -39,6 +39,7 @@ const Landing = () => {
         <PageLink page="problems" utensil="fork" />
         <PageLink page="login" utensil="spoon" />
         <PageLink page="user" utensil="knife" />
+        <PageLink page="create" utensil="knife"/>
       </div>
       <div style={styles.right}>
         <Robot style={styles.robot} />

@@ -32,6 +32,9 @@ const Question = () => {
       <div style={styles.left}>
         <div>
           <h2>{problem.name}</h2>
+          <h3>Input</h3> {/*Input contraints*/}
+          <h3>Output</h3> {/*Output contraints*/}
+          <h3>Examples</h3> {/*Example to the problem*/}
         </div>
         <div>
           <p>Hello</p>

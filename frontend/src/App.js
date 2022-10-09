@@ -9,6 +9,7 @@ import Problems from './pages/problems';
 import Login from './pages/login';
 import User from './pages/user';
 import Question from './pages/question';
+import Create from './pages/create';
 
 function App() {
   const styles = {
@@ -31,6 +32,7 @@ function App() {
             <Route path='/problems' element={<Problems />}  title="eatcode | problems"/>
             <Route path='/login' element={<Login />}  title="eatcode | login"/>
             <Route path='/user/:userName' element={<User />}  title="eatcode | user"/>
+            <Route path='/create' element={<Create />}  title="eatcode | create"/>
             <Route path='/question/:name' element={<Question />} title='eatcode | question' />
           </Route>
         </Routes>

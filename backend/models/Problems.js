@@ -8,6 +8,10 @@ const ExampleSchema = new mongoose.Schema({
   exampleOutput: {
     type: String,
     required: true,
+  },
+  exampleText: {
+    type: String,
+    required: true,
   }
 });
 
