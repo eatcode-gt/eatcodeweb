@@ -8,6 +8,7 @@ import Landing from './pages/landing';
 import Problems from './pages/problems';
 import Login from './pages/login';
 import User from './pages/user';
+import Question from './pages/question';
 
 function App() {
   const styles = {
@@ -20,6 +21,7 @@ function App() {
   }
 
   const location = useLocation();
+  console.log(location)
   return (
     <main style={styles.app}>
       <PageTransition preset="moveToLeftFromRight" transitionKey={location.key}>
@@ -29,6 +31,7 @@ function App() {
             <Route path='/problems' element={<Problems />}  title="eatcode | problems"/>
             <Route path='/login' element={<Login />}  title="eatcode | login"/>
             <Route path='/user/:userName' element={<User />}  title="eatcode | user"/>
+            <Route path='/question/:name' element={<Question />} title='eatcode | question' />
           </Route>
         </Routes>
       </PageTransition>

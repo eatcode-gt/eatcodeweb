@@ -1,25 +1,48 @@
 const mongoose = require('mongoose');
 
+const ExampleSchema = new mongoose.Schema({
+  exampleInput: {
+    type: String,
+    required: true,
+  },
+  exampleOutput: {
+    type: String,
+    required: true,
+  }
+});
+
 const ProblemSchema = new mongoose.Schema({
-  problemID: {
+  id: {
     type: Number,
     required: true,
   },
-  problemName: {
+  name: {
     type: String,
     required: true,
   },
-  problemDifficulty: {
+  diff: {
     type: String,
     required: true,
   },
-  problemStatus: {
+  status: {
     type: String,
     required: true,
     default: "new",
   },
-  problemText: {
+  text: {
     type: String,
+    required: true,
+  },
+  input: {
+    type: String,
+    required: true,
+  },
+  output: {
+    type: String,
+    required: true,
+  },
+  examples: {
+    type: [ExampleSchema],
     required: true,
   },
   numberOfAttemptedUsers: {
