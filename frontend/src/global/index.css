@@ -105,18 +105,16 @@ a {
   background-color: white;
 }
 
-::-webkit-scrollbar-thumb {
-  background-color: rgba(219, 69, 219, 0.8);
-}
-
 .react-calendar-heatmap {
-  margin-left: 350px;
-  height: 150px;
+  background-color: #db747d;
+  margin-left: 340px;
+  margin-bottom: 800px;
+  height: 208px;
 }
 
 .react-calendar-heatmap text {
   font-size: 10px;
-  fill: #aaa;
+  fill: white;
 }
 
 .react-calendar-heatmap .react-calendar-heatmap-small-text {

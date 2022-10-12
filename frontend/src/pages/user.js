@@ -5,7 +5,7 @@ import CalendarHeatmap from 'react-calendar-heatmap';
 const User = () => {
   
   const today = new Date();
-
+  
   return (
     
     <div>

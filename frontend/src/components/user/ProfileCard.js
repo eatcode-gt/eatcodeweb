@@ -7,8 +7,9 @@ export default function ProfileCard() {
 
     const styles = {
         card: {
+            display: "inline-box",
             color: "white",
-            position: 'relative',
+            position: 'absolute',
             marginLeft: "20px",
             width: "300px",
             height: "480px",
