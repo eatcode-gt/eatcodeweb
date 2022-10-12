@@ -106,6 +106,7 @@ a {
 }
 
 .react-calendar-heatmap {
+  position: absolute;
   background-color: #db747d;
   margin-left: 340px;
   margin-bottom: 800px;

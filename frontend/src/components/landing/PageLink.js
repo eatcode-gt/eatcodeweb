@@ -39,7 +39,7 @@ const PageLink = (props) => {
   return (
     <div style={styles.container}>
         <Link to={`/${props.page}`}><h2 style={styles.pageLink} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>{props.page}</h2></Link>
-        <img style={styles.utensil} src={require(`../common/${props.utensil}.svg`)} />
+        <img style={styles.utensil} src={require(`../common/${props.utensil}.svg`)} alt="" />
     </div>
   )
 }
