@@ -57,7 +57,7 @@ export default function ProfileCard() {
             <div style={styles.lowerContainer}>
                 <h4>{userName}</h4>
                 <h5>Beef Points</h5>
-                <p>This is any bio that they would like to add later on!</p>
+                <p>I am going to add a progress bar here for the total number of mild, medium, and hot problems the user has done just like LeetCode does</p>
                 <button style={styles.profileButton}>Edit Profile</button>
             </div>
         </div>   
