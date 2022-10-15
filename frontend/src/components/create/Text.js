@@ -6,22 +6,37 @@ const Text = ( {text} ) => {
 
   const styles = {
     p: {
+      display: "inline",
       whiteSpace: "pre-wrap",
     },
+    error: {
+      color: "red",
+      fontWeight: "bold",
+    }
   }
 
   const [filteredText, setFilteredText] = useState([]);
+  let isLatex = false;
 
   const appendToPreview = (element) => {
-    return (
-      <p style={styles.p}>{element}</p>
-    )
+    if(isLatex) {
+      isLatex = false;
+      return (
+        <MathComponent tex={element} display={false} />
+      )
+    }
+    else {
+      isLatex = true;
+      return (
+        <p style={styles.p}>{element}</p>
+      )
+    }
   }
 
   useEffect(() => {
-    console.log(text);
     if(text !== undefined) {
       const pattern = new RegExp("[$]{2}");
+      isLatex = false;
       setFilteredText(text.split(pattern));
     }
   }, [text])

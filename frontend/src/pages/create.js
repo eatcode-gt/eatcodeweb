@@ -24,7 +24,7 @@ const Create = () => {
       backgroundColor: colors.accent1,
       maxWidth: '50%',
       width: '50%',
-      height: '100%'
+      height: '100%',
     },
     form: {
       display: "flex",
@@ -42,13 +42,12 @@ const Create = () => {
       boxSizing: "border-box",
     },
     textarea: {
-      height: "25vh",
+      height: "10vh",
     }
   }
   
   const UserContext = createContext()
   const [inputs, setInputs] = useState({});
-  let submitted = true;
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -58,7 +57,10 @@ const Create = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    submitted = true;
+    console.log(inputs.name);
+    console.log(inputs.problemText);
+    console.log(inputs.input);
+    console.log(inputs.output);
   }
 
   return (
@@ -92,12 +94,30 @@ const Create = () => {
               value={inputs.problemText || ""}
               onChange={handleChange}
             /> 
-          <input type="submit" />
+          <label style={styles.label}>
+            Input Description:
+          </label>
+          <textarea 
+              style={styles.textarea}
+              name="input"
+              value={inputs.input || ""}
+              onChange={handleChange}
+            /> 
+          <label style={styles.label}>
+            Output Description:
+          </label>
+          <textarea 
+              style={styles.textarea}
+              name="output"
+              value={inputs.output || ""}
+              onChange={handleChange}
+            /> 
+          <input type="submit" onSubmit={handleSubmit}/>
         </form>
       </div>
       <div style={styles.right} className="preview-container">
         <UserContext.Provider value={inputs}>
-          <Preview context={UserContext} submitted={submitted} ></Preview>
+          <Preview context={UserContext} ></Preview>
         </UserContext.Provider>
       </div>
     </div>
