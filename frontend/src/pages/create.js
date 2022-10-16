@@ -62,7 +62,6 @@ const Create = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     Axios.post("http://localhost:3002/create", {
-      id: 1,
       name: inputs.name,
       diff: inputs.difficulty,
       time: inputs.time,
@@ -105,9 +104,9 @@ const Create = () => {
           <label style={styles.label}>
             Difficulty:
             <select name="difficulty" value={inputs.difficulty || 1} onChange={handleChange}>
-              <option value={1}>Mild</option>
-              <option value={2}>Med</option>
-              <option value={3}>Hot</option>
+              <option value={0}>Mild</option>
+              <option value={1}>Med</option>
+              <option value={2}>Hot</option>
             </select>
           </label>
           <label style={styles.label}>
