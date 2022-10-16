@@ -11,7 +11,7 @@ const ExampleSchema = new mongoose.Schema({
   },
   exampleText: {
     type: String,
-    required: true,
+    required: false,
   }
 });
 
@@ -25,13 +25,21 @@ const ProblemSchema = new mongoose.Schema({
     required: true,
   },
   diff: {
-    type: String,
+    type: Number,
+    required: true,
+  },
+  time: {
+    type: Number,
+    required: true,
+  },
+  memory: {
+    type: Number,
     required: true,
   },
   status: {
-    type: String,
+    type: Number,
     required: true,
-    default: "new",
+    default: 0,
   },
   text: {
     type: String,
@@ -45,8 +53,8 @@ const ProblemSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  examples: {
-    type: [ExampleSchema],
+  example: {
+    type: ExampleSchema,
     required: true,
   },
   numberOfAttemptedUsers: {

@@ -1,8 +1,8 @@
 import React from 'react'
 import { colors } from '../global/colors'
 import { useState, createContext  } from 'react'
-import Name from '../components/create/Name'
-import Preview from '../components/create/Preview'
+import Axios from 'axios'
+import View from '../components/create/View'
 
 
 const Create = () => {
@@ -42,12 +42,16 @@ const Create = () => {
       boxSizing: "border-box",
     },
     textarea: {
-      height: "10vh",
+      height: "5vh",
     }
   }
   
   const UserContext = createContext()
-  const [inputs, setInputs] = useState({});
+  const [inputs, setInputs] = useState({
+    difficulty: 1,
+    time: 1,
+    memory: 256,
+  });
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -57,11 +61,32 @@ const Create = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(inputs.name);
-    console.log(inputs.problemText);
-    console.log(inputs.input);
-    console.log(inputs.output);
-  }
+    Axios.post("http://localhost:3002/create", {
+      id: 1,
+      name: inputs.name,
+      diff: inputs.difficulty,
+      time: inputs.time,
+      memory: inputs.memory,
+      status: 0,
+      text: inputs.problemText,
+      input: inputs.input,
+      output: inputs.output,
+      example: {
+        exampleInput: inputs.exampleInput,
+        exampleOutput: inputs.exampleOutput,
+        exampleText: inputs.exampleText,
+      },
+      numberOfAttemptedUsers: 0,
+      numberOfSolvedUsers: 0,
+    }).then((response) => {
+      console.log("Created Problem");
+      setInputs({
+        difficulty: 1,
+        time: 1,
+        memory: 256,
+      });
+    });
+  };
 
   return (
     <div style={styles.content}>
@@ -79,10 +104,26 @@ const Create = () => {
           </label>
           <label style={styles.label}>
             Difficulty:
-            <select name="difficulty" value={inputs.difficulty || "1"} onChange={handleChange}>
-              <option value="1">Mild</option>
-              <option value="2">Med</option>
-              <option value="3">Hot</option>
+            <select name="difficulty" value={inputs.difficulty || 1} onChange={handleChange}>
+              <option value={1}>Mild</option>
+              <option value={2}>Med</option>
+              <option value={3}>Hot</option>
+            </select>
+          </label>
+          <label style={styles.label}>
+            Time Limit:
+            <select name="time" value={inputs.time || 1} onChange={handleChange}>
+              <option value={0.5}>0.5s</option>
+              <option value={1}>1s</option>
+              <option value={2}>2s</option>
+              <option value={3}>3s</option>
+            </select>
+          </label>
+          <label style={styles.label}>
+            Memory Limit:
+            <select name="memory" value={inputs.memory || 256} onChange={handleChange}>
+              <option value={256}>256MB</option>
+              <option value={512}>512MB</option>
             </select>
           </label>
           <label style={styles.label}>
@@ -111,13 +152,40 @@ const Create = () => {
               name="output"
               value={inputs.output || ""}
               onChange={handleChange}
+            />
+          <label style={styles.label}>
+            Example Input:
+          </label>
+          <textarea 
+              style={styles.textarea}
+              name="exampleInput"
+              value={inputs.exampleInput || ""}
+              onChange={handleChange}
+            /> 
+          <label style={styles.label}>
+            Example Output:
+          </label>
+          <textarea 
+              style={styles.textarea}
+              name="exampleOutput"
+              value={inputs.exampleOutput || ""}
+              onChange={handleChange}
+            /> 
+          <label style={styles.label}>
+            Example Text:
+          </label>
+          <textarea 
+              style={styles.textarea}
+              name="exampleText"
+              value={inputs.exampleText || ""}
+              onChange={handleChange}
             /> 
           <input type="submit" onSubmit={handleSubmit}/>
         </form>
       </div>
       <div style={styles.right} className="preview-container">
         <UserContext.Provider value={inputs}>
-          <Preview context={UserContext} ></Preview>
+          <View context={UserContext} preview={true}></View>
         </UserContext.Provider>
       </div>
     </div>

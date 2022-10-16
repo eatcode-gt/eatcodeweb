@@ -1,6 +1,8 @@
 import React from 'react'
 import { colors } from '../global/colors'
 import { useLocation } from 'react-router-dom'
+import { createContext  } from 'react'
+import View from '../components/create/View'
 
 const Question = () => {
   const styles = {
@@ -25,20 +27,15 @@ const Question = () => {
 
   }
 
+  const UserContext = createContext()
   const problem = useLocation().state.problem
 
   return (
     <div style={styles.content}>
       <div style={styles.left}>
-        <div>
-          <h2>{problem.name}</h2>
-          <h3>Input</h3> {/*Input contraints*/}
-          <h3>Output</h3> {/*Output contraints*/}
-          <h3>Examples</h3> {/*Example to the problem*/}
-        </div>
-        <div>
-          <p>Hello</p>
-        </div>
+        <UserContext.Provider value={problem}>
+          <View context={UserContext} preview={false} ></View>
+        </UserContext.Provider>
       </div>
       <div style={styles.right}></div>
     </div>

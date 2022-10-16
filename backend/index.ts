@@ -63,6 +63,14 @@ app.post("/getUserID", async (req: Request, res: Response) => { //post requests 
   res.json({sub:decoded.sub});
 });
 
+app.post("/create", async (req: Request, res: Response) => {
+  const inputs = req.body;
+  console.log(inputs.diff);
+  const newProblem = new ProblemModel(inputs)
+  await newProblem.save();
+
+  res.json(inputs);
+})
 
 
 app.post('/userInfo', (req: Request, res: Response) => {
