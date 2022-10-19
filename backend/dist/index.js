@@ -45,7 +45,8 @@ app.post('/register', (req, res) => {
     res.send('placeholder');
 });
 // TODO: check if user is already in DB, if yes then don't create new user.
-app.post("/getUserID", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+// app.post("/getUserID", async (req: Request, res: Response) => { //post requests to eatcode.com/login
+app.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const token = req.body.token;
     const decoded = jwt.decode(token);
     console.log(decoded);
