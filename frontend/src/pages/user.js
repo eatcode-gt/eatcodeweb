@@ -1,12 +1,13 @@
 import React from 'react';
-import { useParams } from 'react-router-dom'
+import ProfileCard from '../components/user/ProfileCard';
+import HeatMap from '../components/user/HeatMap';
 
 const User = () => {
-  let { userName } = useParams();
-  
+
   return (
     <div>
-      <h1>{userName}</h1>
+      <ProfileCard />
+      <HeatMap />
     </div>
   );
 };

@@ -3,6 +3,7 @@ import dotenv from 'dotenv'; //allows use of enviroment variables in ./.env
 import cors from 'cors'; //cross origin resource sharing middleware
 import testUserCode from './test-user-code'
 import problemData from './problem-data.json';
+import { mongo } from 'mongoose';
 
 const mongoose = require('mongoose');
 const jwt = require("jsonwebtoken");
@@ -64,6 +65,16 @@ app.post("/login", async (req: Request, res: Response) => {
   res.json({sub:decoded.sub});
 });
 
+app.post("/create", async (req: Request, res: Response) => {
+  const lastPost = await ProblemModel.find().sort({_id: -1}).limit(1);
+  const inputs = req.body;
+  inputs.id = lastPost[0].id+1;
+  console.log(inputs.diff);
+  const newProblem = new ProblemModel(inputs)
+  await newProblem.save();
+
+  res.json(inputs);
+})
 
 
 app.post('/userInfo', (req: Request, res: Response) => {

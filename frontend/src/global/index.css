@@ -37,6 +37,9 @@ h5 {
 p {
   font-size: 1.5em;
 }
+.MathJax {
+  font-size: 1.5em;
+}
 
 /*this shit is always annoying to type so lets do it only one time*/
 ul {
@@ -99,4 +102,81 @@ a {
 ::-moz-selection {
   background: var(--pink); /* WebKit/Blink Browsers */
   color: var(--grey)
+}
+
+::-webkit-scrollbar-track {
+  background-color: white;
+}
+
+.react-calendar-heatmap {
+  position: absolute;
+  background-color: #db747d;
+  margin-left: 340px;
+  margin-bottom: 800px;
+  height: 208px;
+}
+
+.react-calendar-heatmap text {
+  font-size: 10px;
+  fill: white;
+}
+
+.react-calendar-heatmap .react-calendar-heatmap-small-text {
+  font-size: 5px;
+}
+
+.react-calendar-heatmap rect:hover {
+  stroke: #555;
+  stroke-width: 1px;
+}
+
+/*
+ * Default color scale
+ */
+
+.react-calendar-heatmap .color-empty {
+  fill: #eeeeee;
+}
+
+.react-calendar-heatmap .color-filled {
+  fill: #8cc665;
+}
+
+/*
+ * Github color scale
+ */
+
+.react-calendar-heatmap .color-github-0 {
+  fill: #eeeeee;
+}
+.react-calendar-heatmap .color-github-1 {
+  fill: #d6e685;
+}
+.react-calendar-heatmap .color-github-2 {
+  fill: #8cc665;
+}
+.react-calendar-heatmap .color-github-3 {
+  fill: #44a340;
+}
+.react-calendar-heatmap .color-github-4 {
+  fill: #1e6823;
+}
+
+/*
+ * Gitlab color scale
+ */
+.react-calendar-heatmap .color-gitlab-0 {
+  fill: #ededed;
+}
+.react-calendar-heatmap .color-gitlab-1 {
+  fill: #acd5f2;
+}
+.react-calendar-heatmap .color-gitlab-2 {
+  fill: #7fa8d1;
+}
+.react-calendar-heatmap .color-gitlab-3 {
+  fill: #49729b;
+}
+.react-calendar-heatmap .color-gitlab-4 {
+  fill: #254e77;
 }
