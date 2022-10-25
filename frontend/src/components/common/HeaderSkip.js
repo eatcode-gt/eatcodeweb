@@ -1,10 +1,10 @@
 import { Outlet } from 'react-router-dom';
 import Header from './Header';
 
-const HeaderSkip = () => {
+const HeaderSkip = ({user}) => {
   return (
     <>
-      <Header />
+      <Header user={user}/>
       <Outlet />
     </>
   );

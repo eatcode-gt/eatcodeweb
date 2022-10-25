@@ -1,11 +1,34 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const fs = require('fs');
+const { exec } = require("child_process");
 function testUserCode(userLanguage, //see switch statement line 12
 userCode, questionName, //is the same name as the function that the user writes the answer in
 tests) {
-    let code = userCode + "/n/n"; //'code' will be the user's submitted McProblem() function + function calls that check if the user's functions provides expected outputs when given arguments defined in problem-data.json
-    let result = runTestCases(userLanguage, questionName, tests, code);
-    return result;
+    // let code: string = userCode + "/n/n"; //'code' will be the user's submitted McProblem() function + function calls that check if the user's functions provides expected outputs when given arguments defined in problem-data.json
+    let code = userCode;
+    fs.writeFile('myfirstdocker/solFiles/solution.py', code, 'utf-8', (err) => {
+        console.log(err);
+    });
+    const solutionFile = "solFiles/solution.py";
+    const cmd = "sh myfirstdocker/run.sh " + solutionFile;
+    return new Promise(resolve => {
+        exec(cmd, (error, stdout, stderr) => {
+            if (error) {
+                console.log(`error: ${error.message}`);
+                // return;
+            }
+            if (stderr) {
+                console.log(`stderr: ${stderr}`);
+                // return;
+            }
+            console.log(`stdout: ${stdout}`);
+            resolve(stdout);
+        });
+    });
+    // let result: string = runTestCases(userLanguage, questionName, tests, code);
+    // let result: string = "hi";
+    // return result;
 }
 exports.default = testUserCode;
 function runTestCases(userLanguage, questionName, tests, code) {
