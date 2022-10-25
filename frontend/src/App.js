@@ -33,7 +33,7 @@ function App() {
             <Route path='/login' element={<Login />}  title="eatcode | login"/>
             <Route path='/user/:userName' element={<User />}  title="eatcode | user"/>
             <Route path='/create' element={<Create />}  title="eatcode | create"/>
-            <Route path='/question/:name' element={<Question />} title='eatcode | question' />
+            <Route path='/problems/:name' element={<Question />} title='eatcode | problem' />
           </Route>
         </Routes>
       </PageTransition>
