@@ -65,6 +65,15 @@ app.post("/getUserID", (req, res) => __awaiter(void 0, void 0, void 0, function*
     });
     res.json({ sub: decoded.sub });
 }));
+app.post("/create", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const lastPost = yield ProblemModel.find().sort({ _id: -1 }).limit(1);
+    const inputs = req.body;
+    inputs.id = lastPost[0].id + 1;
+    console.log(inputs.diff);
+    const newProblem = new ProblemModel(inputs);
+    yield newProblem.save();
+    res.json(inputs);
+}));
 app.post('/userInfo', (req, res) => {
     const userSub = req.body.sub;
     console.log(userSub);
