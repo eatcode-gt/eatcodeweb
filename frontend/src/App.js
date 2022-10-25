@@ -34,7 +34,6 @@ function App() {
   }
 
   const location = useLocation();
-  console.log(location)
   return (
     <main style={styles.app}>
       <PageTransition preset="moveToLeftFromRight" transitionKey={location.key}>

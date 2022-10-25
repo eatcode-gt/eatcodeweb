@@ -30,6 +30,8 @@ const Question = () => {
     }
   }
   const [code, setCode] = useState("");
+  const [result, setResult] = useState("");
+  const [finalResult, setFinalResult] = useState("no submission");
 
   const handleOnChange = (event) => {
     setCode(event.target.value);
@@ -37,12 +39,16 @@ const Question = () => {
 
   const handleSubmit = () => {
     console.log("Submitted Problem");
+    setFinalResult("Pending");
     Axios.post("http://localhost:3002/problems", {
       userCode: code, 
       userLanguage: "python", 
       questionID: 0
     }).then((response) => {
       console.log(response.data);
+      const finalWord = response.data.split("\n");
+      setFinalResult(finalWord[finalWord.length - 1])
+      setResult(response.data);
     });
   }
   
@@ -64,6 +70,8 @@ const Question = () => {
           onChange={handleOnChange}
         /> 
         <button onClick={handleSubmit}> Submit </button>
+        <h5>Result: {finalResult}</h5>
+        <pre>{result}</pre>
       </div>
     </div>
   )
