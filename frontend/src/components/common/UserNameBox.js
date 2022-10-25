@@ -44,7 +44,6 @@ const UserNameBox = ({user}) => {
   return (
     <Link to={`/user/${user.userName}`}><div style={styles.userInfo} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <h4 style={styles.userName}>{user.userName}</h4>
-      {console.log("User: ", user.userName)}
       <div style={styles.profilePic} />
     </div></Link>
   )
