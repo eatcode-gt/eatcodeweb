@@ -44,9 +44,8 @@ const ProblemBody = () => {
       flexDirection: 'column',
     },
     scroll: {
-      width: 1700,
-      height: 700,
-      color: "red",
+      width: '100vw',
+      height: '100vh'
     }
   }
 
