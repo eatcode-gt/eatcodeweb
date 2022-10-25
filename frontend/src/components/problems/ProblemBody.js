@@ -45,7 +45,8 @@ const ProblemBody = () => {
     },
     scroll: {
       width: '100vw',
-      height: '100vh'
+      minHeight: '100vh',
+      height: 'auto'
     }
   }
 
