@@ -1,13 +1,15 @@
 const { exec } = require("child_process");
 
-exec("python3 test.py", (error, stdout, stderr) => {
+const solutionFile = "solution_ac.py";
+const cmd = "sh run.sh " + solutionFile;
+exec(cmd, (error, stdout, stderr) => {
     if (error) {
         console.log(`error: ${error.message}`);
-        return;
+        // return;
     }
     if (stderr) {
         console.log(`stderr: ${stderr}`);
-        return;
+        // return;
     }
     console.log(`stdout: ${stdout}`);
 });

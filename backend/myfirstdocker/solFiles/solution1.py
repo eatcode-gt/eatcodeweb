@@ -1,0 +1,1 @@
+print("hi")/n/n

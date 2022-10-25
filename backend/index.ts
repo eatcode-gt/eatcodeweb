@@ -90,10 +90,10 @@ app.post('/userInfo', (req: Request, res: Response) => {
 });
 
 
-app.post('/problems', (req: Request, res: Response) => { //post requests to eatcode.com/problems
+app.post('/problems', async (req: Request, res: Response) => { //post requests to eatcode.com/problems
   const { userCode, userLanguage, questionID }: { userCode: string, userLanguage: string, questionID: number } = req.body; //destructure POST from client
   const { questionName, tests }: { questionName: string, tests: Array<any> } = problemData.problems[questionID]; //pull question data from json
-  let result = testUserCode(userLanguage, userCode, questionName, tests); //abstraction to test code against cases
+  let result = await testUserCode(userLanguage, userCode, questionName, tests); //abstraction to test code against cases
   res.end(result); //send result back to client
 });
 

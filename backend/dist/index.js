@@ -87,12 +87,12 @@ app.post('/userInfo', (req, res) => {
         }
     }));
 });
-app.post('/problems', (req, res) => {
+app.post('/problems', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userCode, userLanguage, questionID } = req.body; //destructure POST from client
     const { questionName, tests } = problem_data_json_1.default.problems[questionID]; //pull question data from json
-    let result = (0, test_user_code_1.default)(userLanguage, userCode, questionName, tests); //abstraction to test code against cases
+    let result = yield (0, test_user_code_1.default)(userLanguage, userCode, questionName, tests); //abstraction to test code against cases
     res.end(result); //send result back to client
-});
+}));
 app.listen(port, () => {
     console.log(`listening ${port}`);
 });
