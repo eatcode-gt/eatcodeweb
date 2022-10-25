@@ -2,6 +2,8 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import Axios from "axios";
 import Problem from './Problem'
+import { Scrollbars } from 'react-custom-scrollbars';
+
 
 const ProblemBody = () => {
   const [listOfProblems, setListOfProblems] = useState([
@@ -40,18 +42,23 @@ const ProblemBody = () => {
       gap: '1em',
       padding: '0em 1em',
       flexDirection: 'column',
-      overflowY: 'scroll'
+    },
+    scroll: {
+      width: '100vw',
+      height: '100vh'
     }
   }
 
   return (
-    <div style={styles.grid}>
-      {listOfProblems.map((problem) => {
-        return (
-          <Problem key={problem.id} problem={problem} />
-        );
-      })}
-    </div>
+    <Scrollbars style={styles.scroll}>
+      <div style={styles.grid}>
+        {listOfProblems.map((problem) => {
+          return (
+            <Problem key={problem.id} problem={problem} />
+          );
+        })}
+      </div>
+    </Scrollbars>
   )
 }
 
