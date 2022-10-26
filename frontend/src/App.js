@@ -1,4 +1,4 @@
-import { colors } from './global/colors'
+import { colors } from './global/vars'
 import './global/fonts.css';
 
 import { useState } from "react";
@@ -29,14 +29,17 @@ function App() {
       fontFamily: 'Inter',
       backgroundColor: colors.grey,
       height: '100vh',
-      width: '100vw'
+      width: '100vw',
+    },
+    container: {
+      overflowY: 'auto !important'
     }
   }
 
   const location = useLocation();
   return (
     <main style={styles.app}>
-      <PageTransition preset="moveToLeftFromRight" transitionKey={location.key}>
+      <PageTransition style={styles.container} preset="moveToBottomFromTop" transitionKey={location.key}>
         <Routes location={location}>
           <Route exact path='/' element={<Landing />} title="eatcode | home"/>
           <Route element={<HeaderSkip user={user}/>}>

@@ -1,11 +1,9 @@
 import React, { useState } from 'react'
-import { colors } from '../../global/colors'
+import { colors } from '../../global/vars'
 import { Link } from 'react-router-dom'
+import { diffMap, statusMap } from '../../global/vars'
 
 const Problem = ({ problem }) => {
-  const diffMap = ['mild', 'med', 'hot']
-  const statusMap = ['new', 'opened', 'solved']
-
   const [barHover, setBarHover] = useState(false);
   const handleMouseEnter = () => {
     setBarHover(true);
@@ -23,7 +21,7 @@ const Problem = ({ problem }) => {
       alignItems: 'center',
       justifyContent: 'space-between',
       fontWeight: '400',
-      backgroundColor: barHover ? colors.hover : problem.id % 2 === 0 ? colors.accent1: colors.accent2,
+      backgroundColor: barHover ? colors.black : colors[diffMap[problem.diff]],
       cursor: 'pointer',
       transition: 'all 0.27s ease',
     },
@@ -44,14 +42,6 @@ const Problem = ({ problem }) => {
       height: '4em',
       color: colors.white,
     },
-    diff: {
-      width: '4.5em',
-      height: '100%',
-      lineHeight: '1.7em',
-      textAlign: 'center',
-      backgroundColor: colors[diffMap[problem.diff]],
-      color: colors.white,
-    },
     status: {
       width: '6em',
       height: '100%',
@@ -67,7 +57,6 @@ const Problem = ({ problem }) => {
           <h5 style={styles.id}>{problem.id}.&#41;</h5>
           <h5 style={styles.name}>{problem.name}</h5>
           <div style={styles.info}>
-            <h5 style={styles.diff}>{diffMap[problem.diff]}</h5>
             <h5 style={styles.status}>{statusMap[problem.status]}</h5>
           </div>
       </div>

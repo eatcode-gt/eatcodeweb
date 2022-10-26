@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { colors } from '../../global/colors';
+import { colors } from '../../global/vars';
 
 export default function ProfileCard() {
     let { userName } = useParams();
