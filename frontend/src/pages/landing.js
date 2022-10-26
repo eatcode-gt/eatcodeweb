@@ -1,10 +1,12 @@
-import React from 'react';
 import { colors } from '../global/vars';
-import Title from '../components/landing/Title'
-import PageLink from '../components/landing/PageLink';
+import Login from '../components/landing/Login'
 import Fruit from '../components/landing/Fruit'
+import Default from '../components/landing/Default'
+import { useState } from 'react'
 
 const Landing = () => {
+  const [isDefault, setIsDefault] = useState(true)
+
   const styles = {
     content: {
       display: 'flex',
@@ -18,6 +20,7 @@ const Landing = () => {
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
+      alignItems: 'center',
       gap: '1.2em',
       marginTop: '20vh',
       zIndex: 2
@@ -34,13 +37,10 @@ const Landing = () => {
   }
   return (
     <div style={styles.content}>
-      <div style={styles.left}>
-        <Title />
-        <PageLink page="problems" utensil="fork" />
-        <PageLink page="login" utensil="spoon" />
-        <PageLink page="user" utensil="knife" />
-        <PageLink page="create" utensil="knife"/>
-      </div>
+      {isDefault
+      ? <Default />
+      : <Login />
+      }
       <div style={styles.right}>
         <Fruit />
       </div>

@@ -32,14 +32,24 @@ const PageLink = (props) => {
       filter: svgTurnsPink ? 'invert(59%) sepia(69%) saturate(456%) hue-rotate(307deg) brightness(87%) contrast(96%)' : 'invert(51%) sepia(43%) saturate(689%) hue-rotate(139deg) brightness(96%) contrast(90%)',
       opacity: pageLinkHover ? 1 : 0,
       transition: 'all 0.27s ease',
+    },
+    utensilFlip: {
+      width: '6em',
+      filter: svgTurnsPink ? 'invert(59%) sepia(69%) saturate(456%) hue-rotate(307deg) brightness(87%) contrast(96%)' : 'invert(51%) sepia(43%) saturate(689%) hue-rotate(139deg) brightness(96%) contrast(90%)',
+      opacity: pageLinkHover ? 1 : 0,
+      transition: 'all 0.27s ease',
       transform: "scale(-1,1)"
     }
   }
 
   return (
     <div style={styles.container}>
-        <Link to={`/${props.page}`}><h2 style={styles.pageLink} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>{props.page}</h2></Link>
         <img style={styles.utensil} src={require(`../common/${props.utensil}.svg`)} alt="" />
+        {props.page == 'login'
+        ? <div><h2 style={styles.pageLink} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>{props.page}</h2></div>
+        : <Link to={`/${props.page}`}><h2 style={styles.pageLink} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>{props.page}</h2></Link>
+      }
+        <img style={styles.utensilFlip} src={require(`../common/${props.utensil}.svg`)} alt="" />
     </div>
   )
 }

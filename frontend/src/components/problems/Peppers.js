@@ -1,9 +1,6 @@
 import Spline from '@splinetool/react-spline';
 
 export default function Peppers({diff}) {
-  const aspectRatio = 16 / 9 //width to height
-  const pepperWidth = 20 //em
-
   const styles = {
     pepper: {
       maxHeight: '20em',
