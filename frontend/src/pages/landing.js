@@ -2,7 +2,7 @@ import { colors } from '../global/vars';
 import Login from '../components/landing/Login'
 import Fruit from '../components/landing/Fruit'
 import Default from '../components/landing/Default'
-import { useState } from 'react'
+import React, { suspense, useState } from 'react'
 
 const Landing = () => {
   const [isDefault, setIsDefault] = useState(true)

@@ -52,7 +52,7 @@ const Problem = ({ problem }) => {
     }
   }
   return (
-    <Link to={`/problems/${problem.name}`} state={ {problem} }>
+    <Link to={`/problems/${problem.name}}`} state={ {problem} }>
       <div style={styles.bar} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
           <h5 style={styles.id}>{problem.id}.&#41;</h5>
           <h5 style={styles.name}>{problem.name}</h5>
