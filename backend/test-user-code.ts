@@ -9,7 +9,6 @@ export default function testUserCode(userLanguage: string, //see switch statemen
     fs.writeFile('myfirstdocker/solFiles/solution.py', code, 'utf-8', (err: any) => {
         console.log(err)
     })
-
     const solutionFile = "solFiles/solution.py";
     const cmd = "sh myfirstdocker/run.sh " + solutionFile;
 
