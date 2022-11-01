@@ -28,6 +28,7 @@ function Login({user, updateUser}) {
   function signOut() {
     window.google.accounts.id.disableAutoSelect();
     updateUser(null, false);
+    navigate('/', {replace: true});
   }
   
   // not sure if this(useEffect) is the right way to do it, sometimes the page doesn't load
