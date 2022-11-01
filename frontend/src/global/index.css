@@ -35,7 +35,7 @@ h5 {
   margin: 0;
 }
 p {
-  font-size: 1.5em;
+  font-size: 2em;
 }
 .MathJax {
   font-size: 1.5em;
@@ -92,16 +92,6 @@ a {
   h2 {
       font-size: 1.4em;
   }
-}
-
-/*make text selection more professional*/
-::selection {
-  background: var(--pink); /* WebKit/Blink Browsers */
-  color: var(--grey)
-}
-::-moz-selection {
-  background: var(--pink); /* WebKit/Blink Browsers */
-  color: var(--grey)
 }
 
 ::-webkit-scrollbar-track {

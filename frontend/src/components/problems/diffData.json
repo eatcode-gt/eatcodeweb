@@ -1,0 +1,18 @@
+{
+    "Bell": {
+        "desc": "Good problems for starting. Bell difficulty questions are unlikely to be asked in techical interviews for competitive positions.",
+        "companies": ["Coca-Cola", "Home Depot", "Walmart"]
+    },
+    "Jalepeño": {
+        "desc": "The bulk of problems asked in technical interviews. Mastering the Jalepeno difficulty should give you confidence to succeed in interviews for competitive positions.",
+        "companies": ["Coinbase", "Roblox", "Amazon"]
+    },
+    "Habenero": {
+        "desc": "The hardest of interview problems that will be asked to the unlucky applicants for competitive positions.",
+        "companies": ["Google", "Apple", "Stripe"]
+    },
+    "Ghost": {
+        "desc": "Conceptually dense. These won't be asked in a SWE interview, but they are good practice for USACO or other programming competitions.",
+        "companies": ["USACO", "IOI"]
+    }
+}

@@ -1,5 +1,5 @@
 import React from 'react'
-import { colors } from '../global/colors'
+import { colors } from '../global/vars'
 import { useState, createContext  } from 'react'
 import Axios from 'axios'
 import View from '../components/create/View'
