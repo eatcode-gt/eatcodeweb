@@ -4,7 +4,7 @@ import Title from '../components/landing/Title'
 import PageLink from '../components/landing/PageLink';
 import Robot from '../components/landing/Robot'
 
-const Landing = () => {
+const Landing = ({user}) => {
   const styles = {
     content: {
       display: 'flex',
@@ -37,7 +37,10 @@ const Landing = () => {
       <div style={styles.left}>
         <Title />
         <PageLink page="problems" utensil="fork" />
-        <PageLink page="login" utensil="spoon" />
+        {user.loggedIn ? 
+         <PageLink page="logout" utensil="spoon" /> :
+         <PageLink page="login" utensil="spoon" />}
+        {/* <PageLink page="login" utensil="spoon" /> */}
         <PageLink page="user" utensil="knife" />
         <PageLink page="create" utensil="knife"/>
       </div>
