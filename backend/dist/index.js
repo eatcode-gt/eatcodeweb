@@ -45,7 +45,8 @@ app.post('/register', (req, res) => {
     res.send('placeholder');
 });
 // TODO: check if user is already in DB, if yes then don't create new user.
-app.post("/getUserID", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+// app.post("/getUserID", async (req: Request, res: Response) => { //post requests to eatcode.com/login
+app.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const token = req.body.token;
     const decoded = jwt.decode(token);
     console.log(decoded);
@@ -65,6 +66,15 @@ app.post("/getUserID", (req, res) => __awaiter(void 0, void 0, void 0, function*
     });
     res.json({ sub: decoded.sub });
 }));
+app.post("/create", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const lastPost = yield ProblemModel.find().sort({ _id: -1 }).limit(1);
+    const inputs = req.body;
+    inputs.id = lastPost[0].id + 1;
+    console.log(inputs.diff);
+    const newProblem = new ProblemModel(inputs);
+    yield newProblem.save();
+    res.json(inputs);
+}));
 app.post('/userInfo', (req, res) => {
     const userSub = req.body.sub;
     console.log(userSub);
@@ -77,12 +87,12 @@ app.post('/userInfo', (req, res) => {
         }
     }));
 });
-app.post('/problems', (req, res) => {
+app.post('/problems', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userCode, userLanguage, questionID } = req.body; //destructure POST from client
     const { questionName, tests } = problem_data_json_1.default.problems[questionID]; //pull question data from json
-    let result = (0, test_user_code_1.default)(userLanguage, userCode, questionName, tests); //abstraction to test code against cases
+    let result = yield (0, test_user_code_1.default)(userLanguage, userCode, questionName, tests); //abstraction to test code against cases
     res.end(result); //send result back to client
-});
+}));
 app.listen(port, () => {
     console.log(`listening ${port}`);
 });

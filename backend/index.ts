@@ -3,6 +3,7 @@ import dotenv from 'dotenv'; //allows use of enviroment variables in ./.env
 import cors from 'cors'; //cross origin resource sharing middleware
 import testUserCode from './test-user-code'
 import problemData from './problem-data.json';
+import { mongo } from 'mongoose';
 
 const mongoose = require('mongoose');
 const jwt = require("jsonwebtoken");
@@ -42,7 +43,8 @@ app.post('/register', (req: Request, res: Response) => { //post requests to eatc
 }); 
  
 // TODO: check if user is already in DB, if yes then don't create new user.
-app.post("/getUserID", async (req: Request, res: Response) => { //post requests to eatcode.com/login
+// app.post("/getUserID", async (req: Request, res: Response) => { //post requests to eatcode.com/login
+app.post("/login", async (req: Request, res: Response) => {
   const token = req.body.token;
   const decoded = jwt.decode(token);
   console.log(decoded);
@@ -63,6 +65,16 @@ app.post("/getUserID", async (req: Request, res: Response) => { //post requests 
   res.json({sub:decoded.sub});
 });
 
+app.post("/create", async (req: Request, res: Response) => {
+  const lastPost = await ProblemModel.find().sort({_id: -1}).limit(1);
+  const inputs = req.body;
+  inputs.id = lastPost[0].id+1;
+  console.log(inputs.diff);
+  const newProblem = new ProblemModel(inputs)
+  await newProblem.save();
+
+  res.json(inputs);
+})
 
 
 app.post('/userInfo', (req: Request, res: Response) => {
@@ -78,10 +90,10 @@ app.post('/userInfo', (req: Request, res: Response) => {
 });
 
 
-app.post('/problems', (req: Request, res: Response) => { //post requests to eatcode.com/problems
+app.post('/problems', async (req: Request, res: Response) => { //post requests to eatcode.com/problems
   const { userCode, userLanguage, questionID }: { userCode: string, userLanguage: string, questionID: number } = req.body; //destructure POST from client
   const { questionName, tests }: { questionName: string, tests: Array<any> } = problemData.problems[questionID]; //pull question data from json
-  let result = testUserCode(userLanguage, userCode, questionName, tests); //abstraction to test code against cases
+  let result = await testUserCode(userLanguage, userCode, questionName, tests); //abstraction to test code against cases
   res.end(result); //send result back to client
 });
 

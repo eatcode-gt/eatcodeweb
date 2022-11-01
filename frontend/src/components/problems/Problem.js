@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { colors } from '../../global/colors'
+import { Link } from 'react-router-dom'
 
 const Problem = ({ problem }) => {
   const diffMap = ['mild', 'med', 'hot']
@@ -61,14 +62,16 @@ const Problem = ({ problem }) => {
     }
   }
   return (
-    <div style={styles.bar} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-        <h5 style={styles.id}>{problem.id}.&#41;</h5>
-        <h5 style={styles.name}>{problem.name}</h5>
-        <div style={styles.info}>
-          <h5 style={styles.diff}>{diffMap[problem.diff]}</h5>
-          <h5 style={styles.status}>{statusMap[problem.status]}</h5>
-        </div>
-    </div>
+    <Link to={`/problems/${problem.name}`} state={ {problem} }>
+      <div style={styles.bar} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+          <h5 style={styles.id}>{problem.id}.&#41;</h5>
+          <h5 style={styles.name}>{problem.name}</h5>
+          <div style={styles.info}>
+            <h5 style={styles.diff}>{diffMap[problem.diff]}</h5>
+            <h5 style={styles.status}>{statusMap[problem.status]}</h5>
+          </div>
+      </div>
+    </Link>
   )
 }
 
