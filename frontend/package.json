@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ramonak/react-progress-bar": "^5.0.2",
     "@react-three/drei": "^9.34.0",
     "@splinetool/r3f-spline": "^1.0.2",
     "@splinetool/react-spline": "^2.2.3",
