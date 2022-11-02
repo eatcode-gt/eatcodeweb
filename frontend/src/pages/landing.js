@@ -2,6 +2,8 @@ import { colors } from '../global/vars';
 import Login from '../components/landing/Login'
 import Fruit from '../components/landing/Fruit'
 import Default from '../components/landing/Default'
+import PageLink from '../components/landing/PageLink'
+import Title from '../components/landing/Title'
 import React, { suspense, useState } from 'react'
 
 const Landing = ({user}) => {
@@ -36,15 +38,10 @@ const Landing = ({user}) => {
   }
   return (
     <div style={styles.content}>
-      <div style={styles.left}>
-        <Title />
-        <PageLink page="problems" utensil="fork" />
-        {user.loggedIn ? 
-         <PageLink page="logout" utensil="spoon" /> :
-         <PageLink page="login" utensil="spoon" />}
-        <PageLink page="user" utensil="knife" />
-        <PageLink page="create" utensil="knife"/>
-      </div>
+      {isDefault
+      ? <Default user={user} />
+      : <Login />
+      }
       <div style={styles.right}>
         <Fruit />
       </div>
