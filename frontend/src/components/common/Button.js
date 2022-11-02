@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { colors } from '../../global/vars';
 
-const CompanyButton = (props) => {
+const Button = (props) => {
   const [btnHover, setBtnHover] = useState(false);
   const handleMouseEnter = () => {
     setBtnHover(true);
@@ -10,25 +10,26 @@ const CompanyButton = (props) => {
     setBtnHover(false);
   }
 
-  const svgTurnsPink = true;
-
   const styles = {
     container: {
       cursor: 'default',
-      padding: '0.8em',
+      padding: '0.8em 1.2em',
+      width: '100%',
       backgroundColor: btnHover ? colors.black : props.color,
-      transition: 'all 0.27s ease'
+      transition: 'all 0.27s ease',
+      cursor: 'pointer'
     },
-    company: {
-      color: colors.white
+    text: {
+      color: colors.white,
+      textAlign: 'center'
     }
   }
 
   return (
     <div style={styles.container} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-        <h4 style={styles.company}>{props.company}</h4>
+        <h4 style={styles.text}>{props.text}</h4>
     </div>
   )
 }
 
-export default CompanyButton
+export default Button

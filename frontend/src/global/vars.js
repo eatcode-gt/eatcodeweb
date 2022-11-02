@@ -11,6 +11,7 @@ export const colors = {
     raw: "#db4848", //new question status
     cooking: "#803d37", //solved question status
     cooked: "#361714", //opened question status
+    codeBg: "#1f1f1f", //background of CodeArea
     hover: '#3e3e3e'
 }
 

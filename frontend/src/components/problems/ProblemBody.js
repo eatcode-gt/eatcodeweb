@@ -3,7 +3,7 @@ import Problem from './Problem'
 import Peppers from './Peppers'
 import { colors, diffMap } from '../../global/vars'
 import diffData from './diffData.json'
-import CompanyButton from './CompanyButton'
+import Button from '../common/Button'
 
 const ProblemBody = ({ props }) => {
   const userDiffObject = [3, 1, 0, 5]
@@ -21,9 +21,11 @@ const ProblemBody = ({ props }) => {
     grid: {
       width: '50vw',
       display: 'flex',
-      justifyContent: 'space-between',
+      gap: '2em',
       padding: '0em 1em',
       flexDirection: 'column',
+      maxHeight: '58em',
+      overflowX: 'scroll'
     },
     scroll: {
       width: '100vw',
@@ -51,11 +53,11 @@ const ProblemBody = ({ props }) => {
         <div>
           <h2 style={styles.diffTitle}>{props.diff}</h2>
           <p>{diffData[props.diff].desc}</p>
-          <h3>Total {props.diff} problems solved: {userDiffObject[diffMap.indexOf(props.diff)]}</h3>
+          <h3>{props.diff}s eaten: {userDiffObject[diffMap.indexOf(props.diff)]}</h3>
           <div style={styles.companyCont}>
             {diffData[props.diff].companies.map((problem) => {
               return (
-                <CompanyButton key={problem} company={problem} color={colors[props.diff]} />
+                <Button key={problem} text={problem} color={colors[props.diff]} />
               );
             })}
           </div>
@@ -66,8 +68,10 @@ const ProblemBody = ({ props }) => {
       </div>
       <div style={styles.grid}>
         {props.problems.map((problem) => {
-          return (
+          return (<>
             <Problem key={problem.id} problem={problem} />
+            <Problem key={problem.id} problem={problem} />
+            <Problem key={problem.id} problem={problem} /></>
           );
         })}
       </div>
