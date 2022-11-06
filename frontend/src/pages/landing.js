@@ -2,11 +2,12 @@ import { colors } from '../global/vars';
 import Login from '../components/landing/Login'
 import Fruit from '../components/landing/Fruit'
 import Default from '../components/landing/Default'
+import PageLink from '../components/landing/PageLink'
+import Title from '../components/landing/Title'
 import React, { suspense, useState } from 'react'
 
-const Landing = () => {
+const Landing = ({user}) => {
   const [isDefault, setIsDefault] = useState(true)
-
   const styles = {
     content: {
       display: 'flex',
@@ -38,7 +39,7 @@ const Landing = () => {
   return (
     <div style={styles.content}>
       {isDefault
-      ? <Default />
+      ? <Default user={user} />
       : <Login />
       }
       <div style={styles.right}>

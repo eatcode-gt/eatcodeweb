@@ -3,9 +3,7 @@ import { colors } from '../../global/vars';
 import Title from './Title'
 import PageLink from './PageLink';
 
-const Default = () => {
-  let isLoggedIn = false
-
+const Default = ({user}) => {
   const styles = {
     content: {
       display: 'flex',
@@ -30,10 +28,10 @@ const Default = () => {
       <div style={styles.left}>
         <Title />
         <PageLink page="problems" utensil="fork" />
-        {isLoggedIn
-        ? <PageLink page="user" utensil="knife" />
-        : <PageLink page="login" utensil="spoon" />
-        }
+        {user.loggedIn
+        ? <PageLink page="logout" utensil="spoon" />
+        : <PageLink page="login" utensil="spoon" />}
+        <PageLink page="user" utensil="knife" />
         <PageLink page="create" utensil="knife"/>
       </div>
     </div>

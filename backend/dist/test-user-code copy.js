@@ -1,19 +1,19 @@
-const fs = require('fs')
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const fs = require('fs');
 const { exec } = require("child_process");
-export default function testUserCode(userLanguage: string, //see switch statement line 12
-                                    userCode: string,
-                                    questionName: string, //is the same name as the function that the user writes the answer in
-                                    tests: Array<any>): any { //contains the parameters and the expected outputs
+function testUserCode(userLanguage, //see switch statement line 12
+userCode, questionName, //is the same name as the function that the user writes the answer in
+tests) {
     // let code: string = userCode + "/n/n"; //'code' will be the user's submitted McProblem() function + function calls that check if the user's functions provides expected outputs when given arguments defined in problem-data.json
-    let code: string = userCode;
-    fs.writeFile('myfirstdocker/solFiles/solution.py', code, 'utf-8', (err: any) => {
-        console.log(err)
-    })
+    let code = userCode;
+    fs.writeFile('myfirstdocker/solFiles/solution.py', code, 'utf-8', (err) => {
+        console.log(err);
+    });
     const solutionFile = "solFiles/solution.py";
     const cmd = "sh myfirstdocker/run.sh " + solutionFile;
-
     return new Promise(resolve => {
-        exec(cmd, (error: any, stdout: any, stderr: any) => {
+        exec(cmd, (error, stdout, stderr) => {
             if (error) {
                 console.log(`error: ${error.message}`);
                 // return;
@@ -30,23 +30,23 @@ export default function testUserCode(userLanguage: string, //see switch statemen
     // let result: string = "hi";
     // return result;
 }
-
-function runTestCases(userLanguage: string, questionName: string, tests: Array<any>, code: string): any {
-    switch(userLanguage) { //different languages have different formats for calling function
+exports.default = testUserCode;
+function runTestCases(userLanguage, questionName, tests, code) {
+    switch (userLanguage) { //different languages have different formats for calling function
         case "Python":
-            for (let i: number = 0; i < tests.length; i++) {
+            for (let i = 0; i < tests.length; i++) {
                 code += `print(${questionName}(${tests[i].parameters}))`; //print(McProblem("string"))
             }
             //run code somehow
             break;
         case "Java":
-            for (let i: number = 0; i < tests.length; i++) {
+            for (let i = 0; i < tests.length; i++) {
                 code += `System.out.println(${questionName}(${tests[i].parameters}));`; //System.out.println(McProblem("string"));
             }
             //run code somehow
             break;
         case "JavaScript":
-            for (let i: number = 0; i < tests.length; i++) {
+            for (let i = 0; i < tests.length; i++) {
                 code += `console.log(${questionName}(${tests[i].parameters}))`; //Console.log(McProblem("string"))
             }
             //run code somehow

@@ -3,7 +3,9 @@ import { colors } from '../global/vars'
 import { useLocation } from 'react-router-dom'
 import { useState, createContext  } from 'react'
 import Axios from 'axios'
+import CodeArea from '../components/create/CodeArea'
 import View from '../components/create/View'
+import Button from '../components/common/Button'
 
 const Question = () => {
   const styles = {
@@ -15,23 +17,29 @@ const Question = () => {
       backgroundColor: colors.grey
     },
     left: {
-      backgroundColor: colors.accent2,
-      width: '50%',
+      padding: '0em 2em',
+      width: 'calc(50% - 4em)',
       height: '100%',
     },
     right: {
-      backgroundColor: colors.accent1,
-      maxWidth: '50%',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '2em',
+      padding: '0em 2em',
+      maxWidth: 'calc(50% - 4em)',
       width: '50%',
       height: '100%'
     },
-    textarea: {
-      height: "10vh",
+    buttonDiv: {
+      display: "flex",
+      width: '100%',
+      gap: '2em',
+      justifyContent: 'space-between'
     }
   }
-  const [code, setCode] = useState("");
+  const [code, setCode] = useState(`def add(a, b):\n  return a + b;\n`);
   const [result, setResult] = useState("");
-  const [finalResult, setFinalResult] = useState("no submission");
+  const [finalResult, setFinalResult] = useState("Raw");
 
   const handleOnChange = (event) => {
     setCode(event.target.value);
@@ -60,16 +68,20 @@ const Question = () => {
     <div style={styles.content}>
       <div style={styles.left}>
         <UserContext.Provider value={problem}>
-          <View context={UserContext} preview={false} ></View>
+          <View context={UserContext} preview={false} diff={problem.diff}></View>
         </UserContext.Provider>
       </div>
       <div style={styles.right}>
-        <textarea 
+        <CodeArea 
           style={styles.textarea}
-          name="input"
           onChange={handleOnChange}
-        /> 
-        <button onClick={handleSubmit}> Submit </button>
+          code={code} setCode={setCode}
+        />
+        <div style={styles.buttonDiv}>
+          <Button onClick={handleSubmit} color={colors.accent1} text={"get cookin"} />
+          <Button onClick={handleSubmit} color={colors.hover} text={"stess ball"} />
+          <Button onClick={handleSubmit} color={colors.accent2} text={"see solution"} />
+        </div>
         <h5>Result: {finalResult}</h5>
         <pre>{result}</pre>
       </div>
