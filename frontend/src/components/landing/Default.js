@@ -29,9 +29,11 @@ const Default = ({user}) => {
         <Title />
         <PageLink page="problems" utensil="fork" />
         {user.loggedIn
-        ? <PageLink page="logout" utensil="spoon" />
-        : <PageLink page="login" utensil="spoon" />}
+        ? <div>
+        <PageLink page="logout" utensil="spoon" />
         <PageLink page="user" utensil="knife" />
+        </div>
+        : <PageLink page="login" utensil="spoon" />}
         <PageLink page="create" utensil="knife"/>
       </div>
     </div>
