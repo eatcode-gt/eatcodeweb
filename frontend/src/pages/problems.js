@@ -39,10 +39,10 @@ const Problems = () => {
 
   return (
     <div style={styles.container}>
-      <ProblemBody props={{diff: "Bell", problems: getProblemsByDiff("Bell")}}/>
-      <ProblemBody props={{diff: "Jalepeño", problems: getProblemsByDiff("Jalepeño")}}/>
-      <ProblemBody props={{diff: "Habenero", problems: getProblemsByDiff("Habenero")}}/>
-      <ProblemBody props={{diff: "Ghost", problems: getProblemsByDiff("Ghost")}}/>
+      <ProblemBody i={0} props={{diff: "Bell", problems: getProblemsByDiff("Bell")}}/>
+      <ProblemBody i={1} props={{diff: "Jalepeño", problems: getProblemsByDiff("Jalepeño")}}/>
+      <ProblemBody i={2} props={{diff: "Habenero", problems: getProblemsByDiff("Habenero")}}/>
+      <ProblemBody i={3} props={{diff: "Ghost", problems: getProblemsByDiff("Ghost")}}/>
       <div style={styles.pad}/>
     </div>
   );

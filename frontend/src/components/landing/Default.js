@@ -4,6 +4,7 @@ import Title from './Title'
 import PageLink from './PageLink';
 
 const Default = ({user}) => {
+
   const styles = {
     content: {
       display: 'flex',
@@ -27,14 +28,14 @@ const Default = ({user}) => {
     <div style={styles.content}>
       <div style={styles.left}>
         <Title />
-        <PageLink page="problems" utensil="fork" />
+        <PageLink page="/problems" name="problems" utensil="fork" />
         {user.loggedIn
-        ? <div>
-        <PageLink page="logout" utensil="spoon" />
-        <PageLink page="user" utensil="knife" />
-        </div>
-        : <PageLink page="login" utensil="spoon" />}
-        <PageLink page="create" utensil="knife"/>
+        ? <>
+          <PageLink page="/logout" name="logout" utensil="spoon" />
+          <PageLink page={`/user/${user.userName}`} name="profile" utensil="knife" />
+          </>
+        : <PageLink page="/login" name="login" utensil="spoon" />}
+          <PageLink page="/create" name="create" utensil="knife"/>
       </div>
     </div>
   );
