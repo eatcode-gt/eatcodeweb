@@ -1,8 +1,33 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { colors } from '../../global/colors';
+import ProgressBar from "@ramonak/react-progress-bar";
 
 export default function ProfileCard() {
+    const listOfProblems =[
+        {id: 1, name: "McProblem", diff: 0, status: 2},
+        {id: 2, name: "Reverse Order List", diff: 1, status: 1},
+        {id: 3, name: "Reverse Burger", diff: 2, status: 0},
+        {id: 4, name: "Taste(x, n)", diff: 0, status: 0},
+        {id: 5, name: "Roman Cafe", diff: 1, status: 2},
+        {id: 6, name: "Longest Common Topping", diff: 2, status: 0},
+        {id: 7, name: "Cup With Most Smoothie", diff: 2, status: 1},
+        {id: 8, name: "Valid Sandwich", diff: 1, status: 2},
+        {id: 9, name: "Remove Topping", diff: 2, status: 0},
+        {id: 10, name: "Longest Valid Sandwich", diff: 2, status: 2},
+        {id: 11, name: "Delete Topping in Linked Burger", diff: 0, status: 1},
+        {id: 12, name: "Trapping Maple Syrup", diff: 0, status: 2},
+        {id: 13, name: "Gray Apple", diff: 1, status: 2},
+        {id: 14, name: "X Salad Intervals", diff: 1, status: 0},
+        {id: 15, name: "Merge Favorite Foods", diff: 1, status: 1},
+        {id: 16, name: "Linked Pizzа", diff: 2, status: 0},
+        {id: 17, name: "Reverse Binary Burger", diff: 0, status: 1},
+        {id: 18, name: "Sus", diff: 1, status: 2},
+        {id: 19, name: "Burger", diff: 2, status: 2},
+        {id: 20, name: "Two Burger", diff: 1, status: 2},
+        {id: 21, name: "Mongo Burger", diff: 2, status: 0},
+    ];
+
     let { userName } = useParams();
 
     const styles = {
@@ -29,6 +54,7 @@ export default function ProfileCard() {
         },
         imageContainer:{
             background: "white",
+            alignContent: "center",
             width: "100px",
             height: "100px",
             borderRadius: "50%",
@@ -58,6 +84,32 @@ export default function ProfileCard() {
                 <h4>{userName}</h4>
                 <h5>Beef Points</h5>
                 <p>I am going to add a progress bar here for the total number of mild, medium, and hot problems the user has done just like LeetCode does</p>
+                <div style={{alignContent: "center"}}>
+                    <ProgressBar 
+                        completed={listOfProblems.filter((element) => element.diff === 0 && element.status === 2).length.toString()} 
+                        maxCompleted={listOfProblems.filter((element) => element.diff === 0).length.toString()}
+                        bgColor={colors.mild}
+                        baseBgColor={colors.white}
+                        width="75%"
+                        isLabelVisible={false}
+                    />
+                    <ProgressBar 
+                        completed={listOfProblems.filter((element) => element.diff === 1 && element.status === 2).length.toString()} 
+                        maxCompleted={listOfProblems.filter((element) => element.diff === 1).length.toString()}
+                        bgColor={colors.med}
+                        baseBgColor={colors.white}
+                        width="75%"
+                        isLabelVisible={false}
+                    />
+                    <ProgressBar 
+                        completed={listOfProblems.filter((element) => element.diff === 1 && element.status === 2).length.toString()} 
+                        maxCompleted={listOfProblems.filter((element) => element.diff === 1).length.toString()}
+                        bgColor={colors.hot}
+                        baseBgColor={colors.white}
+                        width="75%"
+                        isLabelVisible={false}
+                    />
+                </div>
                 <button style={styles.profileButton}>Edit Profile</button>
             </div>
         </div>   
