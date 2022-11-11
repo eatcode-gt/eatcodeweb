@@ -1,11 +1,11 @@
 import Spline from '@splinetool/react-spline';
 
-export default function Peppers({diff}) {
+export default function Peppers({diff, size}) {
   const styles = {
     pepper: {
-      maxHeight: '20em',
+      maxHeight: size,
       height: '20em',
-      maxWidth: '20em',
+      maxWidth: size,
       width: '20em'
     }
   }
