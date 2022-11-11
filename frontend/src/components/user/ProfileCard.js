@@ -1,7 +1,8 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { colors } from '../../global/colors';
+import { colors } from '../../global/vars';
 import ProgressBar from "@ramonak/react-progress-bar";
+import Peppers from '../problems/Peppers';
 
 export default function ProfileCard() {
     const listOfProblems =[
@@ -37,17 +38,17 @@ export default function ProfileCard() {
             position: 'absolute',
             marginLeft: "20px",
             width: "300px",
-            height: "480px",
+            height: "300px",
             backgroundColor: colors.accent2,
             borderRadius: "10px",
             boxShadow: "0px 1px 10px 1px black"
         },
         upperContainer: {
-            height: "100px",
+            height: "75px",
             backgroundColor: colors.accent1,
         },
         lowerContainer: {
-            height: "300px",
+            height: "160px",
             background: colors.accent2,
             textAlign: "center",
             marginTop: "60px",
@@ -59,7 +60,7 @@ export default function ProfileCard() {
             height: "100px",
             borderRadius: "50%",
             padding: "5px",
-            transform: "translate(95px, 45px)",
+            transform: "translate(95px, 20px)",
         },
         profileButton: {
             margin: "1rem",
@@ -82,34 +83,7 @@ export default function ProfileCard() {
             </div>
             <div style={styles.lowerContainer}>
                 <h4>{userName}</h4>
-                <h5>Beef Points</h5>
-                <p>I am going to add a progress bar here for the total number of mild, medium, and hot problems the user has done just like LeetCode does</p>
-                <div style={{alignContent: "center"}}>
-                    <ProgressBar 
-                        completed={listOfProblems.filter((element) => element.diff === 0 && element.status === 2).length.toString()} 
-                        maxCompleted={listOfProblems.filter((element) => element.diff === 0).length.toString()}
-                        bgColor={colors.mild}
-                        baseBgColor={colors.white}
-                        width="75%"
-                        isLabelVisible={false}
-                    />
-                    <ProgressBar 
-                        completed={listOfProblems.filter((element) => element.diff === 1 && element.status === 2).length.toString()} 
-                        maxCompleted={listOfProblems.filter((element) => element.diff === 1).length.toString()}
-                        bgColor={colors.med}
-                        baseBgColor={colors.white}
-                        width="75%"
-                        isLabelVisible={false}
-                    />
-                    <ProgressBar 
-                        completed={listOfProblems.filter((element) => element.diff === 1 && element.status === 2).length.toString()} 
-                        maxCompleted={listOfProblems.filter((element) => element.diff === 1).length.toString()}
-                        bgColor={colors.hot}
-                        baseBgColor={colors.white}
-                        width="75%"
-                        isLabelVisible={false}
-                    />
-                </div>
+                <p>Brief Description</p>
                 <button style={styles.profileButton}>Edit Profile</button>
             </div>
         </div>   
