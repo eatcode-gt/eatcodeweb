@@ -2,6 +2,7 @@ import React from 'react';
 import { colors } from '../../global/vars';
 import ProgressBar from "@ramonak/react-progress-bar";
 import Peppers from '../problems/Peppers';
+import ReactTooltip from 'react-tooltip';
 
 export default function ProblemSolvedCard() {
     const listOfProblems =[
@@ -52,6 +53,12 @@ export default function ProblemSolvedCard() {
             textAlign: "center",
             marginTop: "50px",
         },
+        barContainer: {
+            display: 'flex',
+            gap: 'em',
+            maxHeight: 'calc(100vh - 8em)',
+            flexDirection: 'column'
+        }
     }
 
     return (
@@ -62,41 +69,45 @@ export default function ProblemSolvedCard() {
                 <h5>Solved Problems</h5>
             </div>
             <div style={styles.lowerContainer}>
-            <div style={{alignContent: "center"}}>
-                    <ProgressBar 
-                        completed={listOfProblems.filter((element) => element.diff === 0 && element.status === 2).length.toString()} 
-                        maxCompleted={listOfProblems.filter((element) => element.diff === 0).length.toString()}
-                        bgColor={colors.Bell}
-                        baseBgColor={colors.white}
-                        width="75%"
-                        isLabelVisible={false}
-                    />
-                    <Peppers diff={'Bell'} size={"3rem"}/>
-                    <ProgressBar 
-                        completed={listOfProblems.filter((element) => element.diff === 1 && element.status === 2).length.toString()} 
-                        maxCompleted={listOfProblems.filter((element) => element.diff === 1).length.toString()}
-                        bgColor={colors.Jalepeño}
-                        baseBgColor={colors.white}
-                        width="75%"
-                        isLabelVisible={false}
-                    />
-                    <ProgressBar 
-                        completed={listOfProblems.filter((element) => element.diff === 1 && element.status === 2).length.toString()} 
-                        maxCompleted={listOfProblems.filter((element) => element.diff === 1).length.toString()}
-                        bgColor={colors.Habenero}
-                        baseBgColor={colors.white}
-                        width="75%"
-                        isLabelVisible={false}
-                    />
-                    <ProgressBar 
-                        completed={listOfProblems.filter((element) => element.diff === 1 && element.status === 2).length.toString()} 
-                        maxCompleted={listOfProblems.filter((element) => element.diff === 1).length.toString()}
-                        bgColor={colors.Ghost}
-                        baseBgColor={colors.white}
-                        width="75%"
-                        isLabelVisible={false}
-                    />
-                </div>
+                <div style={styles.barContainer}>
+                        <h1></h1>
+                        <ProgressBar 
+                            completed={listOfProblems.filter((element) => element.diff === 0 && element.status === 2).length.toString()} 
+                            maxCompleted={listOfProblems.filter((element) => element.diff === 0).length.toString()}
+                            bgColor={colors.Bell}
+                            baseBgColor={colors.white}
+                            width="75%"
+                            isLabelVisible={false}
+                        />
+                        <Peppers diff={'Bell'} size={"2rem"}/>
+                        <ProgressBar 
+                            completed={listOfProblems.filter((element) => element.diff === 1 && element.status === 2).length.toString()} 
+                            maxCompleted={listOfProblems.filter((element) => element.diff === 1).length.toString()}
+                            bgColor={colors.Jalepeño}
+                            baseBgColor={colors.white}
+                            width="75%"
+                            isLabelVisible={false}
+                        />
+                        <Peppers diff={'Jalepeño'} size={"2rem"}/>
+                        <ProgressBar 
+                            completed={listOfProblems.filter((element) => element.diff === 1 && element.status === 2).length.toString()} 
+                            maxCompleted={listOfProblems.filter((element) => element.diff === 1).length.toString()}
+                            bgColor={colors.Habenero}
+                            baseBgColor={colors.white}
+                            width="75%"
+                            isLabelVisible={false}
+                        />
+                        <Peppers diff={'Habenero'} size={"2rem"}/>
+                        <ProgressBar 
+                            completed={listOfProblems.filter((element) => element.diff === 1 && element.status === 2).length.toString()} 
+                            maxCompleted={listOfProblems.filter((element) => element.diff === 1).length.toString()}
+                            bgColor={colors.Ghost}
+                            baseBgColor={colors.white}
+                            width="75%"
+                            isLabelVisible={false}
+                        />
+                        <Peppers diff={'Ghost'} size={"2rem"}/>
+                    </div>
             </div>
         </div>
     )
