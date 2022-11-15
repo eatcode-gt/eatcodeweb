@@ -2,46 +2,20 @@ from multiprocessing import Array
 # from memory_profiler import profile
 # from memory_profiler import memory_usage
 
-from subprocess import TimeoutExpired, check_output
+from subprocess import TimeoutExpired
 
-import cProfile
-import gc
 import multiprocessing
 import os
 import resource
 import subprocess
 from subprocess import Popen, PIPE, STDOUT
 import sys
-import time
 
 
-class CorrectSolution:
-    def addTwoNums(self, a: int, b: int):
-        return a + b
-
-
-def sol(start_num):
-    everything = []
-    for i in range(start_num):
-        everything.append(i)
-
-
-def profile_sol(start_num):
-    start1 = time.process_time()
-    sol(start_num)
-    end1 = time.process_time()
-
-    start2 = time.process_time()
-    mem_usage = memory_usage((sol, (start_num,)))
-    end2 = time.process_time()
-    print('For '+str(start_num)+': '+str(end1 - start1) +
-          '/'+str(end2 - start2)+'/'+str(max(mem_usage)))
-
-
-def run_test_case(input_path, output_path, to_return):
-    # set memory limit to 256MB
+def run_test_case(solution, solution_folder, input_path, output_path, to_return):
+    # set memory limit to 2GB
     _, hard = resource.getrlimit(resource.RLIMIT_AS)
-    resource.setrlimit(resource.RLIMIT_AS, (256000000, hard))
+    resource.setrlimit(resource.RLIMIT_AS, (2048000000, hard))
 
     # get input and output
     input_file = open(input_path, "r")
@@ -50,22 +24,24 @@ def run_test_case(input_path, output_path, to_return):
     correct_output = output_file.read()
 
     # run solution file
+    run_command = []
+    time_limit = 8
+    if solution.endswith('.py'):
+        run_command = [sys.executable, os.path.join(solution_folder, solution)]
+        time_limit = 4
+    elif solution.endswith('.class'): # compiled java class file
+        run_command = ["java", "-classpath", solution_folder, solution[:(len(solution)-6)]]
+        time_limit = 2
+
     start_data = resource.getrusage(resource.RUSAGE_CHILDREN)
-    popen = Popen([sys.executable, 'solution.py'], stdin=PIPE,
-                  stdout=PIPE, stderr=STDOUT, encoding='utf-8')
-    timed_out = False
+    popen = Popen(run_command, stdin=PIPE, stdout=PIPE, stderr=STDOUT, encoding='utf-8')
     try:
-        stdout, _ = popen.communicate(input_text, timeout=8)
+        stdout, _ = popen.communicate(input_text, timeout=time_limit)
     except TimeoutExpired:
         popen.kill()
         stdout, _ = popen.communicate()
         to_return[0] = 2.0
         return
-    # except:
-    #    popen.kill()
-    #    stdout, stderr = popen.communicate()
-    #    print('test case '+str(test_num)+' runtime error')
-    #    no_exceptions = False
     end_data = resource.getrusage(resource.RUSAGE_CHILDREN)
 
     # check output
@@ -75,7 +51,7 @@ def run_test_case(input_path, output_path, to_return):
         to_return[2] = round(end_data.ru_maxrss / 1000.0, 1)
         return
     else:
-        if popen.returncode != 0 and not timed_out:
+        if popen.returncode != 0:
             if 'MemoryError' in stdout:
                 to_return[0] = 3.0
             else:
@@ -87,27 +63,34 @@ def run_test_case(input_path, output_path, to_return):
     input_file.close()
     output_file.close()
 
-    #p = multiprocessing.Process(target=profile_sol, name="Solution", args=args)
-    # p.start()
-    # p.join(60)  # Wait a maximum of 60 seconds for foo
-    # if p.is_alive():  # If thread is active
-    #    print("foo is running... let's kill it...")
-    #    p.terminate()
-    #    p.join()
 
-
+# TODO pass the language to this python file from the js
 if __name__ == '__main__':
-    # set max memory to 50MB, hopefully it's enough
-    # for i in range(10):
-    #    count = 1
-    #    for j in range(i):
-    #        count = count * 10
-    #    test_sol(sol, (count,))
     test_result = "Accepted"
     test_num = 0
-    while (True):
+
+    # find solution file
+    solution_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'solution') # folder where solution is
+    solution = None # the file to run in order to test a solution
+    should_run_tests = True # this is false if solution file not found
+    print(solution_folder)
+    if (not os.path.exists(solution_folder) or 
+        not os.path.isdir(solution_folder) or
+        len(os.listdir(solution_folder)) != 1 or
+        not os.path.isfile(os.path.join(solution_folder, os.listdir(solution_folder)[0]))):
+        test_result = "System Error"
+        should_run_tests = False
+    else:
+        solution = os.listdir(solution_folder)[0]
+
+    if should_run_tests:
+        if solution.endswith('.java'):
+            subprocess.run(["javac", os.path.join(solution_folder, solution)])
+            solution = solution[:(len(solution)-5)] + '.class'
+
+    while should_run_tests:
         # make relevant folder paths and check if they exist
-        folder_path = os.path.join('tests', str(test_num))
+        folder_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'tests', str(test_num))
         input_path = os.path.join(folder_path, 'input.txt')
         output_path = os.path.join(folder_path, 'output.txt')
         if ((not os.path.isdir(folder_path)) or (not os.path.isfile(input_path)) or (not os.path.isfile(output_path))):
@@ -116,13 +99,14 @@ if __name__ == '__main__':
         return_array = Array('f', 3)
         return_array[0] = -1
         p = multiprocessing.Process(
-            target=run_test_case, args=(input_path, output_path, return_array))
+            target=run_test_case, args=(solution, solution_folder, input_path, output_path, return_array))
         p.start()
-        p.join(2)
+        p.join(8)
         if p.is_alive():
             print('murder')
             p.terminate()
             p.join()
+            return_array[0] = 2.0
 
         result = return_array[0]
         time_taken = return_array[1]
@@ -130,20 +114,22 @@ if __name__ == '__main__':
         if result == 0:
             print('test case '+str(test_num+1)+' correct! ' +
                   str(time_taken)+' s / '+str(memory_used)+' MB')
-        elif result == 1:
-            print('test case '+str(test_num+1)+' incorrect')
-            test_result = "Wrong Answer"
-        elif result == 2:
-            print('test case '+str(test_num+1)+' timed out')
-            test_result = "Time Limit Exceeded"
-        elif result == 3:
-            print('test case '+str(test_num+1)+' ran out of memory')
-            test_result = "Memory Limit Exceeded"
-        elif result == 4:
-            print('test case '+str(test_num+1)+' had a runtime exception')
-            test_result = "Runtime Error"
         else:
-            print('test case '+str(test_num+1)+' messed up, it was on me')
-            test_result = "System Error"
+            if result == 1:
+                print('test case '+str(test_num+1)+' incorrect')
+                test_result = "Wrong Answer"
+            elif result == 2:
+                print('test case '+str(test_num+1)+' timed out')
+                test_result = "Time Limit Exceeded"
+            elif result == 3:
+                print('test case '+str(test_num+1)+' ran out of memory')
+                test_result = "Memory Limit Exceeded"
+            elif result == 4:
+                print('test case '+str(test_num+1)+' had a runtime exception')
+                test_result = "Runtime Error"
+            else:
+                print('test case '+str(test_num+1)+' messed up, it was on me')
+                test_result = "System Error"
+            #break
         test_num = test_num + 1
     print(test_result, end="")
