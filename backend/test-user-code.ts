@@ -1,3 +1,5 @@
+import fetchTestCases from "./fetchTestCase";
+
 const fs = require('fs')
 const { exec } = require("child_process");
 export default function testUserCode(userLanguage: string, //see switch statement line 12
@@ -7,12 +9,15 @@ export default function testUserCode(userLanguage: string, //see switch statemen
     // let code: string = userCode + "/n/n"; //'code' will be the user's submitted McProblem() function + function calls that check if the user's functions provides expected outputs when given arguments defined in problem-data.json
     let code: string = userCode;
     fs.writeFile('myfirstdocker/solFiles/solution.py', code, 'utf-8', (err: any) => {
-        console.log(err)
+        if (err) console.log("Error Loading solution file:", err);
     })
     const solutionFile = "solFiles/solution.py";
-    const cmd = "sh myfirstdocker/run.sh " + solutionFile;
-
-    return new Promise(resolve => {
+    // fetchTestCases()
+    const testFolder = "tests/"
+    const cmd = "sh myfirstdocker/run.sh " + solutionFile + " " + testFolder;
+    
+    console.log("Running problem on server.");
+    return new Promise( resolve => {
         exec(cmd, (error: any, stdout: any, stderr: any) => {
             if (error) {
                 console.log(`error: ${error.message}`);
