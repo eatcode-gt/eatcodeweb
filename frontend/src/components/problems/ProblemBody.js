@@ -5,7 +5,7 @@ import { colors, diffMap } from '../../global/vars'
 import diffData from './diffData.json'
 import Button from '../common/Button'
 
-const ProblemBody = ({ props }) => {
+const ProblemBody = ({ props, i }) => {
   const userDiffObject = [3, 1, 0, 5]
 
   const styles = {
