@@ -68,10 +68,8 @@ const ProblemBody = ({ i, props }) => {
       </div>
       <div style={styles.grid}>
         {props.problems.map((problem) => {
-          return (<>
+          return (
             <Problem key={problem.id} problem={problem} />
-            <Problem key={problem.id} problem={problem} />
-            <Problem key={problem.id} problem={problem} /></>
           );
         })}
       </div>
