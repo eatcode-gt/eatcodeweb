@@ -4,22 +4,29 @@ import cors from 'cors'; //cross origin resource sharing middleware
 import testUserCode from './test-user-code'
 import problemData from './problem-data.json';
 import { mongo } from 'mongoose';
-import { nextTick } from 'process';
+import fileUpload from 'express-fileupload';
 
 const mongoose = require('mongoose');
 const jwt = require("jsonwebtoken");
+const morgan = require('morgan');
+
 const UserModel = require('../models/Users');
 const ProblemModel = require('../models/Problems.js');
-const TestCasesModel = require('../models/Tests.js');
+const TestCasesZippedModel = require('../models/Tests.js');
 
 dotenv.config(); //load .env file
 
 const app: Express = express(); //see line 1
 
-const port = process.env.PORT; //see line 2
+const port = process.env.PORT || 3002; //see line 2
+
+app.use(fileUpload({
+  createParentPath: true 
+}));
 
 app.use(express.json());
 app.use(cors()); //see line 3 (modified by gio, originally use(cors))
+app.use(morgan('dev'));
 
 // Connect to mongodb, (you need to set your ip on mongodb site in order to run this successfully)
 mongoose.connect(
@@ -46,12 +53,12 @@ app.post('/register', (req: Request, res: Response) => { //post requests to eatc
  
 // TODO: check if user is already in DB, if yes then don't create new user.
 // app.post("/getUserID", async (req: Request, res: Response) => { //post requests to eatcode.com/login
-app.post("/login", async (req: Request, res: Response) => {
+app.post("/login", (req: Request, res: Response) => {
   const token = req.body.token;
   const decoded = jwt.decode(token);
   console.log(decoded);
 
-  UserModel.find({userID:decoded.sub}, (err: Error, result: Array<typeof UserModel>) => { 
+  UserModel.find({userID:decoded.sub}, async (err: Error, result: Array<typeof UserModel>) => { 
     if (err) {
       res.json(err);
     } else if (result.length == 0){
@@ -61,10 +68,12 @@ app.post("/login", async (req: Request, res: Response) => {
         email: decoded.email,
       };
       const newUser = new UserModel(user);
-      newUser.save();
+      await newUser.save();
+      res.json({sub:decoded.sub});
+    } else {
+      res.json({sub:decoded.sub});
     }
   });
-  res.json({sub:decoded.sub});
 });
 
 app.post("/create", async (req: Request, res: Response) => {
@@ -103,8 +112,30 @@ app.post('/problems', async (req: Request, res: Response, next) => { //post requ
   }
 });
 
-app.post('/createSolution', (req: Request, res: Response) => { 
-  
+app.post('/createSolution', async (req: Request, res: Response) => { 
+  if (!req.files) {
+    res.sendStatus(404);   
+  } else {
+    let file = req.files.zippedFile as fileUpload.UploadedFile;
+    let questionID = req.body.id;
+
+    const zippedFile = {
+      testCasesZipped: file.data,
+      id: questionID
+    };
+    const newTestCasesZipped = new TestCasesZippedModel(zippedFile);
+    await newTestCasesZipped.save();
+
+    res.send({
+      status: true,
+      message: 'File is uploaded',
+      data: {
+          name: file.name,
+          mimetype: file.mimetype,
+          size: file.size
+      }
+    });
+  }
 })
 
 app.listen(port, () => { //server listens to requests on port {port}

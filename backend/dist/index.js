@@ -17,16 +17,22 @@ const dotenv_1 = __importDefault(require("dotenv")); //allows use of enviroment 
 const cors_1 = __importDefault(require("cors")); //cross origin resource sharing middleware
 const test_user_code_1 = __importDefault(require("./test-user-code"));
 const problem_data_json_1 = __importDefault(require("./problem-data.json"));
+const express_fileupload_1 = __importDefault(require("express-fileupload"));
 const mongoose = require('mongoose');
 const jwt = require("jsonwebtoken");
+const morgan = require('morgan');
 const UserModel = require('../models/Users');
 const ProblemModel = require('../models/Problems.js');
-const TestCasesModel = require('../models/Tests.js');
+const TestCasesZippedModel = require('../models/Tests.js');
 dotenv_1.default.config(); //load .env file
 const app = (0, express_1.default)(); //see line 1
-const port = process.env.PORT; //see line 2
+const port = process.env.PORT || 3002; //see line 2
+app.use((0, express_fileupload_1.default)({
+    createParentPath: true
+}));
 app.use(express_1.default.json());
 app.use((0, cors_1.default)()); //see line 3 (modified by gio, originally use(cors))
+app.use(morgan('dev'));
 // Connect to mongodb, (you need to set your ip on mongodb site in order to run this successfully)
 mongoose.connect(process.env.MONGO_DB_CONNECT);
 app.get('/', (req, res) => {
@@ -47,11 +53,11 @@ app.post('/register', (req, res) => {
 });
 // TODO: check if user is already in DB, if yes then don't create new user.
 // app.post("/getUserID", async (req: Request, res: Response) => { //post requests to eatcode.com/login
-app.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.post("/login", (req, res) => {
     const token = req.body.token;
     const decoded = jwt.decode(token);
     console.log(decoded);
-    UserModel.find({ userID: decoded.sub }, (err, result) => {
+    UserModel.find({ userID: decoded.sub }, (err, result) => __awaiter(void 0, void 0, void 0, function* () {
         if (err) {
             res.json(err);
         }
@@ -62,11 +68,14 @@ app.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                 email: decoded.email,
             };
             const newUser = new UserModel(user);
-            newUser.save();
+            yield newUser.save();
+            res.json({ sub: decoded.sub });
         }
-    });
-    res.json({ sub: decoded.sub });
-}));
+        else {
+            res.json({ sub: decoded.sub });
+        }
+    }));
+});
 app.post("/create", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const lastPost = yield ProblemModel.find().sort({ _id: -1 }).limit(1);
     const inputs = req.body;
@@ -99,8 +108,30 @@ app.post('/problems', (req, res, next) => __awaiter(void 0, void 0, void 0, func
         return next(error);
     }
 }));
-app.post('/createSolution', (req, res) => {
-});
+app.post('/createSolution', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    if (!req.files) {
+        res.sendStatus(404);
+    }
+    else {
+        let file = req.files.zippedFile;
+        let questionID = req.body.id;
+        const zippedFile = {
+            testCasesZipped: file.data,
+            id: questionID
+        };
+        const newTestCasesZipped = new TestCasesZippedModel(zippedFile);
+        yield newTestCasesZipped.save();
+        res.send({
+            status: true,
+            message: 'File is uploaded',
+            data: {
+                name: file.name,
+                mimetype: file.mimetype,
+                size: file.size
+            }
+        });
+    }
+}));
 app.listen(port, () => {
     console.log(`listening ${port}`);
 });
