@@ -4,7 +4,7 @@
 # So we write 'python' for the image name and 'latest' for the version.
 FROM python:latest
 
-ARG SOLUTION_FILE=solution.py
+ARG SOLUTION_FILE=solution.py TEST_FOLDER=tests/
 
 WORKDIR /project
 
@@ -15,7 +15,7 @@ WORKDIR /project
 # Here we put the file at the image root folder.
 COPY main.py requirements.txt ./
 COPY $SOLUTION_FILE ./solution.py
-COPY tests/ tests/
+COPY $TEST_FOLDER tests/
 
 RUN pip3 install -r requirements.txt
 

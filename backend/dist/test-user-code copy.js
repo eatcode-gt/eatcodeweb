@@ -8,14 +8,10 @@ tests) {
     // let code: string = userCode + "/n/n"; //'code' will be the user's submitted McProblem() function + function calls that check if the user's functions provides expected outputs when given arguments defined in problem-data.json
     let code = userCode;
     fs.writeFile('myfirstdocker/solFiles/solution.py', code, 'utf-8', (err) => {
-        if (err)
-            console.log("Error Loading solution file:", err);
+        console.log(err);
     });
     const solutionFile = "solFiles/solution.py";
-    // fetchTestCases()
-    const testFolder = "TestCases/sampleQuestion";
-    const cmd = "sh myfirstdocker/run.sh " + solutionFile + " " + testFolder;
-    console.log("Running problem on server.");
+    const cmd = "sh myfirstdocker/run.sh " + solutionFile;
     return new Promise(resolve => {
         exec(cmd, (error, stdout, stderr) => {
             if (error) {

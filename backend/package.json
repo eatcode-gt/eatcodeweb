@@ -1,13 +1,18 @@
 {
   "dependencies": {
+    "@types/express-fileupload": "^1.4.1",
+    "body-parser": "^1.20.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.2",
     "express": "^4.18.1",
+    "express-fileupload": "^1.4.0",
     "file-saver": "^2.0.5",
     "fs": "0.0.1-security",
     "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21",
     "mongodb": "^4.10.0",
     "mongoose": "^6.6.2",
+    "morgan": "^1.10.0",
     "tmp": "^0.2.1"
   },
   "devDependencies": {
@@ -20,7 +25,7 @@
     "typescript": "^4.8.3"
   },
   "scripts": {
-    "build": "npx tsc",
+    "build": "npx tsc --watch",
     "start": "nodemon dist/index.js",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\""
   }

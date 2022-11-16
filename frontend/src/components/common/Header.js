@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { colors } from '../../global/colors';
+import { colors } from '../../global/vars';
 import UserNameBox from './UserNameBox';
 
 const Header = ({user}) => {

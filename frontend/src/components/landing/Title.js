@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { colors } from '../../global/colors';
+import { colors } from '../../global/vars';
 
 const Title = () => {
   const [titleHover, setTitleHover] = useState(false);

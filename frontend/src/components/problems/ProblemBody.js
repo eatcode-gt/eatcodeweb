@@ -1,65 +1,79 @@
 import React from 'react'
-import { useState, useEffect } from 'react'
-import Axios from "axios";
 import Problem from './Problem'
-import { Scrollbars } from 'react-custom-scrollbars';
+import Peppers from './Peppers'
+import { colors, diffMap } from '../../global/vars'
+import diffData from './diffData.json'
+import Button from '../common/Button'
 
-
-const ProblemBody = () => {
-  const [listOfProblems, setListOfProblems] = useState([
-    {id: 1, name: "McProblem", diff: 0, status: 2},
-    {id: 2, name: "Reverse Order List", diff: 1, status: 1},
-    {id: 3, name: "Reverse Burger", diff: 2, status: 0},
-    {id: 4, name: "Taste(x, n)", diff: 0, status: 0},
-    {id: 5, name: "Roman Cafe", diff: 1, status: 2},
-    {id: 6, name: "Longest Common Topping", diff: 2, status: 0},
-    {id: 7, name: "Cup With Most Smoothie", diff: 2, status: 1},
-    {id: 8, name: "Valid Sandwich", diff: 1, status: 2},
-    {id: 9, name: "Remove Topping", diff: 2, status: 0},
-    {id: 10, name: "Longest Valid Sandwich", diff: 2, status: 2},
-    {id: 11, name: "Delete Topping in Linked Burger", diff: 0, status: 1},
-    {id: 12, name: "Trapping Maple Syrup", diff: 0, status: 2},
-    {id: 13, name: "Gray Apple", diff: 1, status: 2},
-    {id: 14, name: "X Salad Intervals", diff: 1, status: 0},
-    {id: 15, name: "Merge Favorite Foods", diff: 1, status: 1},
-    {id: 16, name: "Linked Pizzа", diff: 2, status: 0},
-    {id: 17, name: "Reverse Binary Burger", diff: 0, status: 1},
-    {id: 18, name: "Sus", diff: 1, status: 2},
-    {id: 19, name: "Burger", diff: 2, status: 2},
-    {id: 20, name: "Two Burger", diff: 1, status: 2},
-    {id: 21, name: "Mongo Burger", diff: 2, status: 0},
-  ]);
-
-  useEffect(() => {
-    Axios.get("http://localhost:3002/problems").then((response) => {
-      setListOfProblems(response.data.result);
-    });
-  }, []);
+const ProblemBody = ({ i, props }) => {
+  const userDiffObject = [3, 1, 0, 5]
 
   const styles = {
+    container: {
+      display: 'flex'
+    },
+    left: {
+      width: 'calc(50vw - 6em)',
+      height: '100%',
+      padding: '3em',
+      display: 'flex'
+    },
     grid: {
+      width: '50vw',
       display: 'flex',
-      gap: '1em',
+      gap: '2em',
       padding: '0em 1em',
       flexDirection: 'column',
+      maxHeight: '58em',
+      overflowX: 'scroll'
     },
     scroll: {
       width: '100vw',
       minHeight: '100vh',
       height: 'auto'
+    },
+    diffTitle: {
+      color: colors[props.diff],
+    },
+    companyCont: {
+      display: 'flex',
+      marginTop: '1em',
+      gap: '1em'
+    },
+    pepperCont: {
+      minHeight: '100%',
+      display: 'flex',
+      alignItems: 'center'
     }
   }
 
   return (
-    <Scrollbars style={styles.scroll}>
+    <div key={i} style={styles.container}>
+      <div style={styles.left}>
+        <div>
+          <h2 style={styles.diffTitle}>{props.diff}</h2>
+          <p>{diffData[props.diff].desc}</p>
+          <h3>{props.diff}s eaten: {userDiffObject[diffMap.indexOf(props.diff)]}</h3>
+          <div style={styles.companyCont}>
+            {diffData[props.diff].companies.map((problem) => {
+              return (
+                <Button key={problem} text={problem} color={colors[props.diff]} />
+              );
+            })}
+          </div>
+        </div>
+        <div style={styles.pepperCont}>
+          <Peppers diff={props.diff} />
+        </div>
+      </div>
       <div style={styles.grid}>
-        {listOfProblems.map((problem) => {
+        {props.problems.map((problem) => {
           return (
             <Problem key={problem.id} problem={problem} />
           );
         })}
       </div>
-    </Scrollbars>
+    </div>
   )
 }
 
