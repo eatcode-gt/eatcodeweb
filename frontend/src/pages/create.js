@@ -47,6 +47,7 @@ const Create = () => {
   }
   
   const UserContext = createContext()
+  const [file, setFile] = useState(null);
   const [inputs, setInputs] = useState({
     difficulty: 1,
     time: 1,
@@ -59,32 +60,75 @@ const Create = () => {
     setInputs(values => ({...values, [name]: value}));
   }
 
+  const handleChangeFile = (event) => {
+    setFile(event.target.files[0]);
+  }
+
+  const checkSubmit = () => {
+    
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    Axios.post("http://localhost:3002/create", {
-      name: inputs.name,
-      diff: inputs.difficulty,
-      time: inputs.time,
-      memory: inputs.memory,
-      status: 0,
-      text: inputs.problemText,
-      input: inputs.input,
-      output: inputs.output,
-      example: {
-        exampleInput: inputs.exampleInput,
-        exampleOutput: inputs.exampleOutput,
-        exampleText: inputs.exampleText,
-      },
-      numberOfAttemptedUsers: 0,
-      numberOfSolvedUsers: 0,
-    }).then((response) => {
-      console.log("Created Problem");
-      setInputs({
-        difficulty: 1,
-        time: 1,
-        memory: 256,
-      });
-    });
+    checkSubmit();
+    let lastPostID = -1;
+    Axios.get("http://localhost:3002/findLastPost").then((response) => {
+      lastPostID = response.data.id;
+      Axios.post("http://localhost:3002/create", {
+        id: lastPostID,
+        name: inputs.name,
+        diff: inputs.difficulty,
+        time: inputs.time,
+        memory: inputs.memory,
+        status: 0,
+        text: inputs.problemText,
+        input: inputs.input,
+        output: inputs.output,
+        example: {
+          exampleInput: inputs.exampleInput,
+          exampleOutput: inputs.exampleOutput,
+          exampleText: inputs.exampleText,
+        },
+        numberOfAttemptedUsers: 0,
+        numberOfSolvedUsers: 0,
+      }).then((response) => {
+        console.log("Created Problem");
+        setInputs({
+          difficulty: 1,
+          time: 1,
+          memory: 256,
+        });
+        setFile();
+
+        const config = {
+          headers: {
+            'content-type': 'multipart/form-data',
+          },
+        };
+
+        const fileData = new FormData();
+        console.log(file);
+        fileData.append("zippedFile", file);
+        fileData.append("id", lastPostID);
+        for (let pair of fileData.entries()) {
+          console.log(pair[0]+ ', ' + pair[1]); 
+        }
+
+        Axios.post("http://localhost:3002/createFiles", fileData, config).then((response) => {
+          console.log(response.data);
+        }).catch((error) => {
+          console.log("Something went wrong with Problem Files");
+          console.log(error);
+        })
+
+      }).catch((error) => {
+        console.log("Something went wrong with Problem Data");
+        console.log(error);
+      })
+    }).catch((error) => {
+      console.log("Something went wrong with retrieving last problem index");
+      console.log(error);
+    })
   };
 
   return (
@@ -179,6 +223,7 @@ const Create = () => {
               value={inputs.exampleText || ""}
               onChange={handleChange}
             /> 
+          <input type="file" accept=".zip,.7zip" onChange={handleChangeFile} />
           <input type="submit" onSubmit={handleSubmit}/>
         </form>
       </div>
