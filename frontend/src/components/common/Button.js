@@ -16,7 +16,7 @@ const Button = ({onClick, color, text}) => {
       padding: '0.8em 1.2em',
       width: '100%',
       backgroundColor: btnHover ? colors.black : color,
-      transition: 'all 0.27s ease',
+      transition: 'all 0.33s ease',
       cursor: 'pointer'
     },
     text: {

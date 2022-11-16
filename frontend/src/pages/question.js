@@ -1,5 +1,5 @@
 import React from 'react'
-import { colors } from '../global/vars'
+import { colors, diffMap } from '../global/vars'
 import { useLocation } from 'react-router-dom'
 import { useState, createContext  } from 'react'
 import CodeArea from '../components/create/CodeArea'
@@ -29,30 +29,6 @@ const Question = () => {
       height: '100%'
     }
   }
-  const [code, setCode] = useState(`def add(a, b):\n  return a + b;\n`);
-  const [result, setResult] = useState("");
-  const [finalResult, setFinalResult] = useState("Raw");
-
-  const handleOnChange = (event) => {
-    setCode(event.target.value);
-  }
-
-  const handleSubmit = () => {
-    console.log("Submitted Problem");
-    setFinalResult("Pending");
-    setResult("");
-    Axios.post("http://localhost:3002/problems", {
-      userCode: code, 
-      userLanguage: "python", 
-      questionID: 0
-    }).then((response) => {
-      console.log("#",response.data,"#");
-      const finalWord = response.data.split("\n");
-      setFinalResult(finalWord[finalWord.length - 1])
-      setResult(response.data);
-    });
-  }
-  
 
   const UserContext = createContext()
   const problem = useLocation().state.problem
@@ -66,6 +42,7 @@ const Question = () => {
       </div>
       <div style={styles.right}>
         <CodeArea 
+          color={colors[diffMap[problem.diff]]}
           style={styles.textarea}
           //moved code={code} setCode={setCode} to CodeArea.js
         />

@@ -3,7 +3,9 @@ import Axios from 'axios'
 import Button from '../common/Button'
 import { useState } from 'react'
 import { colors } from '../../global/vars'
-export default function CodeArea() {
+import TestResultBar from './TestResultBar'
+
+export default function CodeArea({color}) {
   const [code, setCode] = useState(`def add(a, b):\n  return a + b;\n`);
   const [result, setResult] = useState("");
   const [finalResult, setFinalResult] = useState("Raw");
@@ -35,6 +37,11 @@ export default function CodeArea() {
       width: '100%',
       gap: '2em',
       justifyContent: 'space-between'
+    },
+    testGrid: {
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr',
+      gap: '1.5em'
     }
   }
 
@@ -47,12 +54,22 @@ export default function CodeArea() {
       style={styles.codeEditor}
     />
     <div style={styles.buttonDiv}>
-      <Button onClick={handleSubmit} color={colors.accent1} text={"get cookin"} />
-      <Button onClick={handleSubmit} color={colors.hover} text={"stess ball"} />
-      <Button onClick={handleSubmit} color={colors.accent2} text={"see solution"} />
+      <Button onClick={handleSubmit} color={color} text={"get cookin"} />
+      <Button onClick={handleSubmit} color={colors.cooked} text={"see solution"} />
     </div>
     <h5>Result: {finalResult}</h5>
-    <pre>{result}</pre>
+    <div style={styles.testGrid}>
+      <TestResultBar number={1} passed={true}/>
+      <TestResultBar number={2} passed={true}/>
+      <TestResultBar number={3} passed={false}/>
+      <TestResultBar number={4} passed={true}/>
+      <TestResultBar number={5} passed={true}/>
+      <TestResultBar number={6} passed={false}/>
+      <TestResultBar number={7} passed={true}/>
+      <TestResultBar number={8} passed={false}/>
+      <TestResultBar number={9} passed={false}/>
+      <TestResultBar number={9} passed={false}/>
+    </div>
     </>
   );
 }
