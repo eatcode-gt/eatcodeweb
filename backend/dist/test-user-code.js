@@ -13,7 +13,7 @@ tests) {
     });
     const solutionFile = "solFiles/solution.py";
     // fetchTestCases()
-    const testFolder = "tests/";
+    const testFolder = "TestCases/sampleQuestion";
     const cmd = "sh myfirstdocker/run.sh " + solutionFile + " " + testFolder;
     console.log("Running problem on server.");
     return new Promise(resolve => {

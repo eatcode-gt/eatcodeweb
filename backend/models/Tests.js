@@ -19,5 +19,18 @@ const TestCasesSchema = new mongoose.Schema({
   },
 });
 
+const TestCasesZippedSchema = new mongoose.Schema({
+  testCasesZipped: {
+    type: Buffer,
+    required: true,
+  },
+  id: {
+    type: Number,
+    required: true,
+  },
+});
+
 const TestCasesModel = mongoose.model("testCases", TestCasesSchema);
-module.exports = TestModel;
+const TestCasesZippedModel = mongoose.model("zipped_test_cases", TestCasesZippedSchema);
+
+module.exports = TestCasesZippedModel;
