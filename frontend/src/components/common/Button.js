@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { colors } from '../../global/vars';
 
-const Button = (props) => {
+const Button = ({onClick, color, text}) => {
   const [btnHover, setBtnHover] = useState(false);
   const handleMouseEnter = () => {
     setBtnHover(true);
@@ -15,7 +15,7 @@ const Button = (props) => {
       cursor: 'default',
       padding: '0.8em 1.2em',
       width: '100%',
-      backgroundColor: btnHover ? colors.black : props.color,
+      backgroundColor: btnHover ? colors.black : color,
       transition: 'all 0.27s ease',
       cursor: 'pointer'
     },
@@ -26,8 +26,8 @@ const Button = (props) => {
   }
 
   return (
-    <div style={styles.container} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-        <h4 style={styles.text}>{props.text}</h4>
+    <div style={styles.container} onClick={onClick} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+        <h4 style={styles.text}>{text}</h4>
     </div>
   )
 }

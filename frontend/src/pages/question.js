@@ -48,12 +48,13 @@ const Question = () => {
   const handleSubmit = () => {
     console.log("Submitted Problem");
     setFinalResult("Pending");
+    setResult("");
     Axios.post("http://localhost:3002/problems", {
       userCode: code, 
       userLanguage: "python", 
       questionID: 0
     }).then((response) => {
-      console.log(response.data);
+      console.log("#",response.data,"#");
       const finalWord = response.data.split("\n");
       setFinalResult(finalWord[finalWord.length - 1])
       setResult(response.data);
