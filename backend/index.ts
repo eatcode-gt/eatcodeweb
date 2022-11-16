@@ -4,11 +4,13 @@ import cors from 'cors'; //cross origin resource sharing middleware
 import testUserCode from './test-user-code'
 import problemData from './problem-data.json';
 import { mongo } from 'mongoose';
+import { nextTick } from 'process';
 
 const mongoose = require('mongoose');
 const jwt = require("jsonwebtoken");
 const UserModel = require('../models/Users');
-const ProblemModel = require('../models/Problems.js')
+const ProblemModel = require('../models/Problems.js');
+const TestCasesModel = require('../models/Tests.js');
 
 dotenv.config(); //load .env file
 
@@ -80,7 +82,7 @@ app.post("/create", async (req: Request, res: Response) => {
 app.post('/userInfo', (req: Request, res: Response) => {
   const userSub = req.body.sub;
   console.log(userSub);
-  UserModel.find({userID:userSub}, async (err: Error, result: Array<typeof UserModel>) => { 
+  UserModel.find({userID:userSub}, (err: Error, result: Array<typeof UserModel>) => { 
     if (err) {
       res.json(err);
     } else {
@@ -90,12 +92,20 @@ app.post('/userInfo', (req: Request, res: Response) => {
 });
 
 
-app.post('/problems', async (req: Request, res: Response) => { //post requests to eatcode.com/problems
+app.post('/problems', async (req: Request, res: Response, next) => { //post requests to eatcode.com/problems
   const { userCode, userLanguage, questionID }: { userCode: string, userLanguage: string, questionID: number } = req.body; //destructure POST from client
   const { questionName, tests }: { questionName: string, tests: Array<any> } = problemData.problems[questionID]; //pull question data from json
-  let result = await testUserCode(userLanguage, userCode, questionName, tests); //abstraction to test code against cases
-  res.end(result); //send result back to client
+  try {
+    let result = await testUserCode(userLanguage, userCode, questionName, tests); //abstraction to test code against cases
+    res.end(result); //send result back to client
+  } catch (error) {
+    return next(error);
+  }
 });
+
+app.post('/createSolution', (req: Request, res: Response) => { 
+  
+})
 
 app.listen(port, () => { //server listens to requests on port {port}
   console.log(`listening ${port}`);

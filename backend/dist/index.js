@@ -21,6 +21,7 @@ const mongoose = require('mongoose');
 const jwt = require("jsonwebtoken");
 const UserModel = require('../models/Users');
 const ProblemModel = require('../models/Problems.js');
+const TestCasesModel = require('../models/Tests.js');
 dotenv_1.default.config(); //load .env file
 const app = (0, express_1.default)(); //see line 1
 const port = process.env.PORT; //see line 2
@@ -78,21 +79,28 @@ app.post("/create", (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 app.post('/userInfo', (req, res) => {
     const userSub = req.body.sub;
     console.log(userSub);
-    UserModel.find({ userID: userSub }, (err, result) => __awaiter(void 0, void 0, void 0, function* () {
+    UserModel.find({ userID: userSub }, (err, result) => {
         if (err) {
             res.json(err);
         }
         else {
             res.json({ result: result });
         }
-    }));
+    });
 });
-app.post('/problems', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.post('/problems', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { userCode, userLanguage, questionID } = req.body; //destructure POST from client
     const { questionName, tests } = problem_data_json_1.default.problems[questionID]; //pull question data from json
-    let result = yield (0, test_user_code_1.default)(userLanguage, userCode, questionName, tests); //abstraction to test code against cases
-    res.end(result); //send result back to client
+    try {
+        let result = yield (0, test_user_code_1.default)(userLanguage, userCode, questionName, tests); //abstraction to test code against cases
+        res.end(result); //send result back to client
+    }
+    catch (error) {
+        return next(error);
+    }
 }));
+app.post('/createSolution', (req, res) => {
+});
 app.listen(port, () => {
     console.log(`listening ${port}`);
 });

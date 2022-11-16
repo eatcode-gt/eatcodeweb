@@ -20,4 +20,4 @@ const TestCasesSchema = new mongoose.Schema({
 });
 
 const TestCasesModel = mongoose.model("testCases", TestCasesSchema);
-module.exports = TestModel;
+module.exports = TestCasesModel;
