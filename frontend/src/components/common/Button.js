@@ -26,7 +26,7 @@ const Button = ({onClick, color, text}) => {
   }
 
   return (
-    <div style={styles.container} onClick={onClick} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+    <div onClick={onClick} style={styles.container} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
         <h4 style={styles.text}>{text}</h4>
     </div>
   )
