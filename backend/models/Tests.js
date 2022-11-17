@@ -1,32 +1,33 @@
 const mongoose = require('mongoose');
 
-const TestCaseSchema = new mongoose.Schema({
-  inputFile: {
-    type: Buffer,
-    required: true,
-  },
-  outputFile: {
-    type: Buffer,
-    required: true,
-  },
-});
+// const TestCaseSchema = new mongoose.Schema({
+//   inputFile: {
+//     type: Buffer,
+//     required: true,
+//   },
+//   outputFile: {
+//     type: Buffer,
+//     required: true,
+//   },
+// });
 
-const TestCasesSchema = new mongoose.Schema({
-  testCases: [TestCaseSchema],
-  id: {
-    type: Number,
-    required: true,
-  },
-});
+// const TestCasesSchema = new mongoose.Schema({
+//   testCases: [TestCaseSchema],
+//   id: {
+//     type: Number,
+//     required: true,
+//   },
+// });
 
 const TestCasesZippedSchema = new mongoose.Schema({
   testCasesZipped: {
     type: Buffer,
     required: true,
   },
-  id: {
+  questionID: {
     type: Number,
     required: true,
+    unique: true,
   },
 });
 

@@ -16,9 +16,9 @@ const express_1 = __importDefault(require("express")); //server manager in js
 const dotenv_1 = __importDefault(require("dotenv")); //allows use of enviroment variables in ./.env
 const cors_1 = __importDefault(require("cors")); //cross origin resource sharing middleware
 const test_user_code_1 = __importDefault(require("./test-user-code"));
-const problem_data_json_1 = __importDefault(require("./problem-data.json"));
+// import problemData from './problem-data.json';
 const express_fileupload_1 = __importDefault(require("express-fileupload"));
-const mongoose = require('mongoose');
+const database_1 = __importDefault(require("./database"));
 const jwt = require("jsonwebtoken");
 const morgan = require('morgan');
 const UserModel = require('../models/Users');
@@ -33,8 +33,6 @@ app.use((0, express_fileupload_1.default)({
 app.use(express_1.default.json());
 app.use((0, cors_1.default)()); //see line 3 (modified by gio, originally use(cors))
 app.use(morgan('dev'));
-// Connect to mongodb, (you need to set your ip on mongodb site in order to run this successfully)
-mongoose.connect(process.env.MONGO_DB_CONNECT);
 app.get('/', (req, res) => {
     res.send('placeholder');
 });
@@ -125,9 +123,9 @@ app.post('/userInfo', (req, res) => {
 });
 app.post('/problems', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { userCode, userLanguage, questionID } = req.body; //destructure POST from client
-    const { questionName, tests } = problem_data_json_1.default.problems[questionID]; //pull question data from json
+    // const { questionName, tests }: { questionName: string, tests: Array<any> } = problemData.problems[questionID]; //pull question data from json
     try {
-        let result = yield (0, test_user_code_1.default)(userLanguage, userCode, questionName, tests); //abstraction to test code against cases
+        let result = yield (0, test_user_code_1.default)(userLanguage, userCode, questionID); //abstraction to test code against cases
         res.end(result); //send result back to client
     }
     catch (error) {
@@ -136,4 +134,12 @@ app.post('/problems', (req, res, next) => __awaiter(void 0, void 0, void 0, func
 }));
 app.listen(port, () => {
     console.log(`listening ${port}`);
+});
+database_1.default.connect();
+database_1.default.runCommand({
+    collMod: "zipped_test_cases",
+    index: {
+        keyPattern: id,
+        unique: true // Convert an index to a unique index
+    }
 });

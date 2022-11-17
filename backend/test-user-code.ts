@@ -2,18 +2,21 @@ import fetchTestCases from "./fetchTestCase";
 
 const fs = require('fs')
 const { exec } = require("child_process");
-export default function testUserCode(userLanguage: string, //see switch statement line 12
+export default async function testUserCode(userLanguage: string, //see switch statement line 12
                                     userCode: string,
-                                    questionName: string, //is the same name as the function that the user writes the answer in
-                                    tests: Array<any>): any { //contains the parameters and the expected outputs
+                                    questionID: number): Promise<any> { //contains the parameters and the expected outputs
     // let code: string = userCode + "/n/n"; //'code' will be the user's submitted McProblem() function + function calls that check if the user's functions provides expected outputs when given arguments defined in problem-data.json
     let code: string = userCode;
     fs.writeFile('myfirstdocker/solFiles/solution.py', code, 'utf-8', (err: any) => {
         if (err) console.log("Error Loading solution file:", err);
     })
     const solutionFile = "solFiles/solution.py";
-    // fetchTestCases()
-    const testFolder = "TestCases/sampleQuestion"
+    try {
+        await fetchTestCases(questionID);
+    } catch (error) {
+        throw 'Error while fetching test case from DB!';
+    }
+    const testFolder = "TestCases/" + questionID;
     const cmd = "sh myfirstdocker/run.sh " + solutionFile + " " + testFolder;
     
     console.log("Running problem on server.");

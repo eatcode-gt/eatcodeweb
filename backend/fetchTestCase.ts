@@ -13,7 +13,21 @@ mongoose.connect(
 
 TestCasesModel
 
-export default function fetchTestCases(problemId: number): any { //contains the parameters and the expected outputs
-    // let code: string = userCode + "/n/n"; //'code' will be the user's submitted McProblem() function + function calls that check if the user's functions provides expected outputs when given arguments defined in problem-data.json
-    
+export default function fetchTestCases(questionID: number): any { 
+    TestCasesModel.findOne({questionID:questionID}, async (err: Error, result: typeof TestCasesModel | any[]) => { 
+        if (err) {
+            throw 'Error';
+        } else if (result.length == 0){
+          const user = {
+            userID: decoded.sub,
+            name: decoded.name,
+            email: decoded.email,
+          };
+          const newUser = new UserModel(user);
+          await newUser.save();
+          res.json({sub:decoded.sub});
+        } else {
+          res.json({sub:decoded.sub});
+        }
+      });
 }

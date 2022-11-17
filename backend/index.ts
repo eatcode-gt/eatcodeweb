@@ -2,11 +2,10 @@ import express, { Express, Request, Response } from 'express'; //server manager 
 import dotenv from 'dotenv'; //allows use of enviroment variables in ./.env
 import cors from 'cors'; //cross origin resource sharing middleware
 import testUserCode from './test-user-code'
-import problemData from './problem-data.json';
-import { mongo } from 'mongoose';
+// import problemData from './problem-data.json';
 import fileUpload from 'express-fileupload';
+import database from './database';
 
-const mongoose = require('mongoose');
 const jwt = require("jsonwebtoken");
 const morgan = require('morgan');
 
@@ -27,11 +26,6 @@ app.use(fileUpload({
 app.use(express.json());
 app.use(cors()); //see line 3 (modified by gio, originally use(cors))
 app.use(morgan('dev'));
-
-// Connect to mongodb, (you need to set your ip on mongodb site in order to run this successfully)
-mongoose.connect(
-  process.env.MONGO_DB_CONNECT
-);
 
 app.get('/', (req: Request, res: Response) => { //get requests to eatcode.com/
   res.send('placeholder'); 
@@ -130,9 +124,9 @@ app.post('/userInfo', (req: Request, res: Response) => {
 
 app.post('/problems', async (req: Request, res: Response, next) => { //post requests to eatcode.com/problems
   const { userCode, userLanguage, questionID }: { userCode: string, userLanguage: string, questionID: number } = req.body; //destructure POST from client
-  const { questionName, tests }: { questionName: string, tests: Array<any> } = problemData.problems[questionID]; //pull question data from json
+  // const { questionName, tests }: { questionName: string, tests: Array<any> } = problemData.problems[questionID]; //pull question data from json
   try {
-    let result = await testUserCode(userLanguage, userCode, questionName, tests); //abstraction to test code against cases
+    let result = await testUserCode(userLanguage, userCode, questionID); //abstraction to test code against cases
     res.end(result); //send result back to client
   } catch (error) {
     return next(error);
@@ -143,3 +137,12 @@ app.post('/problems', async (req: Request, res: Response, next) => { //post requ
 app.listen(port, () => { //server listens to requests on port {port}
   console.log(`listening ${port}`);
 }); 
+
+database.connect();
+database.runCommand( {
+  collMod: "zipped_test_cases",
+  index: {
+     keyPattern: id,     // Reject new duplicate index entries
+     unique: true             // Convert an index to a unique index
+  }
+} )
