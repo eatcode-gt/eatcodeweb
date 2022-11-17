@@ -47,7 +47,7 @@ const Create = () => {
   }
   
   const UserContext = createContext()
-  const [file, setFile] = useState(null);
+  const fileInput = document.getElementById('fileInput');
   const [inputs, setInputs] = useState({
     difficulty: 1,
     time: 1,
@@ -60,24 +60,18 @@ const Create = () => {
     setInputs(values => ({...values, [name]: value}));
   }
 
-  const handleChangeFile = (event) => {
-    setFile(event.target.files[0]);
-  }
-
   const resetForm = () => {
     setInputs({
       difficulty: 1,
       time: 1,
       memory: 256,
     });
-    setFile();
-    const fileInput = document.getElementById('fileInput');
     fileInput.value = "";
   }
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (file === undefined || file === null) {
+    if (fileInput.value === null || fileInput.value === "") {
       alert("Please submit a file");
       return;
     }
@@ -111,7 +105,7 @@ const Create = () => {
         };
 
         const fileData = new FormData();
-        fileData.append("zippedFile", file);
+        fileData.append("zippedFile", fileInput.files[0]);
         fileData.append("id", lastPostID);
 
 
@@ -227,7 +221,7 @@ const Create = () => {
               onChange={handleChange}
             /> 
           <label style={styles.label}>Choose a zip file with all the test cases</label>
-          <input id='fileInput' type="file" name='file' accept=".zip,.7zip" onChange={handleChangeFile} />
+          <input id='fileInput' type="file" name='file' accept=".zip,.7zip" />
           <input type="submit" onSubmit={handleSubmit}/>
         </form>
       </div>
