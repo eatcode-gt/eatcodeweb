@@ -64,13 +64,23 @@ const Create = () => {
     setFile(event.target.files[0]);
   }
 
-  const checkSubmit = () => {
-    
+  const resetForm = () => {
+    setInputs({
+      difficulty: 1,
+      time: 1,
+      memory: 256,
+    });
+    setFile();
+    const fileInput = document.getElementById('fileInput');
+    fileInput.value = "";
   }
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    checkSubmit();
+    if (file === undefined || file === null) {
+      alert("Please submit a file");
+      return;
+    }
     let lastPostID = -1;
     Axios.get("http://localhost:3002/findLastPost").then((response) => {
       lastPostID = response.data.id;
@@ -93,12 +103,6 @@ const Create = () => {
         numberOfSolvedUsers: 0,
       }).then((response) => {
         console.log("Created Problem");
-        setInputs({
-          difficulty: 1,
-          time: 1,
-          memory: 256,
-        });
-        setFile();
 
         const config = {
           headers: {
@@ -107,12 +111,9 @@ const Create = () => {
         };
 
         const fileData = new FormData();
-        console.log(file);
         fileData.append("zippedFile", file);
         fileData.append("id", lastPostID);
-        for (let pair of fileData.entries()) {
-          console.log(pair[0]+ ', ' + pair[1]); 
-        }
+
 
         Axios.post("http://localhost:3002/createFiles", fileData, config).then((response) => {
           console.log(response.data);
@@ -120,6 +121,8 @@ const Create = () => {
           console.log("Something went wrong with Problem Files");
           console.log(error);
         })
+
+        resetForm();
 
       }).catch((error) => {
         console.log("Something went wrong with Problem Data");
@@ -223,7 +226,8 @@ const Create = () => {
               value={inputs.exampleText || ""}
               onChange={handleChange}
             /> 
-          <input type="file" accept=".zip,.7zip" onChange={handleChangeFile} />
+          <label style={styles.label}>Choose a zip file with all the test cases</label>
+          <input id='fileInput' type="file" name='file' accept=".zip,.7zip" onChange={handleChangeFile} />
           <input type="submit" onSubmit={handleSubmit}/>
         </form>
       </div>
