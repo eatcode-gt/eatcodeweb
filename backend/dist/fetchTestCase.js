@@ -33,11 +33,9 @@ function fetchTestCases(questionID) {
                     continue;
                 }
                 else if (item.dir) {
-                    yield fs.exists(path.join(testCasesFolder, item.name), (exists) => {
-                        if (!exists) {
-                            fs.mkdirSync(path.join(testCasesFolder, item.name));
-                        }
-                    });
+                    const exists = fs.existsSync(path.join(testCasesFolder, item.name));
+                    if (!exists)
+                        fs.mkdirSync(path.join(testCasesFolder, item.name));
                 }
                 else {
                     fs.writeFileSync(path.join(testCasesFolder, item.name), Buffer.from(yield item.async("arraybuffer")));

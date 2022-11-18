@@ -21,11 +21,8 @@ export default async function fetchTestCases(questionID: number): Promise<any> {
             if (item.name.slice(0,9) == "__MACOSX/"){
                 continue; 
             } else if (item.dir) {
-                await fs.exists(path.join(testCasesFolder, item.name), (exists: any) => {
-                    if (!exists) {
-                        fs.mkdirSync(path.join(testCasesFolder, item.name));
-                    }
-                }); 
+                const exists = fs.existsSync(path.join(testCasesFolder, item.name)); 
+                if (!exists) fs.mkdirSync(path.join(testCasesFolder, item.name));
             } else {
                 fs.writeFileSync(path.join(testCasesFolder, item.name), Buffer.from(await item.async("arraybuffer")));
             } 
