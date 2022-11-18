@@ -76,7 +76,7 @@ app.post("/login", (req, res) => {
 });
 app.get("/findLastPost", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const lastPost = yield ProblemModel.find().sort({ _id: -1 }).limit(1);
-    res.json({ id: lastPost[0].id + 1 });
+    res.json({ questionID: lastPost[0].questionID + 1 });
 }));
 app.post("/create", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const inputs = req.body;
@@ -91,13 +91,18 @@ app.post('/createFiles', (req, res) => __awaiter(void 0, void 0, void 0, functio
     }
     else {
         let file = req.files.zippedFile;
-        let questionID = req.body.id;
+        let questionID = req.body.questionID;
         const zippedFile = {
             testCasesZipped: file.data,
-            id: questionID
+            questionID: questionID,
         };
         const newTestCasesZipped = new TestCasesZippedModel(zippedFile);
-        yield newTestCasesZipped.save();
+        try {
+            yield newTestCasesZipped.save();
+        }
+        catch (error) {
+            console.error(error);
+        }
         res.send({
             status: true,
             message: 'File is uploaded',
@@ -129,17 +134,10 @@ app.post('/problems', (req, res, next) => __awaiter(void 0, void 0, void 0, func
         res.end(result); //send result back to client
     }
     catch (error) {
-        return next(error);
+        res.json(error);
     }
 }));
 app.listen(port, () => {
     console.log(`listening ${port}`);
 });
 database_1.default.connect();
-database_1.default.runCommand({
-    collMod: "zipped_test_cases",
-    index: {
-        keyPattern: id,
-        unique: true // Convert an index to a unique index
-    }
-});

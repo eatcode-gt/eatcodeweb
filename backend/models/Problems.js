@@ -16,7 +16,7 @@ const ExampleSchema = new mongoose.Schema({
 });
 
 const ProblemSchema = new mongoose.Schema({
-  id: {
+  questionID: {
     type: Number,
     required: true,
     unique: true,

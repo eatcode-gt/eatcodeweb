@@ -29,7 +29,8 @@ userCode, questionID) {
             yield (0, fetchTestCase_1.default)(questionID);
         }
         catch (error) {
-            throw 'Error while fetching test case from DB!';
+            console.error(error);
+            // throw error;
         }
         const testFolder = "TestCases/" + questionID;
         const cmd = "sh myfirstdocker/run.sh " + solutionFile + " " + testFolder;

@@ -14,7 +14,8 @@ export default async function testUserCode(userLanguage: string, //see switch st
     try {
         await fetchTestCases(questionID);
     } catch (error) {
-        throw 'Error while fetching test case from DB!';
+        console.error(error);
+        // throw error;
     }
     const testFolder = "TestCases/" + questionID;
     const cmd = "sh myfirstdocker/run.sh " + solutionFile + " " + testFolder;

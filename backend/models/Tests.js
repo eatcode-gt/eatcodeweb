@@ -31,7 +31,7 @@ const TestCasesZippedSchema = new mongoose.Schema({
   },
 });
 
-const TestCasesModel = mongoose.model("testCases", TestCasesSchema);
+// const TestCasesModel = mongoose.model("testCases", TestCasesSchema);
 const TestCasesZippedModel = mongoose.model("zipped_test_cases", TestCasesZippedSchema);
 
 module.exports = TestCasesZippedModel;

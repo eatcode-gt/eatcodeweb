@@ -72,7 +72,7 @@ app.post("/login", (req: Request, res: Response) => {
 
 app.get("/findLastPost", async (req: Request, res: Response) => {
   const lastPost = await ProblemModel.find().sort({_id: -1}).limit(1);
-  res.json({id: lastPost[0].id+1});
+  res.json({questionID: lastPost[0].questionID+1});
 })
 
 app.post("/create", async (req: Request, res: Response) => {
@@ -88,13 +88,19 @@ app.post('/createFiles', async (req: Request, res: Response) => {
     res.sendStatus(404);   
   } else {
     let file = req.files.zippedFile as fileUpload.UploadedFile;
-    let questionID = req.body.id;
+    let questionID = req.body.questionID;
+
     const zippedFile = {
       testCasesZipped: file.data,
-      id: questionID
+      questionID: questionID,
     };
+
     const newTestCasesZipped = new TestCasesZippedModel(zippedFile);
-    await newTestCasesZipped.save();
+    try { 
+      await newTestCasesZipped.save();
+    } catch (error) {
+      console.error(error)
+    }
 
     res.send({
       status: true,
@@ -129,7 +135,7 @@ app.post('/problems', async (req: Request, res: Response, next) => { //post requ
     let result = await testUserCode(userLanguage, userCode, questionID); //abstraction to test code against cases
     res.end(result); //send result back to client
   } catch (error) {
-    return next(error);
+    res.json(error);
   }
 });
 
@@ -139,10 +145,3 @@ app.listen(port, () => { //server listens to requests on port {port}
 }); 
 
 database.connect();
-database.runCommand( {
-  collMod: "zipped_test_cases",
-  index: {
-     keyPattern: id,     // Reject new duplicate index entries
-     unique: true             // Convert an index to a unique index
-  }
-} )
