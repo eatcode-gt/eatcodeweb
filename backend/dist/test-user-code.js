@@ -32,7 +32,7 @@ userCode, questionID) {
             console.error(error);
             // throw error;
         }
-        const testFolder = "TestCases/" + questionID;
+        const testFolder = "TestCases/Problem_" + questionID;
         const cmd = "sh myfirstdocker/run.sh " + solutionFile + " " + testFolder;
         console.log("Running problem on server.");
         return new Promise(resolve => {

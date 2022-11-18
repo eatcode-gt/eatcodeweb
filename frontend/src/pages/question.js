@@ -45,6 +45,10 @@ const Question = () => {
     setCode(event.target.value);
   }
 
+
+  const UserContext = createContext()
+  const problem = useLocation().state.problem
+
   const handleSubmit = () => {
     console.log("Submitted Problem");
     setFinalResult("Pending");
@@ -52,7 +56,7 @@ const Question = () => {
     Axios.post("http://localhost:3002/problems", {
       userCode: code, 
       userLanguage: "python", 
-      questionID: 0
+      questionID: problem.questionID
     }).then((response) => {
       console.log(response.data);
       const finalWord = response.data.split("\n");
@@ -60,10 +64,6 @@ const Question = () => {
       setResult(response.data);
     });
   }
-  
-
-  const UserContext = createContext()
-  const problem = useLocation().state.problem
 
   return (
     <div style={styles.content}>

@@ -79,7 +79,7 @@ const Create = () => {
     Axios.get("http://localhost:3002/findLastPost").then((response) => {
       lastPostID = response.data.id;
       Axios.post("http://localhost:3002/create", {
-        id: lastPostID,
+        questionID: lastPostID,
         name: inputs.name,
         diff: inputs.difficulty,
         time: inputs.time,
@@ -221,7 +221,8 @@ const Create = () => {
               onChange={handleChange}
             /> 
           <label style={styles.label}>Choose a zip file with all the test cases</label>
-          <input id='fileInput' type="file" name='file' accept=".zip,.7zip" />
+          {/* <input id='fileInput' type="file" name='file' accept=".zip,.7zip" /> */}
+          <input id='fileInput' type="file" name='file'/>
           <input type="submit" onSubmit={handleSubmit}/>
         </form>
       </div>
