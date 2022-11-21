@@ -1,7 +1,7 @@
 import express, { Express, Request, Response } from 'express'; //server manager in js
 import dotenv from 'dotenv'; //allows use of enviroment variables in ./.env
 import cors from 'cors'; //cross origin resource sharing middleware
-import createSubmission from './createSubmission'
+import {createSubmission, enqueueWorker} from './createSubmission'
 import testUserCode from './test-user-code'
 // import problemData from './problem-data.json';
 import fileUpload from 'express-fileupload';
@@ -16,7 +16,7 @@ const TestCasesZippedModel = require('../models/Tests.js');
 const SubmissionModel = require('../models/Submissions.js');
 
 dotenv.config(); //load .env file
-
+ 
 const app: Express = express(); //see line 1
 
 const port = process.env.PORT || 3002; //see line 2
@@ -135,7 +135,7 @@ app.post('/problems', async (req: Request, res: Response, next) => { //post requ
   // const { questionName, tests }: { questionName: string, tests: Array<any> } = problemData.problems[questionID]; //pull question data from json
   try {
     await createSubmission(req.body, res);
-    let result = await testUserCode(language, code, questionID); //abstraction to test code against cases
+    // let result = await testUserCode(language, code, questionID); //abstraction to test code against cases
     res.end(result); //send result back to client
 
   } catch (error) {
@@ -144,13 +144,13 @@ app.post('/problems', async (req: Request, res: Response, next) => { //post requ
 });
 
 app.get("/nextJob", async (req: Request, res: Response) => {
-  res.send('placeholder'); 
+  enqueueWorker(res);
 })
 let g = 3;
 app.post("/finishedJob", async (req: Request, res: Response) => {
   res.send('placeholder'); 
-})
-
+}) 
+ 
 app.listen(port, () => { //server listens to requests on port {port}
   console.log(`listening ${port}`);
 }); 

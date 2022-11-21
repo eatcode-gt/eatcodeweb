@@ -1,0 +1,17 @@
+{
+  "name": "g",
+  "version": "1.0.0",
+  "description": "worker",
+  "main": "index.ts",
+  "scripts": {
+    "build": "npx tsc --watch",
+    "start": "nodemon dist/index.js",
+    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\""
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^7.6.0",
+    "typescript": "^4.9.3"
+  }
+}

@@ -15,8 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express")); //server manager in js
 const dotenv_1 = __importDefault(require("dotenv")); //allows use of enviroment variables in ./.env
 const cors_1 = __importDefault(require("cors")); //cross origin resource sharing middleware
-const createSubmission_1 = __importDefault(require("./createSubmission"));
-const test_user_code_1 = __importDefault(require("./test-user-code"));
+const createSubmission_1 = require("./createSubmission");
 // import problemData from './problem-data.json';
 const express_fileupload_1 = __importDefault(require("express-fileupload"));
 const database_1 = __importDefault(require("./database"));
@@ -132,8 +131,8 @@ app.post('/problems', (req, res, next) => __awaiter(void 0, void 0, void 0, func
     const { code, language, questionID, userID } = req.body; //destructure POST from client
     // const { questionName, tests }: { questionName: string, tests: Array<any> } = problemData.problems[questionID]; //pull question data from json
     try {
-        yield (0, createSubmission_1.default)(req.body, res);
-        let result = yield (0, test_user_code_1.default)(language, code, questionID); //abstraction to test code against cases
+        yield (0, createSubmission_1.createSubmission)(req.body, res);
+        // let result = await testUserCode(language, code, questionID); //abstraction to test code against cases
         res.end(result); //send result back to client
     }
     catch (error) {
@@ -141,7 +140,7 @@ app.post('/problems', (req, res, next) => __awaiter(void 0, void 0, void 0, func
     }
 }));
 app.get("/nextJob", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.send('placeholder');
+    (0, createSubmission_1.enqueueWorker)(res);
 }));
 let g = 3;
 app.post("/finishedJob", (req, res) => __awaiter(void 0, void 0, void 0, function* () {

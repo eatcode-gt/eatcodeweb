@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@datastructures-js/binary-search-tree": "^5.0.2",
+    "@datastructures-js/queue": "^4.2.3",
     "@types/express-fileupload": "^1.4.1",
     "body-parser": "^1.20.1",
     "cors": "^2.8.5",

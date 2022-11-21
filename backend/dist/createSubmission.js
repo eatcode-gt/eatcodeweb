@@ -9,10 +9,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.enqueueWorker = exports.createSubmission = void 0;
 const binary_search_tree_1 = require("@datastructures-js/binary-search-tree");
+const queue_1 = require("@datastructures-js/queue");
 const SubmissionModel = require('../models/Submissions.js');
 const notProcessedSubmissions = new binary_search_tree_1.BinarySearchTree((a, b) => a.submissionID - b.submissionID);
-// idleWorkersQueue
+const idleWorkersQueue = new queue_1.Queue();
+const processingSubmissions = new Set();
 function createSubmission(requestBody, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const { code, language, questionID, userID } = requestBody; //destructure POST from client
@@ -35,6 +38,41 @@ function createSubmission(requestBody, res) {
             submissionID: lastSubmissionID + 1,
             callback: res,
         });
+        printt();
+        scheduleJob();
     });
 }
-exports.default = createSubmission;
+exports.createSubmission = createSubmission;
+function scheduleJob() {
+    var _a;
+    if (notProcessedSubmissions.count() > 0 && !idleWorkersQueue.isEmpty()) {
+        const job = (_a = notProcessedSubmissions.min()) === null || _a === void 0 ? void 0 : _a.getValue();
+        notProcessedSubmissions.remove(job);
+        processingSubmissions.add(job);
+        setTimeout(() => __awaiter(this, void 0, void 0, function* () {
+            const submission = yield SubmissionModel.findOne({ submissionID: job === null || job === void 0 ? void 0 : job.submissionID });
+            processingSubmissions.delete(job);
+            if (!submission.processed) {
+                notProcessedSubmissions.insert(job);
+                console.log("submission:", submission.submissionID, "not finished in time, pushed back into queue");
+            }
+            else {
+                job === null || job === void 0 ? void 0 : job.callback.json(submission.results);
+            }
+        }), 30000);
+        const worker = idleWorkersQueue.dequeue();
+        console.log(job === null || job === void 0 ? void 0 : job.submissionID);
+        // worker.callback.send("gggg")
+        worker.callback.json(job === null || job === void 0 ? void 0 : job.submissionID);
+        // console.log(job,worker)
+    }
+}
+function enqueueWorker(res) {
+    idleWorkersQueue.enqueue({ callback: res });
+    printt();
+    scheduleJob();
+}
+exports.enqueueWorker = enqueueWorker;
+function printt() {
+    console.log("Current: ", idleWorkersQueue.size(), notProcessedSubmissions.count());
+}
