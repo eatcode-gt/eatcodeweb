@@ -1,6 +1,7 @@
 import express, { Express, Request, Response } from 'express'; //server manager in js
 import dotenv from 'dotenv'; //allows use of enviroment variables in ./.env
 import cors from 'cors'; //cross origin resource sharing middleware
+import createSubmission from './createSubmission'
 import testUserCode from './test-user-code'
 // import problemData from './problem-data.json';
 import fileUpload from 'express-fileupload';
@@ -12,6 +13,7 @@ const morgan = require('morgan');
 const UserModel = require('../models/Users');
 const ProblemModel = require('../models/Problems.js');
 const TestCasesZippedModel = require('../models/Tests.js');
+const SubmissionModel = require('../models/Submissions.js');
 
 dotenv.config(); //load .env file
 
@@ -129,16 +131,25 @@ app.post('/userInfo', (req: Request, res: Response) => {
 
 
 app.post('/problems', async (req: Request, res: Response, next) => { //post requests to eatcode.com/problems
-  const { userCode, userLanguage, questionID }: { userCode: string, userLanguage: string, questionID: number } = req.body; //destructure POST from client
+  const { code, language, questionID, userID }: { code: string, language: string, questionID: number, userID: number, } = req.body; //destructure POST from client
   // const { questionName, tests }: { questionName: string, tests: Array<any> } = problemData.problems[questionID]; //pull question data from json
   try {
-    let result = await testUserCode(userLanguage, userCode, questionID); //abstraction to test code against cases
+    await createSubmission(req.body, res);
+    let result = await testUserCode(language, code, questionID); //abstraction to test code against cases
     res.end(result); //send result back to client
+
   } catch (error) {
     res.json(error);
   }
 });
 
+app.get("/nextJob", async (req: Request, res: Response) => {
+  res.send('placeholder'); 
+})
+let g = 3;
+app.post("/finishedJob", async (req: Request, res: Response) => {
+  res.send('placeholder'); 
+})
 
 app.listen(port, () => { //server listens to requests on port {port}
   console.log(`listening ${port}`);

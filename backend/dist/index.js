@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express")); //server manager in js
 const dotenv_1 = __importDefault(require("dotenv")); //allows use of enviroment variables in ./.env
 const cors_1 = __importDefault(require("cors")); //cross origin resource sharing middleware
+const createSubmission_1 = __importDefault(require("./createSubmission"));
 const test_user_code_1 = __importDefault(require("./test-user-code"));
 // import problemData from './problem-data.json';
 const express_fileupload_1 = __importDefault(require("express-fileupload"));
@@ -24,6 +25,7 @@ const morgan = require('morgan');
 const UserModel = require('../models/Users');
 const ProblemModel = require('../models/Problems.js');
 const TestCasesZippedModel = require('../models/Tests.js');
+const SubmissionModel = require('../models/Submissions.js');
 dotenv_1.default.config(); //load .env file
 const app = (0, express_1.default)(); //see line 1
 const port = process.env.PORT || 3002; //see line 2
@@ -127,15 +129,23 @@ app.post('/userInfo', (req, res) => {
     });
 });
 app.post('/problems', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const { userCode, userLanguage, questionID } = req.body; //destructure POST from client
+    const { code, language, questionID, userID } = req.body; //destructure POST from client
     // const { questionName, tests }: { questionName: string, tests: Array<any> } = problemData.problems[questionID]; //pull question data from json
     try {
-        let result = yield (0, test_user_code_1.default)(userLanguage, userCode, questionID); //abstraction to test code against cases
+        yield (0, createSubmission_1.default)(req.body, res);
+        let result = yield (0, test_user_code_1.default)(language, code, questionID); //abstraction to test code against cases
         res.end(result); //send result back to client
     }
     catch (error) {
         res.json(error);
     }
+}));
+app.get("/nextJob", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    res.send('placeholder');
+}));
+let g = 3;
+app.post("/finishedJob", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    res.send('placeholder');
 }));
 app.listen(port, () => {
     console.log(`listening ${port}`);

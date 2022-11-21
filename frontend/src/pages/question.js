@@ -7,7 +7,7 @@ import CodeArea from '../components/create/CodeArea'
 import View from '../components/create/View'
 import Button from '../components/common/Button'
 
-const Question = () => {
+const Question = ({user}) => {
   const styles = {
     content: {
       display: 'flex',
@@ -54,9 +54,10 @@ const Question = () => {
     setFinalResult("Pending");
     setResult("");
     Axios.post("http://localhost:3002/problems", {
-      userCode: code, 
-      userLanguage: "python", 
-      questionID: problem.questionID
+      code: code, 
+      language: "python", 
+      questionID: problem.questionID,
+      userID: user.userID,
     }).then((response) => {
       console.log(response.data);
       const finalWord = response.data.split("\n");
