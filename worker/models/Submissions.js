@@ -9,11 +9,12 @@ const mongoose = require('mongoose');
 //   TLE: 'TLE',
 // };
 
-const TestCaseResult = new mongoose.Schema({
-  result: {
-    type: String,
+const Result = new mongoose.Schema({
+  result: [Number],
+  finalResult: {
+    type: Number,
     required: true,
-  },
+  }
 });
 
 
@@ -43,7 +44,7 @@ const SubmissionSchema = new mongoose.Schema({
     type: Boolean,
     required: true,
   },
-  results: [TestCaseResult],
+  results: Result,
 });
 
 const SubmissionModel = mongoose.model("submissions", SubmissionSchema);

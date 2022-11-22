@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
 const database_1 = __importDefault(require("./database"));
+const test_user_code_1 = __importDefault(require("./test-user-code"));
 const SubmissionModel = require('../models/Submissions.js');
 function retrieveAndCompute() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -21,31 +22,38 @@ function retrieveAndCompute() {
         axios_1.default.get("http://localhost:3002/nextJob").then((response) => __awaiter(this, void 0, void 0, function* () {
             const submissionID = response.data.submissionID;
             console.log("Got:", submissionID);
-            setTimeout(() => __awaiter(this, void 0, void 0, function* () {
-                const filter = { name: 'Jean-Luc Picard' };
-                const update = { age: 59 };
-                // const result = [1,2,3,4,5]
-                const result = [{ result: "gio" }, { result: "hsu" }];
-                const aa = { result: "gio" };
-                // `doc` is the document _after_ `update` was applied because of
-                // `new: true`
+            // const results = [{result:"gio"}, {result:"hsu"}]
+            // const results = [{result:100},{result:99}]
+            const submission = yield SubmissionModel.findOne({ submissionID });
+            if (!submission.processed) {
+                let testResult = yield (0, test_user_code_1.default)(submission.language, submission.code, submission.questionID); //abstraction to test code against cases
+                // console.log(result.map((val: string) => {return parseInt(val)}))
+                // console.log(typeof result)
+                const finalWord = testResult.split(" ");
+                // const array = finalWord.map((val: string) => {return {result: parseInt(val)}})
+                const array = finalWord.map((val) => { return parseInt(val); });
+                const result = array.slice(0, -1);
+                const finalResult = array[array.length - 1];
+                console.log("Hello:", result, finalResult);
+                // console.log(finalWord.map((val: string) => {return {result: parseInt(val)}})) 
+                // res.end(result); //send result back to client 
                 try {
-                    // await SubmissionModel.updateOne({submissionID}, {$push: {result:aa}, $set:{processed:true}}, {new:true});
-                    yield SubmissionModel.updateOne({ submissionID }, { $push: { result: aa } }, { new: true });
+                    yield SubmissionModel.updateOne({ submissionID }, { $set: { processed: true, results: { result, finalResult } } }, { new: true });
+                    // await SubmissionModel.updateOne({submissionID}, {"$push": {results}}, {new:true});
                     // console.log("doc:", doc)
                 }
                 catch (error) {
                     console.log("Error", error);
                 }
-                axios_1.default.post("http://localhost:3002/finishedJob", {
-                    submissionID
-                }).then(() => {
-                    retrieveAndCompute();
-                }).catch((error) => {
-                    console.error(error);
-                    retrieveAndCompute();
-                });
-            }), 3000);
+            }
+            axios_1.default.post("http://localhost:3002/finishedJob", {
+                submissionID
+            }).then(() => {
+                retrieveAndCompute();
+            }).catch((error) => {
+                console.error(error);
+                retrieveAndCompute();
+            });
             // retrieveAndCompute()
         })).catch((error) => {
             console.error(error);
@@ -54,5 +62,6 @@ function retrieveAndCompute() {
     });
 }
 console.log("Worker Running");
-database_1.default.connect();
-retrieveAndCompute();
+database_1.default.connect().then(() => {
+    retrieveAndCompute();
+});

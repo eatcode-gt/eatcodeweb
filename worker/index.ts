@@ -1,5 +1,6 @@
 import Axios from 'axios'
 import database from './database';
+import testUserCode from './test-user-code'
 const SubmissionModel = require('../models/Submissions.js');
 
 async function retrieveAndCompute() {
@@ -7,32 +8,45 @@ async function retrieveAndCompute() {
   Axios.get("http://localhost:3002/nextJob").then(async (response) => {
     const submissionID = response.data.submissionID;
     console.log("Got:", submissionID);
-    setTimeout(async ()=>{
-      const filter = { name: 'Jean-Luc Picard' };
-      const update = { age: 59 };
-      // const result = [1,2,3,4,5]
-      const result = [{result:"gio"}, {result:"hsu"}]
-      const aa = {result:"gio"}
+    
+    // const results = [{result:"gio"}, {result:"hsu"}]
 
-      // `doc` is the document _after_ `update` was applied because of
-      // `new: true`
+    // const results = [{result:100},{result:99}]
+    const submission = await SubmissionModel.findOne({submissionID})
+    if (!submission.processed) {
+      let testResult = await testUserCode(submission.language, submission.code, submission.questionID); //abstraction to test code against cases
+      // console.log(result.map((val: string) => {return parseInt(val)}))
+      // console.log(typeof result)
+      const finalWord = testResult.split(" ");
+      // const array = finalWord.map((val: string) => {return {result: parseInt(val)}})
+      const array = finalWord.map((val: string) => {return parseInt(val)})
+      const result = array.slice(0, -1)
+      const finalResult = array[array.length - 1]
+      console.log("Hello:", result, finalResult)
+
+      
+
+      // console.log(finalWord.map((val: string) => {return {result: parseInt(val)}})) 
+      // res.end(result); //send result back to client 
+
+
       try{
-        // await SubmissionModel.updateOne({submissionID}, {$push: {result:aa}, $set:{processed:true}}, {new:true});
-        await SubmissionModel.updateOne({submissionID}, {$push: {result:aa}}, {new:true});
+        await SubmissionModel.updateOne({submissionID}, {$set:{processed:true, results: {result, finalResult}}}, {new:true});
+        // await SubmissionModel.updateOne({submissionID}, {"$push": {results}}, {new:true});
         // console.log("doc:", doc)
       } catch (error) {
         console.log("Error", error)
-      }
+      } 
+    }
 
-      Axios.post("http://localhost:3002/finishedJob", {
-        submissionID
-      }).then(() => {
-        retrieveAndCompute()
-      }).catch((error) => {
-        console.error(error);
-        retrieveAndCompute()
-      })
-    }, 3000)
+    Axios.post("http://localhost:3002/finishedJob", {
+      submissionID
+    }).then(() => {
+      retrieveAndCompute()
+    }).catch((error) => {
+      console.error(error);
+      retrieveAndCompute()
+    })
     // retrieveAndCompute()
   }).catch((error) => {
     console.error(error);
@@ -41,6 +55,6 @@ async function retrieveAndCompute() {
 }
 
 console.log("Worker Running");
-database.connect();
-
-retrieveAndCompute();
+database.connect().then(() => {
+  retrieveAndCompute();
+}); 

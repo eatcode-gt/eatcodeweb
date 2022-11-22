@@ -61,8 +61,8 @@ function scheduleJob() {
       const submission = await SubmissionModel.findOne({submissionID:job?.submissionID})
       processingSubmissions.delete(job!.submissionID)
       if (!submission.processed) {
-        // notProcessedSubmissions.insert(job!)
-        // console.log("submission:", submission.submissionID, "not finished in time, pushed back into queue")
+        notProcessedSubmissions.insert(job!)
+        console.log("submission:", submission.submissionID, "not finished in time, pushed back into queue")
         printt()
         scheduleJob()
       } else {
@@ -91,7 +91,12 @@ async function finishedRunningSubmission(submissionID: number) {
   processingSubmissions.delete(submissionID)
   Promise.all([submission, job]).then(([submission, job]) => {
     // const [submission, job] = values;
-    job.callback.json(submission.results)
+    try{
+      job.callback.json(submission.results) 
+    } catch (error) {
+      console.log(error)
+      console.log("PPPPP", job)
+    }
   })
 }
 

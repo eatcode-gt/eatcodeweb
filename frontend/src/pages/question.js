@@ -7,6 +7,15 @@ import CodeArea from '../components/create/CodeArea'
 import View from '../components/create/View'
 import Button from '../components/common/Button'
 
+const resultCodeToString = [
+                            "Correct",
+                            "Wrong Answer",
+                            "Time Limit Exceeded",
+                            "Memory Limit Exceeded",
+                            "Runtime Error",
+                            "System Error"
+                          ]
+
 const Question = ({user}) => {
   const styles = {
     content: {
@@ -59,10 +68,12 @@ const Question = ({user}) => {
       questionID: problem.questionID,
       userID: user.userID,
     }).then((response) => {
-      console.log(response.data);
-      const finalWord = response.data.split("\n");
-      setFinalResult(finalWord[finalWord.length - 1])
-      setResult(response.data);
+      const result = response.data.result;
+      const finalResult = response.data.finalResult;
+      console.log("result:", result);
+      console.log("final result:", finalResult);
+      setFinalResult(resultCodeToString[finalResult])
+      setResult(result.map((val) => {return resultCodeToString[val]}));
     }).catch((error) => {
       console.log(error)
     });

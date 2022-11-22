@@ -105,6 +105,7 @@ if __name__ == '__main__':
     #    test_sol(sol, (count,))
     test_result = "Accepted"
     test_num = 0
+
     while (True):
         # make relevant folder paths and check if they exist
         folder_path = os.path.join('tests', str(test_num))
@@ -127,23 +128,31 @@ if __name__ == '__main__':
         result = return_array[0]
         time_taken = return_array[1]
         memory_used = return_array[2]
-        if result == 0:
-            print('test case '+str(test_num+1)+' correct! ' +
-                  str(time_taken)+' s / '+str(memory_used)+' MB')
-        elif result == 1:
-            print('test case '+str(test_num+1)+' incorrect')
-            test_result = "Wrong Answer"
-        elif result == 2:
-            print('test case '+str(test_num+1)+' timed out')
-            test_result = "Time Limit Exceeded"
-        elif result == 3:
-            print('test case '+str(test_num+1)+' ran out of memory')
-            test_result = "Memory Limit Exceeded"
-        elif result == 4:
-            print('test case '+str(test_num+1)+' had a runtime exception')
-            test_result = "Runtime Error"
+        # if result == 0:
+        #     print('test case '+str(test_num+1)+' correct! ' +
+        #           str(time_taken)+' s / '+str(memory_used)+' MB')
+        # elif result == 1:
+        #     print('test case '+str(test_num+1)+' incorrect')
+        #     test_result = "Wrong Answer"
+        # elif result == 2:
+        #     print('test case '+str(test_num+1)+' timed out')
+        #     test_result = "Time Limit Exceeded"
+        # elif result == 3:
+        #     print('test case '+str(test_num+1)+' ran out of memory')
+        #     test_result = "Memory Limit Exceeded"
+        # elif result == 4:
+        #     print('test case '+str(test_num+1)+' had a runtime exception')
+        #     test_result = "Runtime Error"
+        # else:
+        #     print('test case '+str(test_num+1)+' messed up, it was on me')
+        #     test_result = "System Error"
+        if (result == 0):
+            print(result, end=" ")
+        elif (result >= 0 and result <= 4):
+            print(result, end=" ")
+            test_result = result
         else:
-            print('test case '+str(test_num+1)+' messed up, it was on me')
-            test_result = "System Error"
+            print(5, end=" ")
+            test_result = 5
         test_num = test_num + 1
     print(test_result, end="")

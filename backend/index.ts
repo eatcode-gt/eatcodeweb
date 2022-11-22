@@ -9,7 +9,7 @@ import database from './database';
 
 const jwt = require("jsonwebtoken");
 const morgan = require('morgan');
-
+ 
 const UserModel = require('../models/Users');
 const ProblemModel = require('../models/Problems.js');
 const TestCasesZippedModel = require('../models/Tests.js');
@@ -150,8 +150,13 @@ app.get("/nextJob", async (req: Request, res: Response) => {
 let g = 3;
 
 app.post("/finishedJob", async (req: Request, res: Response) => {
-  // res.send('placeholder');
-  await finishedRunningSubmission(req.body.submissionID)
+  // res.send('placeholder'); 
+  try {
+    await finishedRunningSubmission(req.body.submissionID)
+  } catch (error) {
+    console.error(error)
+  }
+  
   res.sendStatus(200);
 }) 
  

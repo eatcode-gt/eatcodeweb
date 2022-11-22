@@ -59,8 +59,8 @@ function scheduleJob() {
             const submission = yield SubmissionModel.findOne({ submissionID: job === null || job === void 0 ? void 0 : job.submissionID });
             processingSubmissions.delete(job.submissionID);
             if (!submission.processed) {
-                // notProcessedSubmissions.insert(job!)
-                // console.log("submission:", submission.submissionID, "not finished in time, pushed back into queue")
+                notProcessedSubmissions.insert(job);
+                console.log("submission:", submission.submissionID, "not finished in time, pushed back into queue");
                 printt();
                 scheduleJob();
             }
@@ -89,7 +89,13 @@ function finishedRunningSubmission(submissionID) {
         processingSubmissions.delete(submissionID);
         Promise.all([submission, job]).then(([submission, job]) => {
             // const [submission, job] = values;
-            job.callback.json(submission.results);
+            try {
+                job.callback.json(submission.results);
+            }
+            catch (error) {
+                console.log(error);
+                console.log("PPPPP", job);
+            }
         });
     });
 }

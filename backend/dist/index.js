@@ -145,8 +145,13 @@ app.get("/nextJob", (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 }));
 let g = 3;
 app.post("/finishedJob", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // res.send('placeholder');
-    yield (0, createSubmission_1.finishedRunningSubmission)(req.body.submissionID);
+    // res.send('placeholder'); 
+    try {
+        yield (0, createSubmission_1.finishedRunningSubmission)(req.body.submissionID);
+    }
+    catch (error) {
+        console.error(error);
+    }
     res.sendStatus(200);
 }));
 app.listen(port, () => {
