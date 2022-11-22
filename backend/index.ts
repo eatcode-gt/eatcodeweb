@@ -76,15 +76,42 @@ app.post("/login", (req: Request, res: Response) => {
   });
 });
 
-app.post("/create", async (req: Request, res: Response) => {
+app.get("/findLastPost", async (req: Request, res: Response) => {
   const lastPost = await ProblemModel.find().sort({_id: -1}).limit(1);
+  res.json({id: lastPost[0].id+1});
+})
+
+app.post("/create", async (req: Request, res: Response) => {
   const inputs = req.body;
-  inputs.id = lastPost[0].id+1;
-  console.log(inputs.diff);
   const newProblem = new ProblemModel(inputs)
   await newProblem.save();
-
   res.json(inputs);
+})
+
+app.post('/createFiles', async (req: Request, res: Response) => { 
+  if (!req.files) {
+    console.log("No files");
+    res.sendStatus(404);   
+  } else {
+    let file = req.files.zippedFile as fileUpload.UploadedFile;
+    let questionID = req.body.id;
+    const zippedFile = {
+      testCasesZipped: file.data,
+      id: questionID
+    };
+    const newTestCasesZipped = new TestCasesZippedModel(zippedFile);
+    await newTestCasesZipped.save();
+
+    res.send({
+      status: true,
+      message: 'File is uploaded',
+      data: {
+          name: file.name,
+          mimetype: file.mimetype,
+          size: file.size
+      }
+    });
+  }
 })
 
 
@@ -112,31 +139,6 @@ app.post('/problems', async (req: Request, res: Response, next) => { //post requ
   }
 });
 
-app.post('/createSolution', async (req: Request, res: Response) => { 
-  if (!req.files) {
-    res.sendStatus(404);   
-  } else {
-    let file = req.files.zippedFile as fileUpload.UploadedFile;
-    let questionID = req.body.id;
-
-    const zippedFile = {
-      testCasesZipped: file.data,
-      id: questionID
-    };
-    const newTestCasesZipped = new TestCasesZippedModel(zippedFile);
-    await newTestCasesZipped.save();
-
-    res.send({
-      status: true,
-      message: 'File is uploaded',
-      data: {
-          name: file.name,
-          mimetype: file.mimetype,
-          size: file.size
-      }
-    });
-  }
-})
 
 app.listen(port, () => { //server listens to requests on port {port}
   console.log(`listening ${port}`);

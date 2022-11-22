@@ -76,14 +76,40 @@ app.post("/login", (req, res) => {
         }
     }));
 });
-app.post("/create", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.get("/findLastPost", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const lastPost = yield ProblemModel.find().sort({ _id: -1 }).limit(1);
+    res.json({ id: lastPost[0].id + 1 });
+}));
+app.post("/create", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const inputs = req.body;
-    inputs.id = lastPost[0].id + 1;
-    console.log(inputs.diff);
     const newProblem = new ProblemModel(inputs);
     yield newProblem.save();
     res.json(inputs);
+}));
+app.post('/createFiles', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    if (!req.files) {
+        console.log("No files");
+        res.sendStatus(404);
+    }
+    else {
+        let file = req.files.zippedFile;
+        let questionID = req.body.id;
+        const zippedFile = {
+            testCasesZipped: file.data,
+            id: questionID
+        };
+        const newTestCasesZipped = new TestCasesZippedModel(zippedFile);
+        yield newTestCasesZipped.save();
+        res.send({
+            status: true,
+            message: 'File is uploaded',
+            data: {
+                name: file.name,
+                mimetype: file.mimetype,
+                size: file.size
+            }
+        });
+    }
 }));
 app.post('/userInfo', (req, res) => {
     const userSub = req.body.sub;
@@ -106,30 +132,6 @@ app.post('/problems', (req, res, next) => __awaiter(void 0, void 0, void 0, func
     }
     catch (error) {
         return next(error);
-    }
-}));
-app.post('/createSolution', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    if (!req.files) {
-        res.sendStatus(404);
-    }
-    else {
-        let file = req.files.zippedFile;
-        let questionID = req.body.id;
-        const zippedFile = {
-            testCasesZipped: file.data,
-            id: questionID
-        };
-        const newTestCasesZipped = new TestCasesZippedModel(zippedFile);
-        yield newTestCasesZipped.save();
-        res.send({
-            status: true,
-            message: 'File is uploaded',
-            data: {
-                name: file.name,
-                mimetype: file.mimetype,
-                size: file.size
-            }
-        });
     }
 }));
 app.listen(port, () => {
