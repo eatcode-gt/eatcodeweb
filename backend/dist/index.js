@@ -126,7 +126,7 @@ app.post('/userInfo', (req, res) => {
 });
 app.post('/problems', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { code, language, questionID, userID } = req.body; //destructure POST from client
-    console.log("Submission created!");
+    // console.log("Submission created!"
     try {
         (0, createSubmission_1.createSubmission)(req.body, res);
     }

@@ -42,7 +42,7 @@ userCode, questionID) {
                     // return;
                 }
                 if (stderr) {
-                    console.log(`stderr: ${stderr}`);
+                    // console.log(`stderr: ${stderr}`);
                     // return;
                 }
                 // console.log(`stdout: ${stdout}`);

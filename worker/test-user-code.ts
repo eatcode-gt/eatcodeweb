@@ -28,7 +28,7 @@ export default async function testUserCode(userLanguage: string, //see switch st
                 // return;
             }
             if (stderr) {
-                console.log(`stderr: ${stderr}`);
+                // console.log(`stderr: ${stderr}`);
                 // return;
             }
             // console.log(`stdout: ${stdout}`);

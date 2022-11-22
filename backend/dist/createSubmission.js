@@ -37,6 +37,7 @@ function createSubmission(requestBody, res) {
                 submissionID: lastSubmissionID + 1,
                 callback: res,
             });
+            console.log("Submission created! ID:[" + (lastSubmissionID + 1) + "]");
             printSubmissionStats();
         }
         catch (error) {
@@ -66,7 +67,7 @@ function scheduleJob() {
             }
         }), 8000);
         const worker = idleWorkersQueue.dequeue();
-        console.log(job === null || job === void 0 ? void 0 : job.submissionID);
+        // console.log(job?.submissionID)
         printSubmissionStats();
         worker.callback.json({ submissionID: job === null || job === void 0 ? void 0 : job.submissionID });
     }

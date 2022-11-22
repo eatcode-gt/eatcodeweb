@@ -22,7 +22,7 @@ async function retrieveAndCompute() {
       } catch (error) {
         console.log("Error", error)
       } 
-    }
+    } 
 
     Axios.post("http://localhost:3002/finishedJob", {
       submissionID

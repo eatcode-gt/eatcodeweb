@@ -128,7 +128,7 @@ app.post('/userInfo', (req: Request, res: Response) => {
 
 app.post('/problems', async (req: Request, res: Response, next) => { //post requests to eatcode.com/problems
   const { code, language, questionID, userID }: { code: string, language: string, questionID: number, userID: number, } = req.body; //destructure POST from client
-  console.log("Submission created!")
+  // console.log("Submission created!"
   try {
     createSubmission(req.body, res)
   } catch (error) {
@@ -150,7 +150,7 @@ app.post("/finishedJob", async (req: Request, res: Response) => {
   res.sendStatus(200);
 }) 
  
-app.listen(port, () => { //server listens to requests on port {port}
+app.listen(port, () => { //server listens to requests on port {port} 
   console.log(`listening ${port}`);
 });
 

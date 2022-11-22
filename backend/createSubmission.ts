@@ -42,6 +42,7 @@ async function createSubmission(requestBody: { code: string; language: string; q
         submissionID: lastSubmissionID + 1,
         callback: res,
       })
+      console.log("Submission created! ID:[" + (lastSubmissionID + 1) + "]")
       printSubmissionStats()
     } catch (error) {
       console.error(error)
@@ -67,7 +68,7 @@ function scheduleJob() {
       } 
     }, 8000)
     const worker = idleWorkersQueue.dequeue()
-    console.log(job?.submissionID)
+    // console.log(job?.submissionID)
 
     printSubmissionStats()
     worker.callback.json({submissionID:job?.submissionID})
