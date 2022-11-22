@@ -30,17 +30,11 @@ function retrieveAndCompute() {
                 // console.log(result.map((val: string) => {return parseInt(val)}))
                 // console.log(typeof result)
                 const finalWord = testResult.split(" ");
-                // const array = finalWord.map((val: string) => {return {result: parseInt(val)}})
                 const array = finalWord.map((val) => { return parseInt(val); });
                 const result = array.slice(0, -1);
                 const finalResult = array[array.length - 1];
-                // console.log("Hello:", result, finalResult)
-                // console.log(finalWord.map((val: string) => {return {result: parseInt(val)}})) 
-                // res.end(result); //send result back to client 
                 try {
                     yield SubmissionModel.updateOne({ submissionID }, { $set: { processed: true, results: { result, finalResult } } }, { new: true });
-                    // await SubmissionModel.updateOne({submissionID}, {"$push": {results}}, {new:true});
-                    // console.log("doc:", doc)
                 }
                 catch (error) {
                     console.log("Error", error);
@@ -54,7 +48,6 @@ function retrieveAndCompute() {
                 console.error(error);
                 retrieveAndCompute();
             });
-            // retrieveAndCompute()
         })).catch((error) => {
             console.error(error);
             setTimeout(() => { retrieveAndCompute(); }, 3000);
@@ -62,6 +55,4 @@ function retrieveAndCompute() {
     });
 }
 console.log("Worker Running");
-database_1.default.connect().then(() => {
-    retrieveAndCompute();
-});
+database_1.default.connect(retrieveAndCompute);

@@ -16,9 +16,12 @@ const dotenv_1 = __importDefault(require("dotenv")); //allows use of enviroment 
 const mongoose_1 = __importDefault(require("mongoose"));
 dotenv_1.default.config(); //load .env file
 exports.default = {
-    connect: () => __awaiter(void 0, void 0, void 0, function* () {
+    connect: (callback) => __awaiter(void 0, void 0, void 0, function* () {
         mongoose_1.default
             .connect(process.env.MONGO_DB_CONNECT)
-            .then((res) => console.log("MongoDB connection created"));
+            .then((res) => {
+            console.log("MongoDB connection created");
+            callback();
+        });
     })
 };

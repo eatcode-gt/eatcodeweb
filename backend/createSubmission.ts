@@ -26,9 +26,6 @@ async function createSubmission(requestBody: { code: string; language: string; q
       const { code, language, questionID, userID }: { code: string, language: string, questionID: number, userID: number, } = requestBody; //destructure POST from client
       const lastSubmission = await SubmissionModel.find().sort({_id: -1}).limit(1);
       const lastSubmissionID = lastSubmission[0].submissionID
-      // console.log("Submission #",lastSubmissionID)  
-      // res.json({questionID: lastPost[0].questionID+1});
-      console.log("ppp1")
       const submission = {
         submissionID: lastSubmissionID + 1,
         questionID,
@@ -45,7 +42,7 @@ async function createSubmission(requestBody: { code: string; language: string; q
         submissionID: lastSubmissionID + 1,
         callback: res,
       })
-      printt()
+      printSubmissionStats()
     } catch (error) {
       console.error(error)
     } 
@@ -63,7 +60,7 @@ function scheduleJob() {
       if (!submission.processed) {
         notProcessedSubmissions.insert(job!)
         console.log("submission:", submission.submissionID, "not finished in time, pushed back into queue")
-        printt()
+        printSubmissionStats()
         scheduleJob()
       } else {
         // job?.callback.json(submission.results)
@@ -71,17 +68,15 @@ function scheduleJob() {
     }, 8000)
     const worker = idleWorkersQueue.dequeue()
     console.log(job?.submissionID)
-    // worker.callback.send("gggg") 
 
-    printt()
+    printSubmissionStats()
     worker.callback.json({submissionID:job?.submissionID})
-    // console.log(job,worker) 
   }
 }
 
 function enqueueWorker(res: any) {
   idleWorkersQueue.enqueue({callback: res});
-  printt(); 
+  printSubmissionStats(); 
   scheduleJob();
 }
 
@@ -94,14 +89,13 @@ async function finishedRunningSubmission(submissionID: number) {
       job.callback.json(submission.results) 
     } catch (error) {
       console.log(error)
-      console.log("PPPPP", job)
     }
   } else {
     console.log("Caught size = 0")
   }
 }
 
-function printt() {
+function printSubmissionStats() {
   console.log("Current Workers:",idleWorkersQueue.size(),", Submissions:", notProcessedSubmissions.count(),
   ", Processing:", processingSubmissions.size);
 }

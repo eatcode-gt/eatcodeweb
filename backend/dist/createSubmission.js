@@ -22,9 +22,6 @@ function createSubmission(requestBody, res) {
             const { code, language, questionID, userID } = requestBody; //destructure POST from client
             const lastSubmission = yield SubmissionModel.find().sort({ _id: -1 }).limit(1);
             const lastSubmissionID = lastSubmission[0].submissionID;
-            // console.log("Submission #",lastSubmissionID)  
-            // res.json({questionID: lastPost[0].questionID+1});
-            console.log("ppp1");
             const submission = {
                 submissionID: lastSubmissionID + 1,
                 questionID,
@@ -40,7 +37,7 @@ function createSubmission(requestBody, res) {
                 submissionID: lastSubmissionID + 1,
                 callback: res,
             });
-            printt();
+            printSubmissionStats();
         }
         catch (error) {
             console.error(error);
@@ -61,7 +58,7 @@ function scheduleJob() {
             if (!submission.processed) {
                 notProcessedSubmissions.insert(job);
                 console.log("submission:", submission.submissionID, "not finished in time, pushed back into queue");
-                printt();
+                printSubmissionStats();
                 scheduleJob();
             }
             else {
@@ -70,15 +67,13 @@ function scheduleJob() {
         }), 8000);
         const worker = idleWorkersQueue.dequeue();
         console.log(job === null || job === void 0 ? void 0 : job.submissionID);
-        // worker.callback.send("gggg") 
-        printt();
+        printSubmissionStats();
         worker.callback.json({ submissionID: job === null || job === void 0 ? void 0 : job.submissionID });
-        // console.log(job,worker) 
     }
 }
 function enqueueWorker(res) {
     idleWorkersQueue.enqueue({ callback: res });
-    printt();
+    printSubmissionStats();
     scheduleJob();
 }
 exports.enqueueWorker = enqueueWorker;
@@ -93,7 +88,6 @@ function finishedRunningSubmission(submissionID) {
             }
             catch (error) {
                 console.log(error);
-                console.log("PPPPP", job);
             }
         }
         else {
@@ -102,6 +96,6 @@ function finishedRunningSubmission(submissionID) {
     });
 }
 exports.finishedRunningSubmission = finishedRunningSubmission;
-function printt() {
+function printSubmissionStats() {
     console.log("Current Workers:", idleWorkersQueue.size(), ", Submissions:", notProcessedSubmissions.count(), ", Processing:", processingSubmissions.size);
 }
