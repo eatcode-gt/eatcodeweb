@@ -5,6 +5,8 @@
 /.pnp
 .pnp.js
 
+/myfirstdocker/TestCases/Problem*
+
 # testing
 /coverage
 
