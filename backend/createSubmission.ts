@@ -71,11 +71,11 @@ function scheduleJob() {
     }, 8000)
     const worker = idleWorkersQueue.dequeue()
     console.log(job?.submissionID)
-    // worker.callback.send("gggg")
+    // worker.callback.send("gggg") 
 
     printt()
     worker.callback.json({submissionID:job?.submissionID})
-    // console.log(job,worker)
+    // console.log(job,worker) 
   }
 }
 
@@ -86,18 +86,19 @@ function enqueueWorker(res: any) {
 }
 
 async function finishedRunningSubmission(submissionID: number) {
-  const submission = SubmissionModel.findOne({submissionID})
-  const job = processingSubmissions.get(submissionID)
-  processingSubmissions.delete(submissionID)
-  Promise.all([submission, job]).then(([submission, job]) => {
-    // const [submission, job] = values;
+  const submission = await SubmissionModel.findOne({submissionID})
+  if (processingSubmissions.size !== 0) {
+    const job = processingSubmissions.get(submissionID)
+    processingSubmissions.delete(submissionID)
     try{
       job.callback.json(submission.results) 
     } catch (error) {
       console.log(error)
       console.log("PPPPP", job)
     }
-  })
+  } else {
+    console.log("Caught size = 0")
+  }
 }
 
 function printt() {

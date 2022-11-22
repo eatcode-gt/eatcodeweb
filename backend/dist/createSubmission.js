@@ -70,10 +70,10 @@ function scheduleJob() {
         }), 8000);
         const worker = idleWorkersQueue.dequeue();
         console.log(job === null || job === void 0 ? void 0 : job.submissionID);
-        // worker.callback.send("gggg")
+        // worker.callback.send("gggg") 
         printt();
         worker.callback.json({ submissionID: job === null || job === void 0 ? void 0 : job.submissionID });
-        // console.log(job,worker)
+        // console.log(job,worker) 
     }
 }
 function enqueueWorker(res) {
@@ -84,11 +84,10 @@ function enqueueWorker(res) {
 exports.enqueueWorker = enqueueWorker;
 function finishedRunningSubmission(submissionID) {
     return __awaiter(this, void 0, void 0, function* () {
-        const submission = SubmissionModel.findOne({ submissionID });
-        const job = processingSubmissions.get(submissionID);
-        processingSubmissions.delete(submissionID);
-        Promise.all([submission, job]).then(([submission, job]) => {
-            // const [submission, job] = values;
+        const submission = yield SubmissionModel.findOne({ submissionID });
+        if (processingSubmissions.size !== 0) {
+            const job = processingSubmissions.get(submissionID);
+            processingSubmissions.delete(submissionID);
             try {
                 job.callback.json(submission.results);
             }
@@ -96,7 +95,10 @@ function finishedRunningSubmission(submissionID) {
                 console.log(error);
                 console.log("PPPPP", job);
             }
-        });
+        }
+        else {
+            console.log("Caught size = 0");
+        }
     });
 }
 exports.finishedRunningSubmission = finishedRunningSubmission;

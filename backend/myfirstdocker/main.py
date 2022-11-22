@@ -146,6 +146,7 @@ if __name__ == '__main__':
         # else:
         #     print('test case '+str(test_num+1)+' messed up, it was on me')
         #     test_result = "System Error"
+        result = int(result)
         if (result == 0):
             print(result, end=" ")
         elif (result >= 0 and result <= 4):

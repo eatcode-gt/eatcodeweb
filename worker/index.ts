@@ -22,7 +22,7 @@ async function retrieveAndCompute() {
       const array = finalWord.map((val: string) => {return parseInt(val)})
       const result = array.slice(0, -1)
       const finalResult = array[array.length - 1]
-      console.log("Hello:", result, finalResult)
+      // console.log("Hello:", result, finalResult)
 
       
 
