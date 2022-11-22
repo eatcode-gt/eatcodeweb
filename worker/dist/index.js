@@ -22,13 +22,9 @@ function retrieveAndCompute() {
         axios_1.default.get("http://localhost:3002/nextJob").then((response) => __awaiter(this, void 0, void 0, function* () {
             const submissionID = response.data.submissionID;
             console.log("Got:", submissionID);
-            // const results = [{result:"gio"}, {result:"hsu"}]
-            // const results = [{result:100},{result:99}]
             const submission = yield SubmissionModel.findOne({ submissionID });
             if (!submission.processed) {
-                let testResult = yield (0, test_user_code_1.default)(submission.language, submission.code, submission.questionID); //abstraction to test code against cases
-                // console.log(result.map((val: string) => {return parseInt(val)}))
-                // console.log(typeof result)
+                let testResult = yield (0, test_user_code_1.default)(submission.language, submission.code, submission.questionID);
                 const finalWord = testResult.split(" ");
                 const array = finalWord.map((val) => { return parseInt(val); });
                 const result = array.slice(0, -1);

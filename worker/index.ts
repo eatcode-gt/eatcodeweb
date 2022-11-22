@@ -8,15 +8,10 @@ async function retrieveAndCompute() {
   Axios.get("http://localhost:3002/nextJob").then(async (response) => {
     const submissionID = response.data.submissionID;
     console.log("Got:", submissionID);
-    
-    // const results = [{result:"gio"}, {result:"hsu"}]
-
-    // const results = [{result:100},{result:99}]
     const submission = await SubmissionModel.findOne({submissionID})
     if (!submission.processed) {
-      let testResult = await testUserCode(submission.language, submission.code, submission.questionID); //abstraction to test code against cases
-      // console.log(result.map((val: string) => {return parseInt(val)}))
-      // console.log(typeof result)
+      let testResult = await testUserCode(submission.language, submission.code, submission.questionID);
+
       const finalWord = testResult.split(" ");
       const array = finalWord.map((val: string) => {return parseInt(val)})
       const result = array.slice(0, -1)

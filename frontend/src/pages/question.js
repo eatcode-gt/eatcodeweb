@@ -70,8 +70,6 @@ const Question = ({user}) => {
     }).then((response) => {
       const result = response.data.result;
       const finalResult = response.data.finalResult;
-      // console.log("result:", result);
-      // console.log("final result:", finalResult);
       setFinalResult(resultCodeToString[finalResult])
       setResult(result.map((val) => {return resultCodeToString[val]}));
     }).catch((error) => {

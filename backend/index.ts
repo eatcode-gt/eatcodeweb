@@ -2,7 +2,6 @@ import express, { Express, Request, Response } from 'express'; //server manager 
 import dotenv from 'dotenv'; //allows use of enviroment variables in ./.env
 import cors from 'cors'; //cross origin resource sharing middleware
 import {createSubmission, enqueueWorker, finishedRunningSubmission} from './createSubmission'
-// import problemData from './problem-data.json';
 import fileUpload from 'express-fileupload';
 import database from './database';
 
@@ -45,9 +44,7 @@ app.get('/problems', (req: Request, res: Response) => { //gets requests to eatco
 app.post('/register', (req: Request, res: Response) => { //post requests to eatcode.com/register
   res.send('placeholder');
 }); 
- 
-// TODO: check if user is already in DB, if yes then don't create new user.
-// app.post("/getUserID", async (req: Request, res: Response) => { //post requests to eatcode.com/login
+
 app.post("/login", (req: Request, res: Response) => {
   const token = req.body.token;
   const decoded = jwt.decode(token);
@@ -131,13 +128,9 @@ app.post('/userInfo', (req: Request, res: Response) => {
 
 app.post('/problems', async (req: Request, res: Response, next) => { //post requests to eatcode.com/problems
   const { code, language, questionID, userID }: { code: string, language: string, questionID: number, userID: number, } = req.body; //destructure POST from client
-  // const { questionName, tests }: { questionName: string, tests: Array<any> } = problemData.problems[questionID]; //pull question data from json
-  console.log("created!")
+  console.log("Submission created!")
   try {
-    createSubmission(req.body, res);
-    // let result = await testUserCode(language, code, questionID); //abstraction to test code against cases
-    // res.end(result); //send result back to client 
-
+    createSubmission(req.body, res)
   } catch (error) {
     res.json(error);
   } 
@@ -146,10 +139,8 @@ app.post('/problems', async (req: Request, res: Response, next) => { //post requ
 app.get("/nextJob", async (req: Request, res: Response) => {
   enqueueWorker(res);
 })
-let g = 3;
 
 app.post("/finishedJob", async (req: Request, res: Response) => {
-  // res.send('placeholder'); 
   try {
     await finishedRunningSubmission(req.body.submissionID)
   } catch (error) {

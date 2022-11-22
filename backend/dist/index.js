@@ -16,7 +16,6 @@ const express_1 = __importDefault(require("express")); //server manager in js
 const dotenv_1 = __importDefault(require("dotenv")); //allows use of enviroment variables in ./.env
 const cors_1 = __importDefault(require("cors")); //cross origin resource sharing middleware
 const createSubmission_1 = require("./createSubmission");
-// import problemData from './problem-data.json';
 const express_fileupload_1 = __importDefault(require("express-fileupload"));
 const database_1 = __importDefault(require("./database"));
 const jwt = require("jsonwebtoken");
@@ -50,8 +49,6 @@ app.get('/problems', (req, res) => {
 app.post('/register', (req, res) => {
     res.send('placeholder');
 });
-// TODO: check if user is already in DB, if yes then don't create new user.
-// app.post("/getUserID", async (req: Request, res: Response) => { //post requests to eatcode.com/login
 app.post("/login", (req, res) => {
     const token = req.body.token;
     const decoded = jwt.decode(token);
@@ -129,12 +126,9 @@ app.post('/userInfo', (req, res) => {
 });
 app.post('/problems', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { code, language, questionID, userID } = req.body; //destructure POST from client
-    // const { questionName, tests }: { questionName: string, tests: Array<any> } = problemData.problems[questionID]; //pull question data from json
-    console.log("created!");
+    console.log("Submission created!");
     try {
         (0, createSubmission_1.createSubmission)(req.body, res);
-        // let result = await testUserCode(language, code, questionID); //abstraction to test code against cases
-        // res.end(result); //send result back to client 
     }
     catch (error) {
         res.json(error);
@@ -143,9 +137,7 @@ app.post('/problems', (req, res, next) => __awaiter(void 0, void 0, void 0, func
 app.get("/nextJob", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     (0, createSubmission_1.enqueueWorker)(res);
 }));
-let g = 3;
 app.post("/finishedJob", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // res.send('placeholder'); 
     try {
         yield (0, createSubmission_1.finishedRunningSubmission)(req.body.submissionID);
     }
