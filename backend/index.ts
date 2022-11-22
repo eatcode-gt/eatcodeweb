@@ -1,7 +1,7 @@
 import express, { Express, Request, Response } from 'express'; //server manager in js
 import dotenv from 'dotenv'; //allows use of enviroment variables in ./.env
 import cors from 'cors'; //cross origin resource sharing middleware
-import {createSubmission, enqueueWorker} from './createSubmission'
+import {createSubmission, enqueueWorker, finishedRunningSubmission} from './createSubmission'
 import testUserCode from './test-user-code'
 // import problemData from './problem-data.json';
 import fileUpload from 'express-fileupload';
@@ -133,26 +133,30 @@ app.post('/userInfo', (req: Request, res: Response) => {
 app.post('/problems', async (req: Request, res: Response, next) => { //post requests to eatcode.com/problems
   const { code, language, questionID, userID }: { code: string, language: string, questionID: number, userID: number, } = req.body; //destructure POST from client
   // const { questionName, tests }: { questionName: string, tests: Array<any> } = problemData.problems[questionID]; //pull question data from json
+  console.log("created!")
   try {
-    await createSubmission(req.body, res);
+    createSubmission(req.body, res);
     // let result = await testUserCode(language, code, questionID); //abstraction to test code against cases
-    res.end(result); //send result back to client
+    // res.end(result); //send result back to client
 
   } catch (error) {
     res.json(error);
-  }
-});
+  } 
+}); 
 
 app.get("/nextJob", async (req: Request, res: Response) => {
   enqueueWorker(res);
 })
 let g = 3;
+
 app.post("/finishedJob", async (req: Request, res: Response) => {
-  res.send('placeholder'); 
+  // res.send('placeholder');
+  await finishedRunningSubmission(req.body.submissionID)
+  res.sendStatus(200);
 }) 
  
 app.listen(port, () => { //server listens to requests on port {port}
   console.log(`listening ${port}`);
-}); 
+});
 
 database.connect();

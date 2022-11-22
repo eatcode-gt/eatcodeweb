@@ -63,6 +63,8 @@ const Question = ({user}) => {
       const finalWord = response.data.split("\n");
       setFinalResult(finalWord[finalWord.length - 1])
       setResult(response.data);
+    }).catch((error) => {
+      console.log(error)
     });
   }
 

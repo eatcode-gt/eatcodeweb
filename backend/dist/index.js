@@ -130,10 +130,11 @@ app.post('/userInfo', (req, res) => {
 app.post('/problems', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { code, language, questionID, userID } = req.body; //destructure POST from client
     // const { questionName, tests }: { questionName: string, tests: Array<any> } = problemData.problems[questionID]; //pull question data from json
+    console.log("created!");
     try {
-        yield (0, createSubmission_1.createSubmission)(req.body, res);
+        (0, createSubmission_1.createSubmission)(req.body, res);
         // let result = await testUserCode(language, code, questionID); //abstraction to test code against cases
-        res.end(result); //send result back to client
+        // res.end(result); //send result back to client
     }
     catch (error) {
         res.json(error);
@@ -144,7 +145,9 @@ app.get("/nextJob", (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 }));
 let g = 3;
 app.post("/finishedJob", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.send('placeholder');
+    // res.send('placeholder');
+    yield (0, createSubmission_1.finishedRunningSubmission)(req.body.submissionID);
+    res.sendStatus(200);
 }));
 app.listen(port, () => {
     console.log(`listening ${port}`);
