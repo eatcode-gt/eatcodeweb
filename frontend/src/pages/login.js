@@ -20,7 +20,7 @@ function Login({user, updateUser}) {
     Axios.post("http://localhost:3002/userInfo", {
       sub: userID
     }).then((response) => {
-      updateUser(response.data.result[0].name, true);
+      updateUser(response.data.result[0], true);
       navigate('/', {replace: true});
     });
   }

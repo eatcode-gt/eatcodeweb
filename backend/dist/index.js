@@ -15,17 +15,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express")); //server manager in js
 const dotenv_1 = __importDefault(require("dotenv")); //allows use of enviroment variables in ./.env
 const cors_1 = __importDefault(require("cors")); //cross origin resource sharing middleware
-const test_user_code_1 = __importDefault(require("./test-user-code"));
-const problem_data_json_1 = __importDefault(require("./problem-data.json"));
+const createSubmission_1 = require("./createSubmission");
 const express_fileupload_1 = __importDefault(require("express-fileupload"));
-const mongoose = require('mongoose');
+const database_1 = __importDefault(require("./database"));
 const jwt = require("jsonwebtoken");
 const morgan = require('morgan');
 const UserModel = require('../models/Users');
 const ProblemModel = require('../models/Problems.js');
 const TestCasesZippedModel = require('../models/Tests.js');
+const SubmissionModel = require('../models/Submissions.js');
 dotenv_1.default.config(); //load .env file
-const app = (0, express_1.default)(); //see line 1
+const app = (0, express_1.default)(); //see line 1 
 const port = process.env.PORT || 3002; //see line 2
 app.use((0, express_fileupload_1.default)({
     createParentPath: true
@@ -33,8 +33,6 @@ app.use((0, express_fileupload_1.default)({
 app.use(express_1.default.json());
 app.use((0, cors_1.default)()); //see line 3 (modified by gio, originally use(cors))
 app.use(morgan('dev'));
-// Connect to mongodb, (you need to set your ip on mongodb site in order to run this successfully)
-mongoose.connect(process.env.MONGO_DB_CONNECT);
 app.get('/', (req, res) => {
     res.send('placeholder');
 });
@@ -51,8 +49,6 @@ app.get('/problems', (req, res) => {
 app.post('/register', (req, res) => {
     res.send('placeholder');
 });
-// TODO: check if user is already in DB, if yes then don't create new user.
-// app.post("/getUserID", async (req: Request, res: Response) => { //post requests to eatcode.com/login
 app.post("/login", (req, res) => {
     const token = req.body.token;
     const decoded = jwt.decode(token);
@@ -78,7 +74,7 @@ app.post("/login", (req, res) => {
 });
 app.get("/findLastPost", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const lastPost = yield ProblemModel.find().sort({ _id: -1 }).limit(1);
-    res.json({ id: lastPost[0].id + 1 });
+    res.json({ questionID: lastPost[0].questionID + 1 });
 }));
 app.post("/create", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const inputs = req.body;
@@ -93,13 +89,18 @@ app.post('/createFiles', (req, res) => __awaiter(void 0, void 0, void 0, functio
     }
     else {
         let file = req.files.zippedFile;
-        let questionID = req.body.id;
+        let questionID = req.body.questionID;
         const zippedFile = {
             testCasesZipped: file.data,
-            id: questionID
+            questionID: questionID,
         };
         const newTestCasesZipped = new TestCasesZippedModel(zippedFile);
-        yield newTestCasesZipped.save();
+        try {
+            yield newTestCasesZipped.save();
+        }
+        catch (error) {
+            console.error(error);
+        }
         res.send({
             status: true,
             message: 'File is uploaded',
@@ -124,16 +125,28 @@ app.post('/userInfo', (req, res) => {
     });
 });
 app.post('/problems', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const { userCode, userLanguage, questionID } = req.body; //destructure POST from client
-    const { questionName, tests } = problem_data_json_1.default.problems[questionID]; //pull question data from json
+    const { code, language, questionID, userID } = req.body; //destructure POST from client
+    // console.log("Submission created!"
     try {
-        let result = yield (0, test_user_code_1.default)(userLanguage, userCode, questionName, tests); //abstraction to test code against cases
-        res.end(result); //send result back to client
+        (0, createSubmission_1.createSubmission)(req.body, res);
     }
     catch (error) {
-        return next(error);
+        res.json(error);
     }
+}));
+app.get("/nextJob", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    (0, createSubmission_1.enqueueWorker)(res);
+}));
+app.post("/finishedJob", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield (0, createSubmission_1.finishedRunningSubmission)(req.body.submissionID);
+    }
+    catch (error) {
+        console.error(error);
+    }
+    res.sendStatus(200);
 }));
 app.listen(port, () => {
     console.log(`listening ${port}`);
 });
+database_1.default.connect();
