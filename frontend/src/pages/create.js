@@ -45,11 +45,12 @@ const Create = () => {
       alert("Please submit a file");
       return;
     }
-    let lastPostID = -1;
+    let questionID = -1;
     Axios.get("http://localhost:3002/findLastPost").then((response) => {
-      lastPostID = response.data.id;
+      questionID = response.data.questionID;
+      console.log(questionID);
       Axios.post("http://localhost:3002/create", {
-        questionID: lastPostID,
+        questionID,
         name: inputs.name,
         diff: inputs.difficulty,
         time: inputs.time,
@@ -76,7 +77,7 @@ const Create = () => {
 
         const fileData = new FormData();
         fileData.append("zippedFile", fileInput.files[0]);
-        fileData.append("id", lastPostID);
+        fileData.append("questionID", questionID);
 
 
         Axios.post("http://localhost:3002/createFiles", fileData, config).then((response) => {
