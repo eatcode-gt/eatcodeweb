@@ -69,15 +69,21 @@ app.post("/login", (req: Request, res: Response) => {
 });
 
 app.get("/findLastPost", async (req: Request, res: Response) => {
-  const lastPost = await ProblemModel.find().sort({_id: -1}).limit(1);
-  res.json({questionID: lastPost[0].questionID+1});
+  const lastPost = await ProblemModel.find().sort({questionID: -1}).limit(1);
+  //console.log("QuestionID: ", lastPost[0].questionID+1);
+  res.json({questionID: lastPost[0].questionID+1}); 
 })
 
 app.post("/create", async (req: Request, res: Response) => {
   const inputs = req.body;
   const newProblem = new ProblemModel(inputs)
-  await newProblem.save();
-  res.json(inputs);
+  //console.log(inputs);
+  try {
+    await newProblem.save();
+  } catch (error) {
+    console.error(error)
+  }
+  res.json(inputs); 
 })
 
 app.post('/createFiles', async (req: Request, res: Response) => { 

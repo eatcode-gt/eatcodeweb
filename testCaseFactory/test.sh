@@ -7,20 +7,20 @@
 # do
 #     echo $COUNT
 # done
-FOLDER_NAME="testCase"
-mkdir $FOLDER_NAME
+# FOLDER_NAME="testCase"
+# mkdir $FOLDER_NAME
 
 # cd testCase
 
 # COMMAND = "python3 "
-# COMMAND = "./"
+COMMAND="./"
 
-# $COMMAND$1
+$COMMAND$1
 
 
-NUMBER_TESTCASES=10
+# NUMBER_TESTCASES=10
 
-for COUNT in $(seq 0 1 $(($NUMBER_TESTCASES-1)))
-do
-    mkdir "$FOLDER_NAME/$COUNT"
-done
+# for COUNT in $(seq 0 1 $(($NUMBER_TESTCASES-1)))
+# do
+#     mkdir "$FOLDER_NAME/$COUNT"
+# done

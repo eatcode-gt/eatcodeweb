@@ -73,13 +73,20 @@ app.post("/login", (req, res) => {
     }));
 });
 app.get("/findLastPost", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const lastPost = yield ProblemModel.find().sort({ _id: -1 }).limit(1);
+    const lastPost = yield ProblemModel.find().sort({ questionID: -1 }).limit(1);
+    //console.log("QuestionID: ", lastPost[0].questionID+1);
     res.json({ questionID: lastPost[0].questionID + 1 });
 }));
 app.post("/create", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const inputs = req.body;
     const newProblem = new ProblemModel(inputs);
-    yield newProblem.save();
+    //console.log(inputs);
+    try {
+        yield newProblem.save();
+    }
+    catch (error) {
+        console.error(error);
+    }
     res.json(inputs);
 }));
 app.post('/createFiles', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
