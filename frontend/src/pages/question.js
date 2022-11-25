@@ -1,11 +1,9 @@
 import React from 'react'
-import { colors } from '../global/vars'
+import { colors, diffMap } from '../global/vars'
 import { useLocation } from 'react-router-dom'
 import { useState, createContext  } from 'react'
-import Axios from 'axios'
 import CodeArea from '../components/create/CodeArea'
 import View from '../components/create/View'
-import Button from '../components/common/Button'
 
 const resultCodeToString = [
                             "Correct",
@@ -38,12 +36,6 @@ const Question = ({user}) => {
       maxWidth: 'calc(50% - 4em)',
       width: '50%',
       height: '100%'
-    },
-    buttonDiv: {
-      display: "flex",
-      width: '100%',
-      gap: '2em',
-      justifyContent: 'space-between'
     }
   }
   const [code, setCode] = useState(`def add(a, b):\n  return a + b;\n`);
@@ -86,17 +78,10 @@ const Question = ({user}) => {
       </div>
       <div style={styles.right}>
         <CodeArea 
+          color={colors[diffMap[problem.diff]]}
           style={styles.textarea}
-          onChange={handleOnChange}
-          code={code} setCode={setCode}
+          //moved code={code} setCode={setCode} to CodeArea.js
         />
-        <div style={styles.buttonDiv}>
-          <Button onClick={handleSubmit} color={colors.accent1} text={"get cookin"} />
-          <Button onClick={handleSubmit} color={colors.hover} text={"stess ball"} />
-          <Button onClick={handleSubmit} color={colors.accent2} text={"see solution"} />
-        </div>
-        <h5>Result: {finalResult}</h5>
-        <pre>{result}</pre>
       </div>
     </div>
   )
