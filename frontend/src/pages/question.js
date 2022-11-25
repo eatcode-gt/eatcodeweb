@@ -5,16 +5,7 @@ import { useState, createContext  } from 'react'
 import CodeArea from '../components/create/CodeArea'
 import View from '../components/create/View'
 
-const resultCodeToString = [
-                            "Correct",
-                            "Wrong Answer",
-                            "Time Limit Exceeded",
-                            "Memory Limit Exceeded",
-                            "Runtime Error",
-                            "System Error"
-                          ]
-
-const Question = ({user}) => {
+const Question = () => {
   const styles = {
     content: {
       display: 'flex',

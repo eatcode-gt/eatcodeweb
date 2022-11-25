@@ -3,9 +3,9 @@ import Title from '../components/landing/Title'
 import { Link } from 'react-router-dom';
 import React, { useState, useEffect } from 'react'
 import Axios from "axios";
-import {useNavigate} from 'react-router-dom';
+import { userContext } from '../userContext';
 
-const Landing = ({user, updateUser}) => {
+const Landing = () => {
   const styles = {
     content: {
       display: 'flex',
@@ -32,9 +32,15 @@ const Landing = ({user, updateUser}) => {
       </div>
 
       <div style={styles.side}>
-        <PageLink name="problems" updateUser={updateUser} utensil="fork" />
-        <LogInButton updateUser={updateUser} user={user}/>
-        <PageLink name="create" updateUser={updateUser} utensil="knife"/>
+        <PageLink name="problems" utensil="fork" />
+        <userContext.Consumer>
+          {({user, logInUser, logOutUser}) => {
+            return (
+            <LogInButton user={user} logInUser={logInUser} logOutUser={logOutUser}/>
+            )
+          }}
+        </userContext.Consumer>
+        <PageLink name="create" utensil="knife"/>
       </div>
     </div>
   );
@@ -82,8 +88,6 @@ const PageLink = ({name, signOut, utensil}) => {
     }
   }
 
-  console.log(name, signOut)
-
   return (
     <div style={styles.container}>
       <img style={styles.utensil} src={require(`../components/common/${utensil}.svg`)} alt="" />
@@ -96,10 +100,8 @@ const PageLink = ({name, signOut, utensil}) => {
   )
 }
 
-function LogInButton({user, updateUser}) {
+function LogInButton({user, logInUser, logOutUser}) {
   // sends the token to backend, and retrieve sub(UserID) from backend.
-  const navigate = useNavigate();
-  // const handleOnClick = useCallback(() => navigate('/sample', {replace: true}), [navigate]);
   function handleCredentialResponse(response) {
     Axios.post("http://localhost:3002/login", {
       token: response.credential
@@ -114,13 +116,13 @@ function LogInButton({user, updateUser}) {
     Axios.post("http://localhost:3002/userInfo", {
       sub: userID
     }).then((response) => {
-      updateUser(response.data.result[0], true);
+      logInUser(response.data.result[0]);
     });
   }
 
   function signOut() {
     window.google.accounts.id.disableAutoSelect();
-    updateUser(null, false);
+    logOutUser()
   }
   
   // not sure if this(useEffect) is the right way to do it, sometimes the page doesn't load
@@ -143,7 +145,7 @@ function LogInButton({user, updateUser}) {
 
   return (
     <div>
-      {user.loggedIn
+      {user.userID != null
       ? <PageLink signOut={signOut} name="sign out" utensil="spoon"/>
       : <div id="buttonDiv"></div>}
     </div>

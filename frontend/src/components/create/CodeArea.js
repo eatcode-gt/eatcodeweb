@@ -10,6 +10,9 @@ export default function CodeArea({color}) {
   const [result, setResult] = useState("");
   const [finalResult, setFinalResult] = useState("Raw");
 
+
+
+
   const handleSubmit = () => {
     console.log("Submitted Problem");
     setFinalResult("Pending");
@@ -59,16 +62,16 @@ export default function CodeArea({color}) {
     </div>
     <h5>Result: {finalResult}</h5>
     <div style={styles.testGrid}>
-      <TestResultBar number={1} passed={true}/>
-      <TestResultBar number={2} passed={true}/>
-      <TestResultBar number={3} passed={false}/>
-      <TestResultBar number={4} passed={true}/>
-      <TestResultBar number={5} passed={true}/>
-      <TestResultBar number={6} passed={false}/>
-      <TestResultBar number={7} passed={true}/>
-      <TestResultBar number={8} passed={false}/>
-      <TestResultBar number={9} passed={false}/>
-      <TestResultBar number={9} passed={false}/>
+      <TestResultBar number={1} code={result[0]}/>
+      <TestResultBar number={2} code={result[1]}/>
+      <TestResultBar number={3} code={result[2]}/>
+      <TestResultBar number={4} code={result[3]}/>
+      <TestResultBar number={5} code={result[4]}/>
+      <TestResultBar number={6} code={result[5]}/>
+      <TestResultBar number={7} code={result[6]}/>
+      <TestResultBar number={8} code={result[7]}/>
+      <TestResultBar number={9} code={result[8]}/>
+      <TestResultBar number={9} code={result[9]}/>
     </div>
     </>
   );
