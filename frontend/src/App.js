@@ -1,71 +1,106 @@
 import { colors } from './global/vars'
 import './global/fonts.css';
+import { userContext } from './userContext';
 
-import { useState } from "react";
-import { PageTransition } from '@steveeeie/react-page-transition';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { Component } from "react";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HeaderSkip from './components/common/HeaderSkip';
 import Landing from './pages/landing';
 import Problems from './pages/problems';
-import User from './pages/user';
 import Question from './pages/question';
 import Create from './pages/create';
-import Login from './pages/login'
 
-function App() {
-  const [user, setUser] = useState({
-    loggedIn: false,
-    userName: 'Not Logged In',
-    userID: null,
-    profilePicLink: 'url("https://steamuserimages-a.akamaihd.net/ugc/786371856221183225/2F04B32CA10AD1ADBC01CE5D4DC6F7AF0E96AE6C/?imw=512&imh=512&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true")'
-  });
+class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      user: {
+        userName: null,
+        userID: null,
+        userProfilePictureUrl: null
+      }
+    }
 
-  const updateUser = (newUserData, isLogin) => {
-    if (isLogin) {
-      let newUser = JSON.parse(JSON.stringify(user));
-      newUser.userName = newUserData.name;
-      newUser.loggedIn = true;
-      newUser.userID = newUserData.userID;
-      setUser(newUser);
+    this.logIn = this.logIn.bind(this)
+    this.logOut = this.logOut.bind(this)
+
+    this.loggedOutUserObject = {
+      userName: "Not Logged In",
+      userID: null,
+      userProfilePictureUrl: "https://cdn.pixabay.com/photo/2017/02/12/21/29/false-2061132_1280.png"
+    }
+  }
+
+  componentDidMount() {
+    const loggedInUser = localStorage.getItem("user");
+    if (loggedInUser) {
+      const foundUser = JSON.parse(loggedInUser);
+      this.setState({user: {
+        userName: foundUser.name,
+        userID: foundUser.userID,
+        userProfilePictureUrl: foundUser.profilePictureUrl
+      }})
     } else {
-      let newUser = JSON.parse(JSON.stringify(user));
-      newUser.userName = 'Not Logged In';
-      newUser.loggedIn = false;
-      newUser.userID = null;
-      setUser(newUser);
+      this.setState({user: {
+        userName: this.loggedOutUserObject.userName,
+        userID: this.loggedOutUserObject.userID,
+        userProfilePictureUrl: this.loggedOutUserObject.userProfilePictureUrl,
+      }})
     }
   }
 
-  const styles = {
-    app: {
-      fontFamily: 'Inter',
-      backgroundColor: colors.grey,
-      height: '100vh',
-      width: '100vw',
-    },
-    container: {
-      overflowY: 'auto !important'
-    }
+  logOut() {
+    this.setState({user: {
+      userName: this.loggedOutUserObject.userName,
+      userID: this.loggedOutUserObject.userID,
+      userProfilePictureUrl: this.loggedOutUserObject.userProfilePictureUrl,
+    }})
+    localStorage.clear()
   }
 
-  const location = useLocation();
-  return (
-    <main style={styles.app}>
-      <PageTransition style={styles.container} preset="moveToTopFromBottom" transitionKey={location.key}>
-        <Routes location={location}>
-          <Route exact path='/' element={<Landing user={user}/>} title="eatcode | home"/>
-          <Route element={<HeaderSkip user={user}/>}>
+  logIn(newUserData) {
+    this.setState({user: {
+      userName: newUserData.name,
+      userID: newUserData.userID,
+      userProfilePictureUrl: newUserData.profilePictureUrl
+    }})
+    localStorage.setItem("user", JSON.stringify(newUserData))
+  }
+
+  render() {
+    const styles = {
+      app: {
+        fontFamily: 'Inter',
+        backgroundColor: colors.grey,
+        height: '100vh',
+        width: '100vw',
+      },
+      container: {
+        overflowY: 'auto !important'
+      }
+    }
+  
+    const value = {
+      user: this.state.user,
+      logOutUser: this.logOut,
+      logInUser: this.logIn
+    }
+
+    return (
+      <userContext.Provider value={value}>
+      <main style={styles.app}>
+        <Routes>
+          <Route exact path='/' element={<Landing />} title="eatcode | home"/>
+          <Route element={<HeaderSkip />}>
             <Route path='/problems' element={<Problems />}  title="eatcode | problems"/>
-            <Route path='/logout' element={<Login updateUser={updateUser} user={user}/>}  title="eatcode | login"/>
-            <Route path='/login' element={<Login updateUser={updateUser} user={user}/>}  title="eatcode | login"/>
-            <Route path='/user/:userName' element={<User />}  title="eatcode | user"/>
             <Route path='/create' element={<Create />}  title="eatcode | create"/>
-            <Route path='/problems/:name' element={<Question user={user}/>} title='eatcode | problem' />
+            <Route path='/problems/:name' element={<Question />} title='eatcode | problem' />
           </Route>
         </Routes>
-      </PageTransition>
-    </main>
-  );
+      </main>
+      </userContext.Provider>
+    );
+    }
 }
 
 const Root = () => <Router><App /></Router>;

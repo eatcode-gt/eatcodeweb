@@ -52,6 +52,15 @@ const UserSchema = new mongoose.Schema({
         }),
         required: false,
         default: null,
+    },
+    isAdmin: {
+        type: Boolean,
+        required: true,
+        default: false
+    },
+    profilePictureUrl: {
+        type: String,
+        required: true
     }
 });
 

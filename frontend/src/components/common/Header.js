@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { colors } from '../../global/vars';
 import UserNameBox from './UserNameBox';
 
-const Header = ({user}) => {
+const Header = () => {
   const [titleHover, setTitleHover] = useState(false);
   const handleMouseEnter = () => {
     setTitleHover(true);
@@ -33,7 +33,7 @@ const Header = ({user}) => {
   return (
     <nav style={styles.nav}>
       <Link to="/"><h3 style={styles.title} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}><span style={styles.span}>eat</span>code</h3></Link>
-      <UserNameBox user={user}/>
+      <UserNameBox />      
     </nav>
   )
 }

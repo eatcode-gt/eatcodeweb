@@ -16,7 +16,7 @@ const Button = ({onClick, color, text}) => {
       padding: '0.8em 1.2em',
       width: '100%',
       backgroundColor: btnHover ? colors.black : color,
-      transition: 'all 0.27s ease',
+      transition: 'all 0.33s ease',
       cursor: 'pointer'
     },
     text: {
@@ -26,7 +26,7 @@ const Button = ({onClick, color, text}) => {
   }
 
   return (
-    <div style={styles.container} onClick={onClick} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+    <div onClick={onClick} style={styles.container} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
         <h4 style={styles.text}>{text}</h4>
     </div>
   )
