@@ -133,8 +133,8 @@ app.post('/problems', async (req: Request, res: Response, next) => { //post requ
     createSubmission(req.body, res)
   } catch (error) {
     res.json(error);
-  } 
-}); 
+  }
+});
 
 app.get("/nextJob", async (req: Request, res: Response) => {
   enqueueWorker(res);
