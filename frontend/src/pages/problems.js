@@ -26,10 +26,9 @@ const Problems = () => {
   const styles = {
     container: {
       display: 'flex',
-      justifyContent: 'space-between',
-      gap: '3em',
-      padding: '0em 3em',
-      maxHeight: 'calc(100vh - 8em)'
+      gap: '6em',
+      maxHeight: 'calc(100vh - 8em)',
+      flexDirection: 'column'
     },
     pad: {
       minHeight: '1em',
@@ -44,6 +43,7 @@ const Problems = () => {
       <ProblemBody i={1} props={{diff: "Jalepeño", problems: getProblemsByDiff("Jalepeño")}}/>
       <ProblemBody i={2} props={{diff: "Habenero", problems: getProblemsByDiff("Habenero")}}/>
       <ProblemBody i={3} props={{diff: "Ghost", problems: getProblemsByDiff("Ghost")}}/>
+      <div style={styles.pad}/>
     </div>
   );
 };

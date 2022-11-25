@@ -9,42 +9,37 @@ const View = ({ context, preview, diff}) => {
 
   const styles = {
     cont: {
-      width: '100%',
       display: 'flex',
       flexDirection: 'column',
-      gap: '2em'
+      gap: '1em'
     },
     diff: {
       color: colors[diffMap[diff]]
-    },
-    smallTitle: {
-      fontWeight: 'bold'
     }
   }
 
   return (
     <div style={styles.cont}>
-      <h2>{inputs.title}</h2>
-      <h5 style={styles.diff}>Time Limit: {inputs.time} sec - Memory Limit: {inputs.memory} MB</h5>
-      <Text key={"Description"} text={inputs.description} />
-      <div style={styles.individualExample}>
-        <h4>Example 1</h4>
-        <p><span style={styles.smallTitle}>Inputs(s): </span>{inputs.e1input}</p>
-        <p><span style={styles.smallTitle}>Output(s): </span>{inputs.e1output}</p>
-        <p><span style={styles.smallTitle}>Explanation: </span>{inputs.e1explanation}</p>
-      </div>
-      <div style={styles.individualExample}>
-        <h4>Example 2</h4>
-        <p><span style={styles.smallTitle}>Inputs(s): </span>{inputs.e2input}</p>
-        <p><span style={styles.smallTitle}>Output(s): </span>{inputs.e2output}</p>
-        <p><span style={styles.smallTitle}>Explanation: </span>{inputs.e2explanation}</p>
-      </div>
-      <div style={styles.individualExample}>
-        <h4>Example 3</h4>
-        <p><span style={styles.smallTitle}>Inputs(s): </span>{inputs.e3input}</p>
-        <p><span style={styles.smallTitle}>Output(s): </span>{inputs.e3output}</p>
-        <p><span style={styles.smallTitle}>Explanation: </span>{inputs.e3explanation}</p>
-      </div>
+      <h2>{inputs.name}</h2>
+      <h5 style={styles.diff}>Time Limit: {inputs.time} second - Memory Limit: {inputs.memory} MB</h5>
+      <Text key={"Input"} text={inputs.problemText} />
+      <h3>Input</h3>
+      <Text key={"Output"} text={inputs.input} />
+      <h3>Output</h3>
+      <Text key={"Example"} text={inputs.output} />
+      <h3>Example</h3>
+      <p key={"Input Title"}>Input:</p>
+      <Text key={"Example Input"} text={
+        preview ? inputs.exampleInput : inputs.example.exampleInput
+      } />
+      <p key={"Output Title"}>Output:</p>
+      <Text key={"Example Output"} text={
+        preview ? inputs.exampleOutput : inputs.example.exampleOutput
+      } />
+      <p key={"Explanation Title"}>Explanation:</p>
+      <Text key={"Explanation"} text={
+        preview ? inputs.exampleText : inputs.example.exampleText
+      } />
     </div>
   )
 }

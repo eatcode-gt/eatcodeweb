@@ -62,10 +62,6 @@ app.post("/login", (req, res) => {
                 userID: decoded.sub,
                 name: decoded.name,
                 email: decoded.email,
-                totalScore: 0,
-                attemptedProblems: null,
-                isAdmin: false,
-                profilePictureUrl: decoded.picture
             };
             const newUser = new UserModel(user);
             yield newUser.save();
