@@ -16,12 +16,19 @@ class App extends Component {
     this.state = {
       user: {
         userName: null,
-        userID: null
+        userID: null,
+        userProfilePictureUrl: null
       }
     }
 
     this.logIn = this.logIn.bind(this)
     this.logOut = this.logOut.bind(this)
+
+    this.loggedOutUserObject = {
+      userName: "Not Logged In",
+      userID: null,
+      userProfilePictureUrl: "https://cdn.pixabay.com/photo/2017/02/12/21/29/false-2061132_1280.png"
+    }
   }
 
   componentDidMount() {
@@ -30,27 +37,32 @@ class App extends Component {
       const foundUser = JSON.parse(loggedInUser);
       this.setState({user: {
         userName: foundUser.name,
-        userID: foundUser.userID
+        userID: foundUser.userID,
+        userProfilePictureUrl: foundUser.userProfilePictureUrl
       }})
-      console.log(foundUser, this.state.user)
     } else {
-      this.setState({ user: {
-        userName: "Not Logged In",
-        userID: null
+      this.setState({user: {
+        userName: this.loggedOutUserObject.userName,
+        userID: this.loggedOutUserObject.userID,
+        userProfilePictureUrl: this.loggedOutUserObject.userProfilePictureUrl,
       }})
     }
   }
 
   logOut() {
-    this.setState({user: {}})
+    this.setState({user: {
+      userName: this.loggedOutUserObject.userName,
+      userID: this.loggedOutUserObject.userID,
+      userProfilePictureUrl: this.loggedOutUserObject.userProfilePictureUrl,
+    }})
     localStorage.clear()
   }
 
   logIn(newUserData) {
-    console.log(newUserData)
     this.setState({user: {
       userName: newUserData.name,
-      userID: newUserData.userID
+      userID: newUserData.userID,
+      userProfilePictureUrl: newUserData.profilePictureUrl
     }})
     localStorage.setItem("user", JSON.stringify(newUserData))
   }

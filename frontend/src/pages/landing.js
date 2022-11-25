@@ -33,6 +33,7 @@ const Landing = () => {
 
       <div style={styles.side}>
         <PageLink name="problems" utensil="fork" />
+        <PageLink name="create" utensil="knife"/>
         <userContext.Consumer>
           {({user, logInUser, logOutUser}) => {
             return (
@@ -40,7 +41,6 @@ const Landing = () => {
             )
           }}
         </userContext.Consumer>
-        <PageLink name="create" utensil="knife"/>
       </div>
     </div>
   );
@@ -116,6 +116,7 @@ function LogInButton({user, logInUser, logOutUser}) {
     Axios.post("http://localhost:3002/userInfo", {
       sub: userID
     }).then((response) => {
+      console.log(response)
       logInUser(response.data.result[0]);
     });
   }
@@ -138,7 +139,7 @@ function LogInButton({user, logInUser, logOutUser}) {
     // Render the button using google's library
     google.accounts.id.renderButton(
       document.getElementById("buttonDiv"),
-      { theme: "outline", size: "large" } // customization attributes
+      { theme: "dark", size: "large" } // customization attributes
     );
     // google.accounts.id.prompt(); // also display the One Tap dialog
   })
