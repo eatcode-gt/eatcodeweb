@@ -24,7 +24,7 @@ const TestCasesZippedSchema = new mongoose.Schema({
     type: Buffer,
     required: true,
   },
-  id: {
+  questionID: {
     type: Number,
     required: true,
   },

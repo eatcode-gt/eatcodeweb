@@ -38,8 +38,9 @@ mongoose.connect(process.env.MONGO_DB_CONNECT);
 app.get('/', (req, res) => {
     res.send('placeholder');
 });
-app.get('/problems', (req, res) => {
-    ProblemModel.find({}, (err, result) => {
+app.get('/problems', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    ProblemModel.find({}, null, { sort: { questionID: 1 } }, (err, result) => {
+        console.log(result);
         if (err) {
             res.json(err);
         }
@@ -47,7 +48,7 @@ app.get('/problems', (req, res) => {
             res.json({ result: result });
         }
     });
-});
+}));
 app.post('/register', (req, res) => {
     res.send('placeholder');
 });
@@ -78,7 +79,7 @@ app.post("/login", (req, res) => {
 });
 app.get("/findLastPost", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const lastPost = yield ProblemModel.find().sort({ _id: -1 }).limit(1);
-    res.json({ id: lastPost[0].id + 1 });
+    res.json({ questionID: lastPost[0].questionID + 1 });
 }));
 app.post("/create", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const inputs = req.body;
@@ -93,10 +94,10 @@ app.post('/createFiles', (req, res) => __awaiter(void 0, void 0, void 0, functio
     }
     else {
         let file = req.files.zippedFile;
-        let questionID = req.body.id;
+        let questionID = req.body.questionID;
         const zippedFile = {
             testCasesZipped: file.data,
-            id: questionID
+            questionID: questionID
         };
         const newTestCasesZipped = new TestCasesZippedModel(zippedFile);
         yield newTestCasesZipped.save();

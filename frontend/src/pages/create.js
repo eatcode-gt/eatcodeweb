@@ -3,6 +3,7 @@ import { colors } from '../global/vars'
 import { useState, createContext  } from 'react'
 import Axios from 'axios'
 import View from '../components/create/View'
+import Tags from '../components/create/Tags'
 
 
 const Create = () => {
@@ -48,6 +49,7 @@ const Create = () => {
   
   const UserContext = createContext()
   const fileInput = document.getElementById('fileInput');
+  const [checkedTags, setCheckedTags] = useState([]);
   const [inputs, setInputs] = useState({
     difficulty: 1,
     time: 1,
@@ -57,7 +59,15 @@ const Create = () => {
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
-    setInputs(values => ({...values, [name]: value}));
+    if(event.target.type === "checkbox") {
+      if(event.target.checked === true && !checkedTags.includes(event.target.name)) {
+        setCheckedTags(values => [...values, event.target.name]);
+      } else if(event.target.checked === false) {
+        setCheckedTags(checkedTags.filter(tag =>  tag !== event.target.name));
+      }
+    } else {
+      setInputs(values => ({...values, [name]: value}));
+    }
   }
 
   const resetForm = () => {
@@ -77,15 +87,16 @@ const Create = () => {
     }
     let lastPostID = -1;
     Axios.get("http://localhost:3002/findLastPost").then((response) => {
-      lastPostID = response.data.id;
+      lastPostID = response.data.questionID;
+      // console.log(lastPostID);
       Axios.post("http://localhost:3002/create", {
-        id: lastPostID,
+        questionID: lastPostID,
         name: inputs.name,
         diff: inputs.difficulty,
         time: inputs.time,
         memory: inputs.memory,
         status: 0,
-        text: inputs.problemText,
+        text: inputs.text,
         input: inputs.input,
         output: inputs.output,
         example: {
@@ -95,6 +106,7 @@ const Create = () => {
         },
         numberOfAttemptedUsers: 0,
         numberOfSolvedUsers: 0,
+        tags: checkedTags,
       }).then((response) => {
         console.log("Created Problem");
 
@@ -106,7 +118,7 @@ const Create = () => {
 
         const fileData = new FormData();
         fileData.append("zippedFile", fileInput.files[0]);
-        fileData.append("id", lastPostID);
+        fileData.append("questionID", lastPostID);
 
 
         Axios.post("http://localhost:3002/createFiles", fileData, config).then((response) => {
@@ -145,9 +157,10 @@ const Create = () => {
           <label style={styles.label}>
             Difficulty:
             <select name="difficulty" value={inputs.difficulty || 1} onChange={handleChange}>
-              <option value={0}>Mild</option>
-              <option value={1}>Med</option>
-              <option value={2}>Hot</option>
+              <option value={0}>Bell</option>
+              <option value={1}>Jalepeño</option>
+              <option value={2}>Habenero</option>
+              <option value={3}>Ghost</option>
             </select>
           </label>
           <label style={styles.label}>
@@ -171,8 +184,8 @@ const Create = () => {
           </label>
           <textarea 
               style={styles.textarea}
-              name="problemText"
-              value={inputs.problemText || ""}
+              name="text"
+              value={inputs.text || ""}
               onChange={handleChange}
             /> 
           <label style={styles.label}>
@@ -220,6 +233,8 @@ const Create = () => {
               value={inputs.exampleText || ""}
               onChange={handleChange}
             /> 
+          <label  style={styles.label}>Problem Tags</label>
+          <Tags handleChange={handleChange}/>
           <label style={styles.label}>Choose a zip file with all the test cases</label>
           <input id='fileInput' type="file" name='file' accept=".zip,.7zip" />
           <input type="submit" onSubmit={handleSubmit}/>

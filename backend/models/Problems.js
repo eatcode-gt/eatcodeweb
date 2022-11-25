@@ -16,7 +16,7 @@ const ExampleSchema = new mongoose.Schema({
 });
 
 const ProblemSchema = new mongoose.Schema({
-  id: {
+  questionID: {
     type: Number,
     required: true,
   },
@@ -26,7 +26,7 @@ const ProblemSchema = new mongoose.Schema({
   },
   diff: {
     type: Number,
-    required: true,
+    required: true, 
   },
   time: {
     type: Number,
@@ -67,6 +67,10 @@ const ProblemSchema = new mongoose.Schema({
     required: true,
     default: 0,
   },
+  tags: {
+    type: [String],
+    required: false,
+  }
 });
 
 const ProblemModel = mongoose.model("problems", ProblemSchema);

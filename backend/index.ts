@@ -37,8 +37,9 @@ app.get('/', (req: Request, res: Response) => { //get requests to eatcode.com/
   res.send('placeholder'); 
 });
 
-app.get('/problems', (req: Request, res: Response) => { //gets requests to eatcode.com/problems
-  ProblemModel.find({}, (err: Error, result: Response) => {
+app.get('/problems', async (req: Request, res: Response) => { //gets requests to eatcode.com/problems
+  ProblemModel.find({}, null, {sort: {questionID: 1}}, (err: Error, result: Response) => {
+    console.log(result);
     if(err) {
       res.json(err);
     } else {
@@ -77,8 +78,8 @@ app.post("/login", (req: Request, res: Response) => {
 });
 
 app.get("/findLastPost", async (req: Request, res: Response) => {
-  const lastPost = await ProblemModel.find().sort({_id: -1}).limit(1);
-  res.json({id: lastPost[0].id+1});
+  const lastPost = await ProblemModel.find().sort({_id: -1}).limit(1);  
+  res.json({questionID: lastPost[0].questionID+1});
 })
 
 app.post("/create", async (req: Request, res: Response) => {
@@ -94,10 +95,10 @@ app.post('/createFiles', async (req: Request, res: Response) => {
     res.sendStatus(404);   
   } else {
     let file = req.files.zippedFile as fileUpload.UploadedFile;
-    let questionID = req.body.id;
+    let questionID = req.body.questionID;
     const zippedFile = {
       testCasesZipped: file.data,
-      id: questionID
+      questionID: questionID
     };
     const newTestCasesZipped = new TestCasesZippedModel(zippedFile);
     await newTestCasesZipped.save();
