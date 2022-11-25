@@ -10,20 +10,18 @@ const Create = () => {
   const styles = {
     content: {
       display: 'flex',
+      gap: '3em',
       width: '100vw',
       height: '100vh',
       justifyContent: 'space-between',
       backgroundColor: colors.grey
     },
     left: {
-      backgroundColor: colors.accent2,
-      width: '50%',
+      flex: 1,
       height: '100%',
     },
     right: {
-      backgroundColor: colors.accent1,
-      maxWidth: '50%',
-      width: '50%',
+      flex: 1,
       height: '100%',
     },
     form: {
@@ -36,7 +34,6 @@ const Create = () => {
       fontSize: "2rem",
     },
     input: {
-      width: "50%",
       padding: "8px",
       // margin: "8px 0",
       boxSizing: "border-box",
@@ -228,7 +225,7 @@ const Create = () => {
       </div>
       <div style={styles.right} className="preview-container">
         <UserContext.Provider value={inputs}>
-          <View context={UserContext} preview={true}></View>
+          <View context={UserContext} preview={true} diff={inputs.difficulty}></View>
         </UserContext.Provider>
       </div>
     </div>

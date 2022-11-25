@@ -38,7 +38,7 @@ class App extends Component {
       this.setState({user: {
         userName: foundUser.name,
         userID: foundUser.userID,
-        userProfilePictureUrl: foundUser.userProfilePictureUrl
+        userProfilePictureUrl: foundUser.profilePictureUrl
       }})
     } else {
       this.setState({user: {
