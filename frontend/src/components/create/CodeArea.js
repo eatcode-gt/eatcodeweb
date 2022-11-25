@@ -39,7 +39,8 @@ export default function CodeArea({color, questionID}) {
       fontFamily: 'ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace',
       minHeight: '50%',
       maxHeight: '50%',
-      overflowY: 'scroll'
+      overflowY: 'scroll',
+      color: 'white'
     },
     buttonDiv: {
       display: "flex",
