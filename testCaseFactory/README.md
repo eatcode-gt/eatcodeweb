@@ -1,19 +1,29 @@
-usage:
+# Shell Script for producing zipped testCase file
+
+## Usage:
+
+```
 sh testCaseGenerator.sh inputGenerator ACCode
+```
 
-both of the arguments should be executables
+creates a zip file of (NUMBER_TESTCASES) many testcases<br>
+both `inputGenerator` and `ACCode` should be executables<br>
+`inputGenerator` generates input, it should be random and produce different inputs every time it's run<br>
+`ACCode` should be a correct solution for the problem that outputs the correct answer when given an input<br>
+Please look into sampleInputGenerator.py and sampleACCode.py.<br>
 
-default to use python3, example:
-sh testCaseGenerator.sh sampleInputGenerator.py sampleACCode.py
+## default uses python, the following is an example:<p>
 
-change NUMBER_TESTCASES on first line to use different number of test case
+```
+sh testCaseGenerator.sh sampleInputGenerator.py sampleACCode.py<br>
+```
 
-if you want to use c++, please compile it first,
-then use
-COMMAND = "./"
-instead of  
-COMMAND="python3 "
-on line 14
+change NUMBER_TESTCASES on the first line of testCaseGenerator.sh to use different number of test case<br>
 
-and use the executable as arguments:
+## using C++ files for inputGenerator and AC Code
+
+Please compile the cpp files first, then use `COMMAND = "./"` instead of `COMMAND="python3 "` on line 14 of testCaseGenerator.sh and use the executable as arguments as the following:
+
+```
 sh testCaseGenerator.sh generator.out ACCcode.out
+```
