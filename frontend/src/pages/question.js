@@ -38,36 +38,10 @@ const Question = ({user}) => {
       height: '100%'
     }
   }
-  const [code, setCode] = useState(`def add(a, b):\n  return a + b;\n`);
-  const [result, setResult] = useState("");
-  const [finalResult, setFinalResult] = useState("Raw");
-
-  const handleOnChange = (event) => {
-    setCode(event.target.value);
-  }
-
 
   const UserContext = createContext()
   const problem = useLocation().state.problem
 
-  const handleSubmit = () => {
-    console.log("Submitted Problem");
-    setFinalResult("Pending");
-    setResult("");
-    Axios.post("http://localhost:3002/problems", {
-      code: code, 
-      language: "python", 
-      questionID: problem.questionID,
-      userID: user.userID,
-    }).then((response) => {
-      const result = response.data.result;
-      const finalResult = response.data.finalResult;
-      setFinalResult(resultCodeToString[finalResult])
-      setResult(result.map((val) => {return resultCodeToString[val]}));
-    }).catch((error) => {
-      console.log(error)
-    });
-  }
 
   return (
     <div style={styles.content}>
