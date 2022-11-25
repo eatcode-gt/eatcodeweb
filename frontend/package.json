@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@react-three/drei": "^9.34.0",
+    "@react-three/drei": "^9.43.3",
+    "@splinetool/loader": "^0.9.143",
     "@splinetool/r3f-spline": "^1.0.2",
     "@splinetool/react-spline": "^2.2.3",
     "@splinetool/runtime": "^0.9.117",
@@ -25,6 +26,7 @@
     "react-tooltip": "^4.2.21",
     "react-transition-group": "^4.4.5",
     "styled-components": "^5.3.6",
+    "three": "^0.146.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

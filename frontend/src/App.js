@@ -7,10 +7,8 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import HeaderSkip from './components/common/HeaderSkip';
 import Landing from './pages/landing';
 import Problems from './pages/problems';
-import User from './pages/user';
 import Question from './pages/question';
 import Create from './pages/create';
-import Login from './pages/login'
 
 function App() {
   const [user, setUser] = useState({
@@ -53,12 +51,9 @@ function App() {
     <main style={styles.app}>
       <PageTransition style={styles.container} preset="moveToTopFromBottom" transitionKey={location.key}>
         <Routes location={location}>
-          <Route exact path='/' element={<Landing user={user}/>} title="eatcode | home"/>
+          <Route exact path='/' element={<Landing updateUser={updateUser} user={user} />} title="eatcode | home"/>
           <Route element={<HeaderSkip user={user}/>}>
             <Route path='/problems' element={<Problems />}  title="eatcode | problems"/>
-            <Route path='/logout' element={<Login updateUser={updateUser} user={user}/>}  title="eatcode | login"/>
-            <Route path='/login' element={<Login updateUser={updateUser} user={user}/>}  title="eatcode | login"/>
-            <Route path='/user/:userName' element={<User />}  title="eatcode | user"/>
             <Route path='/create' element={<Create />}  title="eatcode | create"/>
             <Route path='/problems/:name' element={<Question user={user}/>} title='eatcode | problem' />
           </Route>
