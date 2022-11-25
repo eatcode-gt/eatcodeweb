@@ -103,7 +103,8 @@ if __name__ == '__main__':
     #    for j in range(i):
     #        count = count * 10
     #    test_sol(sol, (count,))
-    test_result = "Accepted"
+    # test_result = "Accepted"
+    test_result = 0
     test_num = 0
 
     while (True):
