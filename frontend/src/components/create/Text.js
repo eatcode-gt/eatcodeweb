@@ -2,7 +2,7 @@ import React from 'react'
 import { MathComponent } from 'mathjax-react'
 import { useState, useEffect } from 'react'
 
-const Text = ( {text} ) => {
+const Text = ({ id, text }) => {
 
   const styles = {
     p: {
@@ -42,7 +42,7 @@ const Text = ( {text} ) => {
   }, [text])
 
   return (
-    <div>
+    <div id={id}>
       {filteredText.map((data, i) => {
         return appendToPreview(data, i);
       })}

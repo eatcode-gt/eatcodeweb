@@ -1,54 +1,27 @@
 import React from 'react'
-import { colors } from '../global/vars'
+import { colors, diffMap } from '../global/vars'
 import { useState, createContext  } from 'react'
 import Axios from 'axios'
 import View from '../components/create/View'
 
-
-const Create = () => {
-
-  const styles = {
-    content: {
-      display: 'flex',
-      gap: '3em',
-      width: '100vw',
-      height: '100vh',
-      justifyContent: 'space-between',
-      backgroundColor: colors.grey
-    },
-    left: {
-      flex: 1,
-      height: '100%',
-    },
-    right: {
-      flex: 1,
-      height: '100%',
-    },
-    form: {
-      display: "flex",
-      flexDirection: 'column',
-      justifyContent: 'center',
-      margin: "0 1% 0 1%",
-    },
-    label: {
-      fontSize: "2rem",
-    },
-    input: {
-      padding: "8px",
-      // margin: "8px 0",
-      boxSizing: "border-box",
-    },
-    textarea: {
-      height: "5vh",
-    }
-  }
-  
+const Create = () => {  
   const UserContext = createContext()
   const fileInput = document.getElementById('fileInput');
   const [inputs, setInputs] = useState({
-    difficulty: 1,
-    time: 1,
+    title: "Default Title",
+    description: "This is the default problem description. You should probably change this. You should probably change this.You should probably change this.",
+    difficulty: 0,
+    time: 0.5,
     memory: 256,
+    e1input: "param1 = 'd', param2 = [3, 2, 3]",
+    e1output: "[0, 1]",
+    e1explanation: "This is the explanation on how the inputs yielded the outputs.",
+    e2input: "head = [1, 2, 3, 4, 5], n = 2",
+    e2output: "[1, 2, 3, 5]",
+    e2explanation: "Remove the nth node from the end of the linked list.",
+    e3input: "head = [1, 2, 3, 4, 5], n = 2",
+    e3output: "[1, 2, 3, 5]",
+    e3explanation: "Remove the nth node from the end of the linked list."
   });
 
   const handleChange = (event) => {
@@ -93,7 +66,7 @@ const Create = () => {
         numberOfAttemptedUsers: 0,
         numberOfSolvedUsers: 0,
       }).then((response) => {
-        console.log("Created Problem");
+        console.log("Created Problem", response);
 
         const config = {
           headers: {
@@ -125,102 +98,167 @@ const Create = () => {
     })
   };
 
+  const styles = {
+    content: {
+      display: 'flex',
+      gap: '3em',
+      width: '100vw',
+      height: '100vh',
+      justifyContent: 'space-between',
+      backgroundColor: colors.grey
+    },
+    left: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '2em',
+      flex: 1,
+      maxWidth: '50%'
+    },
+    right: {
+      flex: 1,
+      height: '100%',
+      maxWidth: '50%'
+    },
+    top: {
+      display: 'flex'
+    },
+    form: {
+      display: "flex",
+      flexDirection: 'column',
+      justifyContent: 'center',
+      margin: "0 1% 0 1%",
+      gap: '2em'
+    },
+    diff: {
+      color: colors[diffMap[inputs.difficulty]]
+    },
+    textInput: {
+
+    },
+    dropdownInput: {
+
+    },
+    fileInput: {
+
+    }
+  }
+
   return (
     <div style={styles.content}>
       <div style={styles.left}>
         <form style={styles.form} onSubmit={handleSubmit}>
-          <label style={styles.label}>
-            Problem Name:
-            <input 
-              style={styles.input}
-              type="text" 
-              name="name"
-              value={inputs.name || ""}
+          <div style={styles.top}>
+            <label>
+              <input 
+                style={styles.textInput}
+                type="text" 
+                name="title"
+                default="Enter"
+                value={inputs.title}
+                onChange={handleChange}
+              />
+            </label>
+            <label style={styles.label}>
+                <select style={styles.dropdownInput} name="difficulty" value={inputs.difficulty} onChange={handleChange}>
+                  <option value={0}>Bell</option>
+                  <option value={1}>Jalepeño</option>
+                  <option value={2}>Habenero</option>
+                  <option value={3}>Ghost</option>
+                </select>
+              </label>
+              <label style={styles.label}>
+                <select style={styles.selectInput} name="time" value={inputs.time} onChange={handleChange}>
+                  <option value={0.5}>0.5s</option>
+                  <option value={1}>1s</option>
+                  <option value={2}>2s</option>
+                  <option value={3}>3s</option>
+                </select>
+              </label>
+              <label style={styles.label}>
+                <select style={styles.selectInput} name="memory" value={inputs.memory} onChange={handleChange}>
+                  <option value={256}>256MB</option>
+                  <option value={512}>512MB</option>
+                </select>
+              </label>
+              <label style={styles.label}>
+                <select style={styles.selectInput} name="numExamples" value={inputs.numExamples} onChange={handleChange}>
+                  <option value={1}>1</option>
+                  <option value={2}>2</option>
+                  <option value={2}>3</option>
+                </select>
+              </label>
+          </div>
+          <textarea 
+              style={styles.textInput}
+              name="description"
+              value={inputs.description}
               onChange={handleChange}
             />
-          </label>
-          <label style={styles.label}>
-            Difficulty:
-            <select name="difficulty" value={inputs.difficulty || 1} onChange={handleChange}>
-              <option value={0}>Mild</option>
-              <option value={1}>Med</option>
-              <option value={2}>Hot</option>
-            </select>
-          </label>
-          <label style={styles.label}>
-            Time Limit:
-            <select name="time" value={inputs.time || 1} onChange={handleChange}>
-              <option value={0.5}>0.5s</option>
-              <option value={1}>1s</option>
-              <option value={2}>2s</option>
-              <option value={3}>3s</option>
-            </select>
-          </label>
-          <label style={styles.label}>
-            Memory Limit:
-            <select name="memory" value={inputs.memory || 256} onChange={handleChange}>
-              <option value={256}>256MB</option>
-              <option value={512}>512MB</option>
-            </select>
-          </label>
-          <label style={styles.label}>
-            Problem Text:
-          </label>
-          <textarea 
-              style={styles.textarea}
-              name="problemText"
-              value={inputs.problemText || ""}
-              onChange={handleChange}
-            /> 
-          <label style={styles.label}>
-            Input Description:
-          </label>
-          <textarea 
-              style={styles.textarea}
-              name="input"
-              value={inputs.input || ""}
-              onChange={handleChange}
-            /> 
-          <label style={styles.label}>
-            Output Description:
-          </label>
-          <textarea 
-              style={styles.textarea}
-              name="output"
-              value={inputs.output || ""}
+          <div style={styles.individualExample}>
+            <textarea key={`e1input`}
+              style={styles.textInput}
+              name={`e1input`}
+              value={inputs.e1input}
               onChange={handleChange}
             />
-          <label style={styles.label}>
-            Example Input:
-          </label>
-          <textarea 
-              style={styles.textarea}
-              name="exampleInput"
-              value={inputs.exampleInput || ""}
+            <textarea key={`e1output`}
+              style={styles.textInput}
+              name={`e1output`}
+              value={inputs.e1output}
               onChange={handleChange}
-            /> 
-          <label style={styles.label}>
-            Example Output:
-          </label>
-          <textarea 
-              style={styles.textarea}
-              name="exampleOutput"
-              value={inputs.exampleOutput || ""}
+            />
+            <textarea key={`e1explanation`}
+              style={styles.textInput}
+              name={`e1explanation`}
+              value={inputs.e1explanation}
               onChange={handleChange}
-            /> 
-          <label style={styles.label}>
-            Example Text:
-          </label>
-          <textarea 
-              style={styles.textarea}
-              name="exampleText"
-              value={inputs.exampleText || ""}
+            />
+          </div>
+          <div style={styles.individualExample}>
+            <textarea key={`e2input`}
+              style={styles.textInput}
+              name={`e2input`}
+              value={inputs.e2input}
               onChange={handleChange}
-            /> 
-          <label style={styles.label}>Choose a zip file with all the test cases</label>
-          {/* <input id='fileInput' type="file" name='file' accept=".zip,.7zip" /> */}
-          <input id='fileInput' type="file" name='file'/>
-          <input type="submit" onSubmit={handleSubmit}/>
+            />
+            <textarea key={`e2output`}
+              style={styles.textInput}
+              name={`e2output`}
+              value={inputs.e2output}
+              onChange={handleChange}
+            />
+            <textarea key={`e2explanation`}
+              style={styles.textInput}
+              name={`e2explanation`}
+              value={inputs.e2explanation}
+              onChange={handleChange}
+            />
+          </div>
+          <div style={styles.individualExample}>
+            <textarea key={`e3input`}
+              style={styles.textInput}
+              name={`e3input`}
+              value={inputs.e3input}
+              onChange={handleChange}
+            />
+            <textarea key={`e3output`}
+              style={styles.textInput}
+              name={`e3output`}
+              value={inputs.e3output}
+              onChange={handleChange}
+            />
+            <textarea key={`e3explanation`}
+              style={styles.textInput}
+              name={`e3explanation`}
+              value={inputs.e3explanation}
+              onChange={handleChange}
+            />
+          </div>
+          <div style={styles.fileInput}>
+            <p style={styles.smallTitle}>Choose a zip file with all the test cases</p>
+            <input id='fileInput' type="file" name='file'/>
+            <input type="submit" onSubmit={handleSubmit}/>
+          </div>
         </form>
       </div>
       <div style={styles.right} className="preview-container">
