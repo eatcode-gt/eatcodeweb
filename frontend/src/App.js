@@ -14,7 +14,10 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      user: {}
+      user: {
+        userName: null,
+        userID: null
+      }
     }
 
     this.logIn = this.logIn.bind(this)

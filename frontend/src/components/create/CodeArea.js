@@ -1,31 +1,35 @@
 import CodeEditor from '@uiw/react-textarea-code-editor';
 import Axios from 'axios'
 import Button from '../common/Button'
-import { useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { colors } from '../../global/vars'
 import TestResultBar from './TestResultBar'
 
-export default function CodeArea({color}) {
+import { userContext } from '../../userContext';
+
+export default function CodeArea({color, questionID}) {
+  const user = useContext(userContext)
+  const [getCookingText, setGetCookingText] = useState("get cookin")
   const [code, setCode] = useState(`def add(a, b):\n  return a + b;\n`);
-  const [result, setResult] = useState("");
-  const [finalResult, setFinalResult] = useState("Raw");
-
-
-
+  const [result, setResult] = useState([6, 6, 6, 6, 6, 6, 6, 6, 6, 6]);
 
   const handleSubmit = () => {
-    console.log("Submitted Problem");
-    setFinalResult("Pending");
-    Axios.post("http://localhost:3002/problems", {
-      userCode: code, 
-      userLanguage: "python", 
-      questionID: 0
-    }).then((response) => {
-      console.log(response.data);
-      const finalWord = response.data.split("\n");
-      setFinalResult(finalWord[finalWord.length - 1])
-      setResult(response.data);
-    });
+    if (user.user.userID == null) {
+      alert("You must be signed in to submit a problem.")
+    } else {
+      console.log("Submitted Problem");
+      setGetCookingText("cooking...")
+      Axios.post("http://localhost:3002/problems", {
+        code: code, 
+        language: "python", 
+        questionID: questionID,
+        userID: user.user.userID
+      }).then((response) => {
+        setGetCookingText("cooked")
+        setResult(response.data.result);
+        console.log(result)
+      });
+    }
   }
 
   const styles = {
@@ -33,7 +37,9 @@ export default function CodeArea({color}) {
       fontSize: '1.7em',
       backgroundColor: colors.codeBg,
       fontFamily: 'ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace',
-      minHeight: '50%'
+      minHeight: '50%',
+      maxHeight: '50%',
+      overflowY: 'scroll'
     },
     buttonDiv: {
       display: "flex",
@@ -43,7 +49,7 @@ export default function CodeArea({color}) {
     },
     testGrid: {
       display: 'grid',
-      gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr',
+      gridTemplateColumns: '1fr 1fr 1fr',
       gap: '1.5em'
     }
   }
@@ -57,10 +63,9 @@ export default function CodeArea({color}) {
       style={styles.codeEditor}
     />
     <div style={styles.buttonDiv}>
-      <Button onClick={handleSubmit} color={color} text={"get cookin"} />
+      <Button onClick={handleSubmit} color={color} text={getCookingText} />
       <Button onClick={handleSubmit} color={colors.cooked} text={"see solution"} />
     </div>
-    <h5>Result: {finalResult}</h5>
     <div style={styles.testGrid}>
       <TestResultBar number={1} code={result[0]}/>
       <TestResultBar number={2} code={result[1]}/>

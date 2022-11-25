@@ -33,7 +33,6 @@ const Question = () => {
   const UserContext = createContext()
   const problem = useLocation().state.problem
 
-
   return (
     <div style={styles.content}>
       <div style={styles.left}>
@@ -45,6 +44,7 @@ const Question = () => {
         <CodeArea 
           color={colors[diffMap[problem.diff]]}
           style={styles.textarea}
+          questionID={problem.questionID}
           //moved code={code} setCode={setCode} to CodeArea.js
         />
       </div>
