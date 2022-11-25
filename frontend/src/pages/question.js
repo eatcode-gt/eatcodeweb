@@ -1,7 +1,7 @@
 import React from 'react'
 import { colors, diffMap } from '../global/vars'
 import { useLocation } from 'react-router-dom'
-import { useState, createContext  } from 'react'
+import { createContext  } from 'react'
 import CodeArea from '../components/create/CodeArea'
 import View from '../components/create/View'
 
@@ -42,7 +42,7 @@ const Question = () => {
       </div>
       <div style={styles.right}>
         <CodeArea 
-          color={colors[diffMap[problem.diff]]}
+          color={colors[diffMap[problem.difficulty]]}
           style={styles.textarea}
           questionID={problem.questionID}
           //moved code={code} setCode={setCode} to CodeArea.js

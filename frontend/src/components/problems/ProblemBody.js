@@ -2,8 +2,10 @@ import React from 'react'
 import Problem from './Problem'
 import { colors, diffMap } from '../../global/vars'
 import diffData from './diffData.json'
-const ProblemBody = ({ i, props }) => {
+const ProblemBody = ({ i, diff, problems }) => {
   const userDiffObject = [3, 1, 0, 5]
+
+  console.log(diff, problems)
 
   const styles = {
     container: {
@@ -30,7 +32,7 @@ const ProblemBody = ({ i, props }) => {
       height: 'auto'
     },
     diffTitle: {
-      color: colors[props.diff],
+      color: colors[diff],
     },
     pepperCont: {
       minHeight: '100%',
@@ -44,14 +46,14 @@ const ProblemBody = ({ i, props }) => {
       <div style={styles.left}>
         <div>
           <div style={styles.topTitle}>
-            <h2 style={styles.diffTitle}>{props.diff}</h2>
+            <h2 style={styles.diffTitle}>{diff}</h2>
           </div>
-          <p>{diffData[props.diff].desc}</p>
-          <h3>{props.diff}s eaten: {userDiffObject[diffMap.indexOf(props.diff)]}</h3>
+          <p>{diffData[diff].desc}</p>
+          <h3>{diff}s eaten: {userDiffObject[diffMap.indexOf(diff)]}</h3>
         </div>
       </div>
       <div style={styles.grid}>
-        {props.problems.map((problem, j) => {
+        {problems.map((problem, j) => {
           return (
             <Problem key={1000 * i * j} problem={problem} />
           );

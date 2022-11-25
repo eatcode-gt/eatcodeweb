@@ -31,12 +31,12 @@ const Create = () => {
   }
 
   const resetForm = () => {
-    setInputs({
-      difficulty: 1,
-      time: 1,
-      memory: 256,
-    });
-    fileInput.value = "";
+    // setInputs({
+    //   difficulty: 1,
+    //   time: 1,
+    //   memory: 256,
+    // });
+    // fileInput.value = "";
   }
 
   const handleSubmit = (event) => {
@@ -47,23 +47,24 @@ const Create = () => {
     }
     let questionID = -1;
     Axios.get("http://localhost:3002/findLastPost").then((response) => {
-      questionID = response.data.questionID;
-      console.log(questionID);
+      questionID = response.data.questionID + 100;
       Axios.post("http://localhost:3002/create", {
         questionID,
-        name: inputs.name,
-        diff: inputs.difficulty,
+        title: inputs.title,
+        description: inputs.description,
+        difficulty: inputs.difficulty,
         time: inputs.time,
         memory: inputs.memory,
         status: 0,
-        text: inputs.problemText,
-        input: inputs.input,
-        output: inputs.output,
-        example: {
-          exampleInput: inputs.exampleInput,
-          exampleOutput: inputs.exampleOutput,
-          exampleText: inputs.exampleText,
-        },
+        e1input: inputs.e1input,
+        e1output: inputs.e1output,
+        e1explanation: inputs.e1explanation,
+        e2input: inputs.e2input,
+        e2output: inputs.e2output,
+        e2explanation: inputs.e2explanation,
+        e3input: inputs.e3input,
+        e3output: inputs.e3output,
+        e3explanation: inputs.e3explanation,
         numberOfAttemptedUsers: 0,
         numberOfSolvedUsers: 0,
       }).then((response) => {

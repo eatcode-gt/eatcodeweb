@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { colors } from '../../global/vars'
 import { Link } from 'react-router-dom'
-import { diffMap, statusMap } from '../../global/vars'
+import { diffMap } from '../../global/vars'
 
 const Problem = ({ problem }) => {
   const [barHover, setBarHover] = useState(false);
@@ -21,7 +21,7 @@ const Problem = ({ problem }) => {
       alignItems: 'center',
       justifyContent: 'center',
       fontWeight: '400',
-      backgroundColor: barHover ? colors.black : colors[diffMap[problem.diff]],
+      backgroundColor: barHover ? colors.black : colors[diffMap[problem.difficulty]],
       cursor: 'pointer',
       transition: 'all 0.27s ease',
     },
@@ -30,9 +30,9 @@ const Problem = ({ problem }) => {
     }
   }
   return (
-    <Link to={`/problems/${problem.name}}`} state={ {problem} }>
+    <Link to={`/problems/${problem.title}}`} state={ {problem} }>
       <div style={styles.bar} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-          <h5 style={styles.name}>{problem.name}</h5>
+          <h5 style={styles.name}>{problem.title}</h5>
       </div>
     </Link>
   )
