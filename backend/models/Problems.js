@@ -1,31 +1,20 @@
 const mongoose = require('mongoose');
 
-const ExampleSchema = new mongoose.Schema({
-  exampleInput: {
-    type: String,
-    required: true,
-  },
-  exampleOutput: {
-    type: String,
-    required: true,
-  },
-  exampleText: {
-    type: String,
-    required: false,
-  }
-});
-
 const ProblemSchema = new mongoose.Schema({
   questionID: {
     type: Number,
     required: true,
     unique: true,
   },
-  name: {
+  title: {
     type: String,
     required: true,
   },
-  diff: {
+  description: {
+    type: String,
+    required: true,
+  },
+  difficulty: {
     type: Number,
     required: true,
   },
@@ -42,20 +31,40 @@ const ProblemSchema = new mongoose.Schema({
     required: true,
     default: 0,
   },
-  text: {
+  e1input: {
     type: String,
     required: true,
   },
-  input: {
+  e1output: {
     type: String,
     required: true,
   },
-  output: {
+  e1explanation: {
     type: String,
     required: true,
   },
-  example: {
-    type: ExampleSchema,
+  e2input: {
+    type: String,
+    required: true,
+  },
+  e2output: {
+    type: String,
+    required: true,
+  },
+  e2explanation: {
+    type: String,
+    required: true,
+  },
+  e3input: {
+    type: String,
+    required: true,
+  },
+  e3output: {
+    type: String,
+    required: true,
+  },
+  e3explanation: {
+    type: String,
     required: true,
   },
   numberOfAttemptedUsers: {
@@ -72,11 +81,3 @@ const ProblemSchema = new mongoose.Schema({
 
 const ProblemModel = mongoose.model("problems", ProblemSchema);
 module.exports = ProblemModel;
-
-// "problemID": 2, 
-// "problemName": "McDouble", 
-// "problemDifficulty": "med", 
-// "problemStatus": "new",
-// "problemText": "Such cool text",
-// "numberOfAttemptedUsers": 0,
-// "numberOfSolvedUsers": 0
