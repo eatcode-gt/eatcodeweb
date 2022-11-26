@@ -57,7 +57,7 @@ const Problems = () => {
   return (
     <div>
       <div >
-        <button style={styles.button} value={0} onClick={handleClick} >By Diff</button>
+        <button style={styles.button} value={0} onClick={handleClick} >By Difficulty</button>
         <button style={styles.button} value={1} onClick={handleClick} >By Search</button>
       </div>
       <div style={styles.container}>

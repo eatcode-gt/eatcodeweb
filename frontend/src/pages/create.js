@@ -14,18 +14,20 @@ const Create = () => {
       width: '100vw',
       height: '100vh',
       justifyContent: 'space-between',
-      backgroundColor: colors.grey
+      backgroundColor: colors.grey,
     },
     left: {
       backgroundColor: colors.accent2,
       width: '50%',
       height: '100%',
+      overflow: 'auto',
     },
     right: {
       backgroundColor: colors.accent1,
       maxWidth: '50%',
       width: '50%',
       height: '100%',
+      overflow: 'auto',
     },
     form: {
       display: "flex",
@@ -44,6 +46,9 @@ const Create = () => {
     },
     textarea: {
       height: "5vh",
+    },
+    padding: {
+      height: '100px',
     }
   }
   
@@ -240,6 +245,7 @@ const Create = () => {
           <input id='fileInput' type="file" name='file'/>
           <input type="submit" onSubmit={handleSubmit}/>
         </form>
+        <div style={styles.padding} ></div>
       </div>
       <div style={styles.right} className="preview-container">
         <UserContext.Provider value={inputs}>

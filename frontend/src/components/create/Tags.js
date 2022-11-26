@@ -15,8 +15,8 @@ const Tags = (props) => {
 
   const TagList = [
     "Binary Search", "Bitmasks", "Brute Force", 
-    "DP", "Geometry", 
-    "Graphs", "Greedy", "Math", "Number Theory",
+    "DP", "Geometry", "Graphs", "Greedy", 
+    "Math", "Number Theory", "Prefix-Sum",
     "Probability", "Shortest Paths", "Sorting",
     "Trees", "Two Pointers" 
   ]
