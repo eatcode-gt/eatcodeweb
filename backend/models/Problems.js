@@ -19,6 +19,7 @@ const ProblemSchema = new mongoose.Schema({
   questionID: {
     type: Number,
     required: true,
+    unique: true,
   },
   name: {
     type: String,
