@@ -11,7 +11,10 @@ export default function CodeArea({color, questionID}) {
   const user = useContext(userContext)
   const [getCookingText, setGetCookingText] = useState("get cookin")
   const [code, setCode] = useState(`def add(a, b):\n  return a + b;\n`);
-  const [result, setResult] = useState([6, 6, 6, 6, 6, 6, 6, 6, 6, 6]);
+  const [result, setResult] = useState(
+    // [0, 1, 2, 3, 4, 5]
+    []
+    );
 
   const handleSubmit = () => {
     if (user.user.userID == null) {
@@ -50,8 +53,18 @@ export default function CodeArea({color, questionID}) {
     },
     testGrid: {
       display: 'grid',
-      gridTemplateColumns: '1fr 1fr 1fr',
+      gridTemplateColumns: result.length == 0 ? '1fr' : '1fr 1fr',
       gap: '1.5em'
+    },
+    noSubmission: {
+      backgroundColor: "#333333",
+      width: '100%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '5em 0em',
+      color: colors.white
+
     }
   }
 
@@ -68,16 +81,16 @@ export default function CodeArea({color, questionID}) {
       <Button onClick={handleSubmit} color={colors.cooked} text={"see solution"} />
     </div>
     <div style={styles.testGrid}>
-      <TestResultBar number={1} code={result[0]}/>
-      <TestResultBar number={2} code={result[1]}/>
-      <TestResultBar number={3} code={result[2]}/>
-      <TestResultBar number={4} code={result[3]}/>
-      <TestResultBar number={5} code={result[4]}/>
-      <TestResultBar number={6} code={result[5]}/>
-      <TestResultBar number={7} code={result[6]}/>
-      <TestResultBar number={8} code={result[7]}/>
-      <TestResultBar number={9} code={result[8]}/>
-      <TestResultBar number={9} code={result[9]}/>
+
+      {result.length == 0
+      ? <div style={styles.noSubmission}><h4>submit to see results</h4></div>
+      : result.map((test, i) => {
+          return (
+            <TestResultBar number={i+1} code={test} />
+          )
+          })
+      }
+
     </div>
     </>
   );
