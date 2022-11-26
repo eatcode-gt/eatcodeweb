@@ -10,9 +10,11 @@ const Create = () => {
   const [inputs, setInputs] = useState({
     title: "Default Title",
     description: "This is the default problem description. You should probably change this. You should probably change this.You should probably change this.",
-    difficulty: 0,
-    time: 0.5,
+    difficulty: 1,
+    time: 1,
     memory: 256,
+    input: "The only line of each test contains two integers $$n$$ and $$\\left ( 0 \\leq k < n < 10^{6} \\right )$$.",
+    output: "Output a single integer - the answer modulo $$10^{9} + 7$$.",
     e1input: "param1 = 'd', param2 = [3, 2, 3]",
     e1output: "[0, 1]",
     e1explanation: "This is the explanation on how the inputs yielded the outputs.",
@@ -31,12 +33,12 @@ const Create = () => {
   }
 
   const resetForm = () => {
-    // setInputs({
-    //   difficulty: 1,
-    //   time: 1,
-    //   memory: 256,
-    // });
-    // fileInput.value = "";
+    setInputs({
+      difficulty: 1,
+      time: 1,
+      memory: 256,
+    });
+    fileInput.value = "";
   }
 
   const handleSubmit = (event) => {
@@ -56,6 +58,8 @@ const Create = () => {
         time: inputs.time,
         memory: inputs.memory,
         status: 0,
+        input: inputs.input,
+        output: inputs.output,
         e1input: inputs.e1input,
         e1output: inputs.e1output,
         e1explanation: inputs.e1explanation,
@@ -103,8 +107,9 @@ const Create = () => {
   const styles = {
     content: {
       display: 'flex',
+      padding: '3em',
       gap: '3em',
-      width: '100vw',
+      width: 'calc(100vw - 6em)',
       height: '100vh',
       justifyContent: 'space-between',
       backgroundColor: colors.grey
@@ -112,14 +117,11 @@ const Create = () => {
     left: {
       display: 'flex',
       flexDirection: 'column',
-      gap: '2em',
-      flex: 1,
-      maxWidth: '50%'
+      flex: 1
     },
     right: {
       flex: 1,
       height: '100%',
-      maxWidth: '50%'
     },
     top: {
       display: 'flex'
@@ -194,6 +196,18 @@ const Create = () => {
               style={styles.textInput}
               name="description"
               value={inputs.description}
+              onChange={handleChange}
+            />
+          <textarea 
+              style={styles.textInput}
+              name="input"
+              value={inputs.input}
+              onChange={handleChange}
+            />
+          <textarea 
+              style={styles.textInput}
+              name="output"
+              value={inputs.output}
               onChange={handleChange}
             />
           <div style={styles.individualExample}>
