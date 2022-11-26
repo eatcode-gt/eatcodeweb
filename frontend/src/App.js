@@ -9,6 +9,7 @@ import Landing from './pages/landing';
 import Problems from './pages/problems';
 import Question from './pages/question';
 import Create from './pages/create';
+import Error from './pages/error';
 
 class App extends Component {
   constructor(props) {
@@ -40,6 +41,7 @@ class App extends Component {
         userID: foundUser.userID,
         userProfilePictureUrl: foundUser.profilePictureUrl
       }})
+      //VERIFY THAT USER DID NOT TOUCH LOCALSTORAGE TO GET ADMIN
     } else {
       this.setState({user: {
         userName: this.loggedOutUserObject.userName,
@@ -47,6 +49,10 @@ class App extends Component {
         userProfilePictureUrl: this.loggedOutUserObject.userProfilePictureUrl,
       }})
     }
+  }
+
+  verifyAdmin() {
+    return false;
   }
 
   logOut() {
@@ -90,11 +96,15 @@ class App extends Component {
       <userContext.Provider value={value}>
       <main style={styles.app}>
         <Routes>
-          <Route exact path='/' element={<Landing />} title="eatcode | home"/>
+          <Route exact path='/' element={<Landing />} />
           <Route element={<HeaderSkip />}>
-            <Route path='/problems' element={<Problems />}  title="eatcode | problems"/>
-            <Route path='/create' element={<Create />}  title="eatcode | create"/>
-            <Route path='/problems/:name' element={<Question />} title='eatcode | problem' />
+            <Route path='/problems' element={<Problems />}  />
+            { this.verifyAdmin()
+            ? <Route path='/create' element={<Create />}  />
+            : <Route path='/create' element={<Error />}  />
+            }
+            <Route path='/problems/:name' element={<Question />} />
+            <Route path="*" element={<Error />} />
           </Route>
         </Routes>
       </main>
