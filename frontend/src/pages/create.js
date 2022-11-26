@@ -4,27 +4,29 @@ import { useState, createContext  } from 'react'
 import Axios from 'axios'
 import View from '../components/create/View'
 
+const defaultInputs = {
+  title: "Default Title",
+  description: "This is the default problem description. You should probably change this. You should probably change this.You should probably change this.",
+  difficulty: 1,
+  time: 1,
+  memory: 256,
+  input: "The only line of each test contains two integers $$n$$ and $$\\left ( 0 \\leq k < n < 10^{6} \\right )$$.",
+  output: "Output a single integer - the answer modulo $$10^{9} + 7$$.",
+  e1input: "param1 = 'd', param2 = [3, 2, 3]",
+  e1output: "[0, 1]",
+  e1explanation: "This is the explanation on how the inputs yielded the outputs.",
+  e2input: "head = [1, 2, 3, 4, 5], n = 2",
+  e2output: "[1, 2, 3, 5]",
+  e2explanation: "Remove the nth node from the end of the linked list.",
+  e3input: "head = [1, 2, 3, 4, 5], n = 2",
+  e3output: "[1, 2, 3, 5]",
+  e3explanation: "Remove the nth node from the end of the linked list."
+}
+
 const Create = () => {  
   const UserContext = createContext()
   const fileInput = document.getElementById('fileInput');
-  const [inputs, setInputs] = useState({
-    title: "Default Title",
-    description: "This is the default problem description. You should probably change this. You should probably change this.You should probably change this.",
-    difficulty: 1,
-    time: 1,
-    memory: 256,
-    input: "The only line of each test contains two integers $$n$$ and $$\\left ( 0 \\leq k < n < 10^{6} \\right )$$.",
-    output: "Output a single integer - the answer modulo $$10^{9} + 7$$.",
-    e1input: "param1 = 'd', param2 = [3, 2, 3]",
-    e1output: "[0, 1]",
-    e1explanation: "This is the explanation on how the inputs yielded the outputs.",
-    e2input: "head = [1, 2, 3, 4, 5], n = 2",
-    e2output: "[1, 2, 3, 5]",
-    e2explanation: "Remove the nth node from the end of the linked list.",
-    e3input: "head = [1, 2, 3, 4, 5], n = 2",
-    e3output: "[1, 2, 3, 5]",
-    e3explanation: "Remove the nth node from the end of the linked list."
-  });
+  const [inputs, setInputs] = useState({...defaultInputs});
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -33,11 +35,7 @@ const Create = () => {
   }
 
   const resetForm = () => {
-    setInputs({
-      difficulty: 1,
-      time: 1,
-      memory: 256,
-    });
+    setInputs({...defaultInputs});
     fileInput.value = "";
   }
 
