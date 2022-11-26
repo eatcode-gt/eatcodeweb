@@ -7,8 +7,7 @@ export default function TestResultBar({number, code}) {
     "Time Limit Exceeded",
     "Memory Limit Exceeded",
     "Runtime Error",
-    "System Error",
-    "No Submission"
+    "System Error"
   ]
 
   const resultCodeToColor = [
