@@ -33,12 +33,14 @@ const Landing = () => {
 
       <div style={styles.side}>
         <PageLink name="problems" utensil="fork" />
-        <PageLink name="create" utensil="knife"/>
         <userContext.Consumer>
           {({user, logInUser, logOutUser}) => {
-            return (
+            return (<>
+            { user.isAdmin
+            ? <PageLink name="create" utensil="knife"/>
+            :<></>}
             <LogInButton user={user} logInUser={logInUser} logOutUser={logOutUser}/>
-            )
+            </>)
           }}
         </userContext.Consumer>
       </div>

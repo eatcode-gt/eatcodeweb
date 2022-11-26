@@ -5,8 +5,6 @@ import diffData from './diffData.json'
 const ProblemBody = ({ i, diff, problems }) => {
   const userDiffObject = [3, 1, 0, 5]
 
-  console.log(diff, problems)
-
   const styles = {
     container: {
       display: 'flex',

@@ -41,10 +41,6 @@ app.get('/problems', (req: Request, res: Response) => { //gets requests to eatco
   })
 })
 
-app.post('/register', (req: Request, res: Response) => { //post requests to eatcode.com/register
-  res.send('placeholder');
-}); 
-
 app.post("/login", (req: Request, res: Response) => {
   const token = req.body.token;
   const decoded = jwt.decode(token);

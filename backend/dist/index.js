@@ -46,9 +46,6 @@ app.get('/problems', (req, res) => {
         }
     });
 });
-app.post('/register', (req, res) => {
-    res.send('placeholder');
-});
 app.post("/login", (req, res) => {
     const token = req.body.token;
     const decoded = jwt.decode(token);

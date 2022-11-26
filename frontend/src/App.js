@@ -1,6 +1,7 @@
 import { colors } from './global/vars'
 import './global/fonts.css';
 import { userContext } from './userContext';
+import Axios from "axios";
 
 import { Component } from "react";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -16,9 +17,10 @@ class App extends Component {
     super(props)
     this.state = {
       user: {
-        userName: null,
+        userName: "Not Logged In",
         userID: null,
-        userProfilePictureUrl: null
+        userProfilePictureUrl: "https://cdn.pixabay.com/photo/2017/02/12/21/29/false-2061132_1280.png",
+        isAdmin: false
       }
     }
 
@@ -28,7 +30,8 @@ class App extends Component {
     this.loggedOutUserObject = {
       userName: "Not Logged In",
       userID: null,
-      userProfilePictureUrl: "https://cdn.pixabay.com/photo/2017/02/12/21/29/false-2061132_1280.png"
+      userProfilePictureUrl: "https://cdn.pixabay.com/photo/2017/02/12/21/29/false-2061132_1280.png",
+      isAdmin: false
     }
   }
 
@@ -39,20 +42,21 @@ class App extends Component {
       this.setState({user: {
         userName: foundUser.name,
         userID: foundUser.userID,
-        userProfilePictureUrl: foundUser.profilePictureUrl
+        userProfilePictureUrl: foundUser.profilePictureUrl,
+        isAdmin: foundUser.isAdmin
       }})
-      //VERIFY THAT USER DID NOT TOUCH LOCALSTORAGE TO GET ADMIN
     } else {
       this.setState({user: {
-        userName: this.loggedOutUserObject.userName,
-        userID: this.loggedOutUserObject.userID,
-        userProfilePictureUrl: this.loggedOutUserObject.userProfilePictureUrl,
+        userName: "Not Logged In",
+        userID: null,
+        userProfilePictureUrl: "https://cdn.pixabay.com/photo/2017/02/12/21/29/false-2061132_1280.png",
+        isAdmin: false
       }})
     }
   }
 
   verifyAdmin() {
-    return false;
+    return this.state.user.isAdmin
   }
 
   logOut() {
@@ -68,9 +72,11 @@ class App extends Component {
     this.setState({user: {
       userName: newUserData.name,
       userID: newUserData.userID,
-      userProfilePictureUrl: newUserData.profilePictureUrl
+      userProfilePictureUrl: newUserData.profilePictureUrl,
+      isAdmin: newUserData.isAdmin
     }})
     localStorage.setItem("user", JSON.stringify(newUserData))
+    console.log('logged in', this.state.user)
   }
 
   render() {
@@ -99,7 +105,7 @@ class App extends Component {
           <Route exact path='/' element={<Landing />} />
           <Route element={<HeaderSkip />}>
             <Route path='/problems' element={<Problems />}  />
-            { this.verifyAdmin()
+            { this.verifyAdmin() == true
             ? <Route path='/create' element={<Create />}  />
             : <Route path='/create' element={<Error />}  />
             }
