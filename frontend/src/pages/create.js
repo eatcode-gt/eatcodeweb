@@ -105,7 +105,7 @@ const Create = () => {
   const styles = {
     content: {
       display: 'flex',
-      padding: '3em',
+      padding: '0em 3em',
       gap: '3em',
       width: 'calc(100vw - 6em)',
       height: '100vh',

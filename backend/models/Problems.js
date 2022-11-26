@@ -31,6 +31,14 @@ const ProblemSchema = new mongoose.Schema({
     required: true,
     default: 0,
   },
+  input: {
+    type: String,
+    required: true
+  },
+  output: {
+    type: String,
+    required: true
+  },
   e1input: {
     type: String,
     required: true,
