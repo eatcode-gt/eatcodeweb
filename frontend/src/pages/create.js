@@ -3,6 +3,7 @@ import { colors } from '../global/vars'
 import { useState, createContext  } from 'react'
 import Axios from 'axios'
 import View from '../components/create/View'
+import Tags from '../components/create/Tags'
 
 
 const Create = () => {
@@ -13,18 +14,20 @@ const Create = () => {
       width: '100vw',
       height: '100vh',
       justifyContent: 'space-between',
-      backgroundColor: colors.grey
+      backgroundColor: colors.grey,
     },
     left: {
       backgroundColor: colors.accent2,
       width: '50%',
       height: '100%',
+      overflow: 'auto',
     },
     right: {
       backgroundColor: colors.accent1,
       maxWidth: '50%',
       width: '50%',
       height: '100%',
+      overflow: 'auto',
     },
     form: {
       display: "flex",
@@ -43,11 +46,15 @@ const Create = () => {
     },
     textarea: {
       height: "5vh",
+    },
+    padding: {
+      height: '100px',
     }
   }
   
   const UserContext = createContext()
   const fileInput = document.getElementById('fileInput');
+  const [checkedTags, setCheckedTags] = useState([]);
   const [inputs, setInputs] = useState({
     difficulty: 1,
     time: 1,
@@ -57,7 +64,15 @@ const Create = () => {
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
-    setInputs(values => ({...values, [name]: value}));
+    if(event.target.type === "checkbox") {
+      if(event.target.checked === true && !checkedTags.includes(event.target.name)) {
+        setCheckedTags(values => [...values, event.target.name]);
+      } else if(event.target.checked === false) {
+        setCheckedTags(checkedTags.filter(tag =>  tag !== event.target.name));
+      }
+    } else {
+      setInputs(values => ({...values, [name]: value}));
+    }
   }
 
   const resetForm = () => {
@@ -86,7 +101,7 @@ const Create = () => {
         time: inputs.time,
         memory: inputs.memory,
         status: 0,
-        text: inputs.problemText,
+        text: inputs.text,
         input: inputs.input,
         output: inputs.output,
         example: {
@@ -96,6 +111,7 @@ const Create = () => {
         },
         numberOfAttemptedUsers: 0,
         numberOfSolvedUsers: 0,
+        tags: checkedTags,
       }).then((response) => {
         console.log("Created Problem");
 
@@ -146,9 +162,10 @@ const Create = () => {
           <label style={styles.label}>
             Difficulty:
             <select name="difficulty" value={inputs.difficulty || 1} onChange={handleChange}>
-              <option value={0}>Mild</option>
-              <option value={1}>Med</option>
-              <option value={2}>Hot</option>
+              <option value={0}>Bell</option>
+              <option value={1}>Jalepeño</option>
+              <option value={2}>Habenero</option>
+              <option value={3}>Ghost</option>
             </select>
           </label>
           <label style={styles.label}>
@@ -172,8 +189,8 @@ const Create = () => {
           </label>
           <textarea 
               style={styles.textarea}
-              name="problemText"
-              value={inputs.problemText || ""}
+              name="text"
+              value={inputs.text || ""}
               onChange={handleChange}
             /> 
           <label style={styles.label}>
@@ -221,11 +238,14 @@ const Create = () => {
               value={inputs.exampleText || ""}
               onChange={handleChange}
             /> 
+          <label  style={styles.label}>Problem Tags</label>
+          <Tags handleChange={handleChange}/>
           <label style={styles.label}>Choose a zip file with all the test cases</label>
           {/* <input id='fileInput' type="file" name='file' accept=".zip,.7zip" /> */}
           <input id='fileInput' type="file" name='file'/>
           <input type="submit" onSubmit={handleSubmit}/>
         </form>
+        <div style={styles.padding} ></div>
       </div>
       <div style={styles.right} className="preview-container">
         <UserContext.Provider value={inputs}>
