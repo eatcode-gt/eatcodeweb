@@ -48,7 +48,7 @@ const ProblemBody = ({ i, props }) => {
   }
 
   return (
-    <div key={i} style={styles.container}>
+    <div style={styles.container}>
       <div style={styles.left}>
         <div>
           <h2 style={styles.diffTitle}>{props.diff}</h2>
@@ -63,7 +63,7 @@ const ProblemBody = ({ i, props }) => {
           </div>
         </div>
         <div style={styles.pepperCont}>
-          <Peppers diff={props.diff} />
+          <Peppers diff={props.diff} size={"20rem"}/>
         </div>
       </div>
       <div style={styles.grid}>
