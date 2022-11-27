@@ -41,7 +41,7 @@ Using the terminal:
 
 ## 📋 EatCode License
 
-Although EatCode is open-source, EatCode is protected under copyright. Under __*no circumstances*__ do we allow unlawful reproduction or distribution of EatCode for the purpose of commerical gains. Please refer our [license](https://github.com/eatcode-gt/eatcodeweb/blob/main/license.md) for more information.
+Although EatCode is open-source, EatCode is protected under copyright. Under __*no circumstances*__ do we allow unlawful reproduction or distribution of EatCode for the purpose of commerical gains. Please refer to our [license](https://github.com/eatcode-gt/eatcodeweb/blob/main/license.md) for more information.
 
 ## 🤝 Contacts
 - [Race Williams (Project Manager)](https://github.com/r4c3)
