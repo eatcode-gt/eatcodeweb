@@ -6,7 +6,7 @@ export default function Peppers({diff, size}) {
       maxHeight: size,
       height: '20em',
       maxWidth: size,
-      width: '20em'
+      width: '20em',
     }
   }
 
@@ -20,6 +20,6 @@ export default function Peppers({diff, size}) {
     case 'Ghost':
       return <Spline style={styles.pepper} scene="https://prod.spline.design/Zt4GdLUDNIWkdbXU/scene.splinecode" />
     default:
-      return <Spline style={styles.pepper} scene="https://prod.spline.design/E2T77Mr2jTN1awvW/scene.splinecode" />
+      return null
   }
 }

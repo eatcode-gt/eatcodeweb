@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { colors } from '../../global/vars';
-import { useState, useEffect } from 'react'
 import ProgressBar from "@ramonak/react-progress-bar";
-import Peppers from '../problems/Peppers';import Axios from "axios";
+import Peppers from '../problems/Peppers';
+import Axios from "axios";
 import { diffMap } from '../../global/vars';
 
 export default function ProblemSolvedCard() {
