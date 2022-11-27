@@ -18,7 +18,7 @@ export default function DifficultyBar(props) {
                 <Peppers diff={props.diff} size={"2rem"}/>
             </span>
             <ProgressBar 
-                    percentage={"34"}
+                    percentage={"35"}
                     rect
                     rectBorderRadius="20px"
                     trackPathColor={colors.white}

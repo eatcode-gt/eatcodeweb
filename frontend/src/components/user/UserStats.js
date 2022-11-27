@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { colors } from '../../global/vars';
 import Axios from "axios";
 import { diffMap } from '../../global/vars';
-import ProgressBar from 'react-animated-progress-bar';
 import DifficultyBar from './DifficultyBar';
 
 export default function ProblemSolvedCard() {
-  const userDiffObject = [1, 1, 1, 5]
+  const userDiffObject = [1, 1, 1, 0]
   const [listOfProblems, setListOfProblems] = useState([]);
 
   useEffect(() => {
@@ -59,10 +58,10 @@ export default function ProblemSolvedCard() {
                 <h5 styles ={styles.title}>Beef Stats</h5>
             </div>
             <div style={styles.lowerContainer}>
-                <DifficultyBar diff={"Bell"} completed={diffMap.indexOf("Bell")} maxCompleted={getProblemsByDiff("Bell").length} bgColor={colors.Bell}/>
-                <DifficultyBar diff={"Jalepeño"} completed={diffMap.indexOf("Jalepeño")} maxCompleted={getProblemsByDiff("Jalepeño").length} bgColor={colors.Jalepeño}/>
-                <DifficultyBar diff={"Habenero"} completed={diffMap.indexOf("Habenero")} maxCompleted={getProblemsByDiff("Habenero").length} bgColor={colors.Habenero}/>
-                <DifficultyBar diff={"Ghost"} completed={diffMap.indexOf("Ghost")} maxCompleted={getProblemsByDiff("Ghost").length} bgColor={colors.Ghost}/>
+                <DifficultyBar diff={"Bell"} completed={userDiffObject[diffMap.indexOf("Bell")]} maxCompleted={getProblemsByDiff("Bell").length} bgColor={colors.Bell}/>
+                <DifficultyBar diff={"Jalepeño"} completed={userDiffObject[diffMap.indexOf("Jalepeño")]} maxCompleted={getProblemsByDiff("Jalepeño").length} bgColor={colors.Jalepeño}/>
+                <DifficultyBar diff={"Habenero"} completed={userDiffObject[diffMap.indexOf("Habenero")]} maxCompleted={getProblemsByDiff("Habenero").length} bgColor={colors.Habenero}/>
+                <DifficultyBar diff={"Ghost"} completed={userDiffObject[diffMap.indexOf("Ghost")]} maxCompleted={getProblemsByDiff("Ghost").length} bgColor={colors.Ghost}/>
             </div>
         </div>
     )

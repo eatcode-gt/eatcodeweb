@@ -39,7 +39,7 @@ export default function ProfileCard() {
             transform: "translate(95px, 20px)",
         },
         profileButton: {
-            width: "210px",
+            width: "220px",
             marginLeft: "2rem",
             marginTop: "0",
             borderRadius: "6px",
