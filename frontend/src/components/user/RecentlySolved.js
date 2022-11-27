@@ -29,8 +29,8 @@ export default function RecentlySolved() {
         },
         scroll: {
             width: 1170,
-            height: 430,
-          }
+            height: 465,
+        }
     }
 
     return (

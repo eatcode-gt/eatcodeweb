@@ -37,7 +37,7 @@ export default function HeatMap() {
                     return null;
                 } else {
                     return {
-                    "data-tip": `${data.count} submissions on ${readableDate}`,
+                        "data-tip": `${data.count} submissions on ${readableDate}`,
                     };
                 }
                 }}

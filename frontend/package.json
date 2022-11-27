@@ -18,6 +18,7 @@
     "http": "0.0.1-security",
     "mathjax-react": "^2.0.1",
     "react": "^18.2.0",
+    "react-animated-progress-bar": "^1.1.1",
     "react-calendar-heatmap": "^1.9.0",
     "react-custom-scrollbars": "^4.2.1",
     "react-dom": "^18.2.0",
