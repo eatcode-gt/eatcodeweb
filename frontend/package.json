@@ -15,6 +15,7 @@
     "@uiw/react-textarea-code-editor": "^2.0.3",
     "axios": "^0.27.2",
     "file-saver": "^2.0.5",
+    "http": "0.0.1-security",
     "mathjax-react": "^2.0.1",
     "react": "^18.2.0",
     "react-calendar-heatmap": "^1.9.0",

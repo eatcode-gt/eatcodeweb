@@ -7,7 +7,16 @@ import CodeArea from '../components/create/CodeArea'
 import View from '../components/create/View'
 import Button from '../components/common/Button'
 
-const Question = () => {
+const resultCodeToString = [
+                            "Correct",
+                            "Wrong Answer",
+                            "Time Limit Exceeded",
+                            "Memory Limit Exceeded",
+                            "Runtime Error",
+                            "System Error"
+                          ]
+
+const Question = ({user}) => {
   const styles = {
     content: {
       display: 'flex',
@@ -45,24 +54,28 @@ const Question = () => {
     setCode(event.target.value);
   }
 
-  const handleSubmit = () => {
-    console.log("Submitted Problem");
-    setFinalResult("Pending");
-    Axios.post("http://localhost:3002/problems", {
-      userCode: code, 
-      userLanguage: "python", 
-      questionID: 0
-    }).then((response) => {
-      console.log(response.data);
-      const finalWord = response.data.split("\n");
-      setFinalResult(finalWord[finalWord.length - 1])
-      setResult(response.data);
-    });
-  }
-  
 
   const UserContext = createContext()
   const problem = useLocation().state.problem
+
+  const handleSubmit = () => {
+    console.log("Submitted Problem");
+    setFinalResult("Pending");
+    setResult("");
+    Axios.post("http://localhost:3002/problems", {
+      code: code, 
+      language: "python", 
+      questionID: problem.questionID,
+      userID: user.userID,
+    }).then((response) => {
+      const result = response.data.result;
+      const finalResult = response.data.finalResult;
+      setFinalResult(resultCodeToString[finalResult])
+      setResult(result.map((val) => {return resultCodeToString[val]}));
+    }).catch((error) => {
+      console.log(error)
+    });
+  }
 
   return (
     <div style={styles.content}>

@@ -1,35 +1,39 @@
 import express, { Express, Request, Response } from 'express'; //server manager in js
 import dotenv from 'dotenv'; //allows use of enviroment variables in ./.env
 import cors from 'cors'; //cross origin resource sharing middleware
-import testUserCode from './test-user-code'
-import problemData from './problem-data.json';
-import { mongo } from 'mongoose';
+import {createSubmission, enqueueWorker, finishedRunningSubmission} from './createSubmission'
+import fileUpload from 'express-fileupload';
+import database from './database';
 
-const mongoose = require('mongoose');
 const jwt = require("jsonwebtoken");
+const morgan = require('morgan');
+ 
 const UserModel = require('../models/Users');
-const ProblemModel = require('../models/Problems.js')
+const ProblemModel = require('../models/Problems.js');
+const TestCasesZippedModel = require('../models/Tests.js');
+const SubmissionModel = require('../models/Submissions.js');
 
 dotenv.config(); //load .env file
+ 
+const app: Express = express(); //see line 1 
 
-const app: Express = express(); //see line 1
+const port = process.env.PORT || 3002; //see line 2
 
-const port = process.env.PORT; //see line 2
+app.use(fileUpload({
+  createParentPath: true 
+}));
 
 app.use(express.json());
 app.use(cors()); //see line 3 (modified by gio, originally use(cors))
-
-// Connect to mongodb, (you need to set your ip on mongodb site in order to run this successfully)
-mongoose.connect(
-  process.env.MONGO_DB_CONNECT
-);
+app.use(morgan('dev'));
 
 app.get('/', (req: Request, res: Response) => { //get requests to eatcode.com/
   res.send('placeholder'); 
 });
 
-app.get('/problems', (req: Request, res: Response) => { //gets requests to eatcode.com/problems
-  ProblemModel.find({}, (err: Error, result: Response) => {
+app.get('/problems', async (req: Request, res: Response) => { //gets requests to eatcode.com/problems
+  ProblemModel.find({}, null, {sort: {questionID: 1}}, (err: Error, result: Response) => {
+    console.log(result);
     if(err) {
       res.json(err);
     } else {
@@ -41,15 +45,13 @@ app.get('/problems', (req: Request, res: Response) => { //gets requests to eatco
 app.post('/register', (req: Request, res: Response) => { //post requests to eatcode.com/register
   res.send('placeholder');
 }); 
- 
-// TODO: check if user is already in DB, if yes then don't create new user.
-// app.post("/getUserID", async (req: Request, res: Response) => { //post requests to eatcode.com/login
-app.post("/login", async (req: Request, res: Response) => {
+
+app.post("/login", (req: Request, res: Response) => {
   const token = req.body.token;
   const decoded = jwt.decode(token);
   console.log(decoded);
 
-  UserModel.find({userID:decoded.sub}, (err: Error, result: Array<typeof UserModel>) => { 
+  UserModel.find({userID:decoded.sub}, async (err: Error, result: Array<typeof UserModel>) => { 
     if (err) {
       res.json(err);
     } else if (result.length == 0){
@@ -59,28 +61,69 @@ app.post("/login", async (req: Request, res: Response) => {
         email: decoded.email,
       };
       const newUser = new UserModel(user);
-      newUser.save();
+      await newUser.save();
+      res.json({sub:decoded.sub});
+    } else {
+      res.json({sub:decoded.sub});
     }
   });
-  res.json({sub:decoded.sub});
 });
 
-app.post("/create", async (req: Request, res: Response) => {
-  const lastPost = await ProblemModel.find().sort({_id: -1}).limit(1);
-  const inputs = req.body;
-  inputs.id = lastPost[0].id+1;
-  console.log(inputs.diff);
-  const newProblem = new ProblemModel(inputs)
-  await newProblem.save();
+app.get("/findLastPost", async (req: Request, res: Response) => {
+  const lastPost = await ProblemModel.find().sort({questionID: -1}).limit(1);
+  //console.log("QuestionID: ", lastPost[0].questionID+1);
+  res.json({questionID: lastPost[0].questionID+1}); 
+})
 
-  res.json(inputs);
+app.post("/create", async (req: Request, res: Response) => {
+  const inputs = req.body;
+  const newProblem = new ProblemModel(inputs)
+  //console.log(inputs);
+  try {
+    await newProblem.save();
+  } catch (error) {
+    console.error(error)
+  }
+  res.json(inputs); 
+})
+
+app.post('/createFiles', async (req: Request, res: Response) => { 
+  if (!req.files) {
+    console.log("No files");
+    res.sendStatus(404);   
+  } else {
+    let file = req.files.zippedFile as fileUpload.UploadedFile;
+    let questionID = req.body.questionID;
+
+    const zippedFile = {
+      testCasesZipped: file.data,
+      questionID: questionID,
+    };
+
+    const newTestCasesZipped = new TestCasesZippedModel(zippedFile);
+    try { 
+      await newTestCasesZipped.save();
+    } catch (error) {
+      console.error(error)
+    }
+
+    res.send({
+      status: true,
+      message: 'File is uploaded',
+      data: {
+          name: file.name,
+          mimetype: file.mimetype,
+          size: file.size
+      }
+    });
+  }
 })
 
 
 app.post('/userInfo', (req: Request, res: Response) => {
   const userSub = req.body.sub;
   console.log(userSub);
-  UserModel.find({userID:userSub}, async (err: Error, result: Array<typeof UserModel>) => { 
+  UserModel.find({userID:userSub}, (err: Error, result: Array<typeof UserModel>) => { 
     if (err) {
       res.json(err);
     } else {
@@ -90,13 +133,32 @@ app.post('/userInfo', (req: Request, res: Response) => {
 });
 
 
-app.post('/problems', async (req: Request, res: Response) => { //post requests to eatcode.com/problems
-  const { userCode, userLanguage, questionID }: { userCode: string, userLanguage: string, questionID: number } = req.body; //destructure POST from client
-  const { questionName, tests }: { questionName: string, tests: Array<any> } = problemData.problems[questionID]; //pull question data from json
-  let result = await testUserCode(userLanguage, userCode, questionName, tests); //abstraction to test code against cases
-  res.end(result); //send result back to client
+app.post('/problems', async (req: Request, res: Response, next) => { //post requests to eatcode.com/problems
+  const { code, language, questionID, userID }: { code: string, language: string, questionID: number, userID: number, } = req.body; //destructure POST from client
+  // console.log("Submission created!"
+  try {
+    createSubmission(req.body, res)
+  } catch (error) {
+    res.json(error);
+  }
 });
 
-app.listen(port, () => { //server listens to requests on port {port}
+app.get("/nextJob", async (req: Request, res: Response) => {
+  enqueueWorker(res);
+})
+
+app.post("/finishedJob", async (req: Request, res: Response) => {
+  try {
+    await finishedRunningSubmission(req.body.submissionID)
+  } catch (error) {
+    console.error(error)
+  }
+  
+  res.sendStatus(200);
+}) 
+ 
+app.listen(port, () => { //server listens to requests on port {port} 
   console.log(`listening ${port}`);
-}); 
+});
+
+database.connect();

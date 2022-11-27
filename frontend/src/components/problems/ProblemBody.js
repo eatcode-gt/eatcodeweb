@@ -5,7 +5,7 @@ import { colors, diffMap } from '../../global/vars'
 import diffData from './diffData.json'
 import Button from '../common/Button'
 
-const ProblemBody = ({ props }) => {
+const ProblemBody = ({ i, props }) => {
   const userDiffObject = [3, 1, 0, 5]
 
   const styles = {
@@ -68,10 +68,8 @@ const ProblemBody = ({ props }) => {
       </div>
       <div style={styles.grid}>
         {props.problems.map((problem) => {
-          return (<>
+          return (
             <Problem key={problem.id} problem={problem} />
-            <Problem key={problem.id} problem={problem} />
-            <Problem key={problem.id} problem={problem} /></>
           );
         })}
       </div>
