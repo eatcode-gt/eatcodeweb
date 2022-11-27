@@ -16,6 +16,7 @@ const Problems = () => {
       const res = response.data.result;
       setListOfProblems(res);
 
+      console.log(res)
       const difficultyBuckets = [[], [], [], []];
       for (let i = 0; i < res.length; i++) {
         difficultyBuckets[res[i].diff].push(res[i]);

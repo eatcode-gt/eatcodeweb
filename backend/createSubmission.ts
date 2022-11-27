@@ -5,7 +5,8 @@ import {
 
   import { Queue } from '@datastructures-js/queue';
 
-const SubmissionModel = require('../models/Submissions.js');
+const {SubmissionModel, SubmissionSchema} = require('../models/Submissions.js');
+const UserModel = require('../models/Users');
 
 interface Submission {
     submissionID: number,
@@ -41,6 +42,18 @@ async function createSubmission(requestBody: { code: string; language: string; q
       notProcessedSubmissions.insert({
         submissionID: lastSubmissionID + 1,
         callback: res,
+      })
+      UserModel.findOne({userID}, (err: any, user: { attemptedProblems: { has: { (arg0: string | number): any; (arg0: string | number): any; constructor: any; }; set: (arg0: string, arg1: { solved: boolean; bestScore: number; bestSubmissionID: any; }) => void; get: (arg0: string) => { (): any; new(): any; pastSubmissionIDs: any[]; }; }; save: () => void; }) => {
+        if (err) console.error(err);
+        if (!user.attemptedProblems.has(questionID.toString())) {
+            user.attemptedProblems.set(questionID.toString(), {
+            solved: false,
+            bestScore: 0,
+            bestSubmissionID: lastSubmissionID + 1,
+          })
+        } 
+        user.attemptedProblems.get(questionID.toString()).pastSubmissionIDs.push(lastSubmissionID + 1);
+        user.save()
       })
       console.log("Submission created! ID:[" + (lastSubmissionID + 1) + "]")
       printSubmissionStats()
@@ -81,12 +94,42 @@ function enqueueWorker(res: any) {
   scheduleJob();
 }
 
+async function updateUserAttemptedProblem(newScore: any, submissionID: any) {
+  const submission = await SubmissionModel.findOne({submissionID});
+  const userID = submission.userID;
+  const questionID = submission.questionID;
+  UserModel.findOne({userID}, (err: any, user: { attemptedProblems: { get: (arg0: any) => any; values: () => Iterable<unknown> | ArrayLike<unknown>; entries: () => any; }; totalScore: unknown; save: () => void; }) => {
+    if (err) console.error(err);
+    try {
+      const problem = user.attemptedProblems.get(questionID.toString())
+      if (true || problem.bestScore < newScore) {
+        problem.bestScore = newScore;
+        problem.bestSubmissionID = submissionID;
+        if (newScore == 100) { // To be fixed
+          problem.solved = true;
+        }
+        const totalScore = Array.from(user.attemptedProblems.values()).reduce((a: any,val: any) => a+val.bestScore, 0)
+        // console.log(typeof user.attemptedProblems.entries())
+        // console.log("totalScore", totalScore)
+        // console.log("array:", Array.from(user.attemptedProblems.values()))
+        user.totalScore = totalScore;
+        user.save()
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  })
+}
+
 async function finishedRunningSubmission(submissionID: number) {
   const submission = await SubmissionModel.findOne({submissionID})
   if (processingSubmissions.size !== 0) {
     const job = processingSubmissions.get(submissionID)
     processingSubmissions.delete(submissionID)
     try{
+      console.log("results: ", submission.results)
+      const newScore = submission.results.finalResult == 0 ? 100 : 0;
+      updateUserAttemptedProblem(newScore, submissionID)
       job.callback.json(submission.results) 
     } catch (error) {
       console.log(error)

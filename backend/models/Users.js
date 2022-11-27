@@ -1,19 +1,21 @@
+// const {SubmissionModel, SubmissionSchema} = require('./Submissions');
+
 const mongoose = require('mongoose');
 
-const SolutionSchema = new mongoose.Schema({
-    problemID: {
-        type: Number,
-        required: true,
-    },
-    solutionCode: {
-        type: String,
-        required: true,
-    },
-    score: {
-        type: Number,
-        required: true,
-    },
-});
+// const SolutionSchema = new mongoose.Schema({
+//     problemID: {
+//         type: Number,
+//         required: true,
+//     },
+//     solutionCode: {
+//         type: String,
+//         required: true,
+//     },
+//     score: {
+//         type: Number,
+//         required: true,
+//     },
+// });
 
 const UserSchema = new mongoose.Schema({
     userID: {
@@ -47,8 +49,8 @@ const UserSchema = new mongoose.Schema({
                 required: true,
                 default: 0,
             },
-            bestSolution: SolutionSchema,
-            pastSolutions: [SolutionSchema],
+            bestSubmissionID: Number,
+            pastSubmissionIDs: [Number],
         }),
         required: false,
         default: null,
