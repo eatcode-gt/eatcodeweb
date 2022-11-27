@@ -1,33 +1,29 @@
 import React from 'react';
 import { colors } from '../../global/vars';
+import { useState, useEffect } from 'react'
 import ProgressBar from "@ramonak/react-progress-bar";
-import Peppers from '../problems/Peppers';
-import ReactTooltip from 'react-tooltip';
+import Peppers from '../problems/Peppers';import Axios from "axios";
+import { diffMap } from '../../global/vars';
 
 export default function ProblemSolvedCard() {
-    const listOfProblems =[
-        {id: 1, name: "McProblem", diff: 0, status: 2},
-        {id: 2, name: "Reverse Order List", diff: 1, status: 1},
-        {id: 3, name: "Reverse Burger", diff: 2, status: 0},
-        {id: 4, name: "Taste(x, n)", diff: 0, status: 0},
-        {id: 5, name: "Roman Cafe", diff: 1, status: 2},
-        {id: 6, name: "Longest Common Topping", diff: 2, status: 0},
-        {id: 7, name: "Cup With Most Smoothie", diff: 2, status: 1},
-        {id: 8, name: "Valid Sandwich", diff: 1, status: 2},
-        {id: 9, name: "Remove Topping", diff: 2, status: 0},
-        {id: 10, name: "Longest Valid Sandwich", diff: 2, status: 2},
-        {id: 11, name: "Delete Topping in Linked Burger", diff: 0, status: 1},
-        {id: 12, name: "Trapping Maple Syrup", diff: 0, status: 2},
-        {id: 13, name: "Gray Apple", diff: 1, status: 2},
-        {id: 14, name: "X Salad Intervals", diff: 1, status: 0},
-        {id: 15, name: "Merge Favorite Foods", diff: 1, status: 1},
-        {id: 16, name: "Linked Pizzа", diff: 2, status: 0},
-        {id: 17, name: "Reverse Binary Burger", diff: 0, status: 1},
-        {id: 18, name: "Sus", diff: 1, status: 2},
-        {id: 19, name: "Burger", diff: 2, status: 2},
-        {id: 20, name: "Two Burger", diff: 1, status: 2},
-        {id: 21, name: "Mongo Burger", diff: 2, status: 0},
-    ];
+  const userDiffObject = [3, 1, 0, 5]
+  const [listOfProblems, setListOfProblems] = useState([]);
+
+  useEffect(() => {
+    Axios.get("http://localhost:3002/problems").then((response) => {
+      setListOfProblems(response.data.result);
+    });
+  }, []);
+
+  function getProblemsByDiff(diff) {
+    var allProblems = listOfProblems
+    var requestedProblems = []
+    for (var i = 0; i < allProblems.length; i++) {
+      if (allProblems[i].diff == diffMap.indexOf(diff))
+      requestedProblems.push(allProblems[i])
+    }
+    return requestedProblems
+  }
 
     const styles = {
         card: {
@@ -51,13 +47,7 @@ export default function ProblemSolvedCard() {
             height: "270px",
             background: colors.accent1,
             textAlign: "center",
-            marginTop: "50px",
-        },
-        barContainer: {
-            display: 'flex',
-            gap: 'em',
-            maxHeight: 'calc(100vh - 8em)',
-            flexDirection: 'column'
+            marginTop: "30px",
         }
     }
 
@@ -69,45 +59,42 @@ export default function ProblemSolvedCard() {
                 <h5>Solved Problems</h5>
             </div>
             <div style={styles.lowerContainer}>
-                <div style={styles.barContainer}>
-                        <h1></h1>
-                        <ProgressBar 
-                            completed={listOfProblems.filter((element) => element.diff === 0 && element.status === 2).length.toString()} 
-                            maxCompleted={listOfProblems.filter((element) => element.diff === 0).length.toString()}
-                            bgColor={colors.Bell}
-                            baseBgColor={colors.white}
-                            width="75%"
-                            isLabelVisible={false}
-                        />
-                        <Peppers diff={'Bell'} size={"2rem"}/>
-                        <ProgressBar 
-                            completed={listOfProblems.filter((element) => element.diff === 1 && element.status === 2).length.toString()} 
-                            maxCompleted={listOfProblems.filter((element) => element.diff === 1).length.toString()}
-                            bgColor={colors.Jalepeño}
-                            baseBgColor={colors.white}
-                            width="75%"
-                            isLabelVisible={false}
-                        />
-                        <Peppers diff={'Jalepeño'} size={"2rem"}/>
-                        <ProgressBar 
-                            completed={listOfProblems.filter((element) => element.diff === 1 && element.status === 2).length.toString()} 
-                            maxCompleted={listOfProblems.filter((element) => element.diff === 1).length.toString()}
-                            bgColor={colors.Habenero}
-                            baseBgColor={colors.white}
-                            width="75%"
-                            isLabelVisible={false}
-                        />
-                        <Peppers diff={'Habenero'} size={"2rem"}/>
-                        <ProgressBar 
-                            completed={listOfProblems.filter((element) => element.diff === 1 && element.status === 2).length.toString()} 
-                            maxCompleted={listOfProblems.filter((element) => element.diff === 1).length.toString()}
-                            bgColor={colors.Ghost}
-                            baseBgColor={colors.white}
-                            width="75%"
-                            isLabelVisible={false}
-                        />
-                        <Peppers diff={'Ghost'} size={"2rem"}/>
-                    </div>
+                <ProgressBar 
+                    completed={userDiffObject[diffMap.indexOf("Jalepeño")]} 
+                    maxCompleted={getProblemsByDiff("Jalepeño").length}
+                    bgColor={colors.Jalepeño}
+                    baseBgColor={colors.white}
+                    width="75%"
+                    isLabelVisible={false}
+                />
+                <Peppers diff={'Jalepeño'} size={"1rem"}/>
+                <ProgressBar 
+                    completed={userDiffObject[diffMap.indexOf("Jalepeño")]} 
+                    maxCompleted={getProblemsByDiff("Jalepeño").length}
+                    bgColor={colors.Jalepeño}
+                    baseBgColor={colors.white}
+                    width="75%"
+                    isLabelVisible={false}
+                />
+                <Peppers diff={'Jalepeño'} size={"1rem"}/>
+                <ProgressBar 
+                    completed={userDiffObject[diffMap.indexOf("Habenero")]} 
+                    maxCompleted={getProblemsByDiff("Habenero").length}
+                    bgColor={colors.Habenero}
+                    baseBgColor={colors.white}
+                    width="75%"
+                    isLabelVisible={false}
+                />
+                <Peppers diff={'Habenero'} size={"1rem"}/>
+                <ProgressBar 
+                    completed={userDiffObject[diffMap.indexOf("Ghost")]} 
+                    maxCompleted={getProblemsByDiff("Ghost").length}
+                    bgColor={colors.Ghost}
+                    baseBgColor={colors.white}
+                    width="75%"
+                    isLabelVisible={false}
+                />
+                <Peppers diff={'Ghost'} size={"1rem"}/>
             </div>
         </div>
     )
