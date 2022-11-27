@@ -1,33 +1,9 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { colors } from '../../global/vars';
-import ProgressBar from "@ramonak/react-progress-bar";
-import Peppers from '../problems/Peppers';
+import Button from '../common/Button'
 
 export default function ProfileCard() {
-    const listOfProblems =[
-        {id: 1, name: "McProblem", diff: 0, status: 2},
-        {id: 2, name: "Reverse Order List", diff: 1, status: 1},
-        {id: 3, name: "Reverse Burger", diff: 2, status: 0},
-        {id: 4, name: "Taste(x, n)", diff: 0, status: 0},
-        {id: 5, name: "Roman Cafe", diff: 1, status: 2},
-        {id: 6, name: "Longest Common Topping", diff: 2, status: 0},
-        {id: 7, name: "Cup With Most Smoothie", diff: 2, status: 1},
-        {id: 8, name: "Valid Sandwich", diff: 1, status: 2},
-        {id: 9, name: "Remove Topping", diff: 2, status: 0},
-        {id: 10, name: "Longest Valid Sandwich", diff: 2, status: 2},
-        {id: 11, name: "Delete Topping in Linked Burger", diff: 0, status: 1},
-        {id: 12, name: "Trapping Maple Syrup", diff: 0, status: 2},
-        {id: 13, name: "Gray Apple", diff: 1, status: 2},
-        {id: 14, name: "X Salad Intervals", diff: 1, status: 0},
-        {id: 15, name: "Merge Favorite Foods", diff: 1, status: 1},
-        {id: 16, name: "Linked Pizzа", diff: 2, status: 0},
-        {id: 17, name: "Reverse Binary Burger", diff: 0, status: 1},
-        {id: 18, name: "Sus", diff: 1, status: 2},
-        {id: 19, name: "Burger", diff: 2, status: 2},
-        {id: 20, name: "Two Burger", diff: 1, status: 2},
-        {id: 21, name: "Mongo Burger", diff: 2, status: 0},
-    ];
 
     let { userName } = useParams();
 
@@ -63,16 +39,10 @@ export default function ProfileCard() {
             transform: "translate(95px, 20px)",
         },
         profileButton: {
-            margin: "1rem",
+            width: "200px",
+            marginLeft: "2rem",
             marginTop: "0",
-            color: colors.assent2,
-            font: "bold",
-            backgroundColor: colors.assent1,
-            border: "2px solid #db747d",
-            padding: "0.6rem",
             borderRadius: "6px",
-            transitionDuration: "0.5s",
-            animation: "ease-in-out",
         }
     }
 
@@ -84,7 +54,9 @@ export default function ProfileCard() {
             <div style={styles.lowerContainer}>
                 <h4>{userName}</h4>
                 <p>Brief Description</p>
-                <button style={styles.profileButton}>Edit Profile</button>
+                <div style={styles.profileButton}>
+                    <Button text={"Edit Profile"} color={colors.accent1} />
+                </div>
             </div>
         </div>   
     )

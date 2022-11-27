@@ -19,5 +19,7 @@ export default function Peppers({diff, size}) {
       return <Spline style={styles.pepper} scene="https://prod.spline.design/E2T77Mr2jTN1awvW/scene.splinecode" />
     case 'Ghost':
       return <Spline style={styles.pepper} scene="https://prod.spline.design/Zt4GdLUDNIWkdbXU/scene.splinecode" />
+    default:
+      return <Spline style={styles.pepper} scene="https://prod.spline.design/E2T77Mr2jTN1awvW/scene.splinecode" />
   }
 }

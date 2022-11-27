@@ -2,6 +2,7 @@ import React from 'react';
 import ProfileCard from '../components/user/ProfileCard';
 import ProblemSolvedCard from '../components/user/ProblemSolvedCard';
 import HeatMap from '../components/user/HeatMap';
+import RecentlySolved from '../components/user/RecentlySolved';
 
 const User = () => {
 
@@ -10,6 +11,7 @@ const User = () => {
       <ProfileCard />
       <ProblemSolvedCard />
       <HeatMap />
+      <RecentlySolved />
     </div>
   );
 };

@@ -19,7 +19,7 @@ export default function ProblemSolvedCard() {
     var allProblems = listOfProblems
     var requestedProblems = []
     for (var i = 0; i < allProblems.length; i++) {
-      if (allProblems[i].diff == diffMap.indexOf(diff))
+      if (allProblems[i].diff === diffMap.indexOf(diff))
       requestedProblems.push(allProblems[i])
     }
     return requestedProblems
@@ -56,18 +56,18 @@ export default function ProblemSolvedCard() {
             <div style={styles.upperContainer}>
                 <br/>
                 <br/>
-                <h5>Solved Problems</h5>
+                <h5>Your Beef Stats</h5>
             </div>
             <div style={styles.lowerContainer}>
                 <ProgressBar 
-                    completed={userDiffObject[diffMap.indexOf("Jalepeño")]} 
-                    maxCompleted={getProblemsByDiff("Jalepeño").length}
-                    bgColor={colors.Jalepeño}
+                    completed={userDiffObject[diffMap.indexOf("Bell")]} 
+                    maxCompleted={getProblemsByDiff("Bell").length}
+                    bgColor={colors.Bell}
                     baseBgColor={colors.white}
                     width="75%"
                     isLabelVisible={false}
                 />
-                <Peppers diff={'Jalepeño'} size={"1rem"}/>
+                <Peppers diff={'Bell'} size={"2rem"}/>
                 <ProgressBar 
                     completed={userDiffObject[diffMap.indexOf("Jalepeño")]} 
                     maxCompleted={getProblemsByDiff("Jalepeño").length}
@@ -76,7 +76,7 @@ export default function ProblemSolvedCard() {
                     width="75%"
                     isLabelVisible={false}
                 />
-                <Peppers diff={'Jalepeño'} size={"1rem"}/>
+                <Peppers diff={'Jalepeño'} size={"2rem"}/>
                 <ProgressBar 
                     completed={userDiffObject[diffMap.indexOf("Habenero")]} 
                     maxCompleted={getProblemsByDiff("Habenero").length}
@@ -85,7 +85,7 @@ export default function ProblemSolvedCard() {
                     width="75%"
                     isLabelVisible={false}
                 />
-                <Peppers diff={'Habenero'} size={"1rem"}/>
+                <Peppers diff={'Habenero'} size={"2rem"}/>
                 <ProgressBar 
                     completed={userDiffObject[diffMap.indexOf("Ghost")]} 
                     maxCompleted={getProblemsByDiff("Ghost").length}
@@ -94,7 +94,7 @@ export default function ProblemSolvedCard() {
                     width="75%"
                     isLabelVisible={false}
                 />
-                <Peppers diff={'Ghost'} size={"1rem"}/>
+                <Peppers diff={'Ghost'} size={"2rem"}/>
             </div>
         </div>
     )
