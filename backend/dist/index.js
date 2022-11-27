@@ -36,8 +36,9 @@ app.use(morgan('dev'));
 app.get('/', (req, res) => {
     res.send('placeholder');
 });
-app.get('/problems', (req, res) => {
-    ProblemModel.find({}, (err, result) => {
+app.get('/problems', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    ProblemModel.find({}, null, { sort: { questionID: 1 } }, (err, result) => {
+        console.log(result);
         if (err) {
             res.json(err);
         }
@@ -45,7 +46,7 @@ app.get('/problems', (req, res) => {
             res.json({ result: result });
         }
     });
-});
+}));
 app.post('/register', (req, res) => {
     res.send('placeholder');
 });

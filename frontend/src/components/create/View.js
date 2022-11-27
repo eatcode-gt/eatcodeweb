@@ -22,7 +22,7 @@ const View = ({ context, preview, diff}) => {
     <div style={styles.cont}>
       <h2>{inputs.name}</h2>
       <h5 style={styles.diff}>Time Limit: {inputs.time} second - Memory Limit: {inputs.memory} MB</h5>
-      <Text key={"Input"} text={inputs.problemText} />
+      <Text key={"Input"} text={inputs.text} />
       <h3>Input</h3>
       <Text key={"Output"} text={inputs.input} />
       <h3>Output</h3>
