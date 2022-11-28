@@ -14,30 +14,33 @@ import User from './pages/user'
 import Error from './pages/error';
 
 class App extends Component {
+  loggedOutUserObject = {
+    userName: "Not Logged In",
+    userID: null,
+    userProfilePictureUrl: "https://cdn.pixabay.com/photo/2017/02/12/21/29/false-2061132_1280.png",
+    isAdmin: false,
+    totalScore: 0,
+    attemptedProblems: new Map([])
+  }
+
   constructor(props) {
     super(props)
+
     this.state = {
       user: {
-        userName: "Not Logged In",
-        userID: null,
-        userProfilePictureUrl: "https://cdn.pixabay.com/photo/2017/02/12/21/29/false-2061132_1280.png",
-        isAdmin: false,
-        totalScore: 0,
-        attemptedProblems: Map()
+        userName: this.loggedOutUserObject.userName,
+        userID: this.loggedOutUserObject.userID,
+        userProfilePictureUrl: this.loggedOutUserObject.userProfilePictureUrl,
+        isAdmin: this.loggedOutUserObject.isAdmin,
+        totalScore: this.loggedOutUserObject.totalScore,
+        attemptedProblems: this.loggedOutUserObject.attemptedProblems
       }
     }
 
     this.logIn = this.logIn.bind(this)
     this.logOut = this.logOut.bind(this)
 
-    this.loggedOutUserObject = {
-      userName: "Not Logged In",
-      userID: null,
-      userProfilePictureUrl: "https://cdn.pixabay.com/photo/2017/02/12/21/29/false-2061132_1280.png",
-      isAdmin: false,
-      totalScore: 0,
-      attemptedProblems: Map()
-    }
+
   }
 
   componentDidMount() {

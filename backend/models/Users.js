@@ -54,12 +54,12 @@ const UserSchema = new mongoose.Schema({
             },
             bestScore: {
                 type: Number,
-                required: true,
+                required: false,
                 default: 0,
             },
-            diff: {
+            difficulty: {
                 type: Number,
-                required: true,
+                required: false,
             },
             bestSubmissionID: Number,
             pastSubmissionIDs: [Number],

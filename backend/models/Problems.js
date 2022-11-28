@@ -25,7 +25,7 @@ const ProblemSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  diff: {
+  difficulty: {
     type: Number,
     required: true, 
   },

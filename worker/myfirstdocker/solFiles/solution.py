@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 nums = list(map(int, input().strip().split(" ")))
 target = int(input())
 
@@ -10,7 +9,3 @@ for i, n in enumerate(nums):
         break
     else:
         seen[n] = i
-=======
-def add(a, b):
-  return a + b;
->>>>>>> main
