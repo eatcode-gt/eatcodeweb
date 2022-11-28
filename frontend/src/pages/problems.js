@@ -14,6 +14,11 @@ export default class Problem extends Component {
       habeProbs: [],
       ghosProbs: [],
 
+      bellSelected: [],
+      jaleSelected: [],
+      habeSelected: [],
+      ghosSelected: [],
+
       selectedTags: [],
       selectedTitle: ""
     }
@@ -27,14 +32,42 @@ export default class Problem extends Component {
     ]
   }
 
+
   handleTagsChange(e) {
-    this.setState({selectedTags: e})
-    console.log(this.state.selectedTags)
+    this.setState({selectedTags: e}, this.handleFilter)
   }
 
   handleTitleChange(e) {
-    this.setState({selectedTitle: e.target.value})
-    console.log(this.state.selectedTitle)
+    this.setState({selectedTitle: e.target.value}, this.handleFilter)
+  }
+
+  handleFilter() {
+    this.setState({bellSelected: this.state.bellProbs.filter((problem) => {
+      return this.problemIsSelected(problem)
+    })})
+    this.setState({jaleSelected: this.state.jaleProbs.filter((problem) => {
+      return this.problemIsSelected(problem)
+    })})
+    this.setState({habeSelected: this.state.habeProbs.filter((problem) => {
+      return this.problemIsSelected(problem)
+    })})
+    this.setState({ghosSelected: this.state.ghosProbs.filter((problem) => {
+      return this.problemIsSelected(problem)
+    })})
+  }
+
+  problemIsSelected(problem) {
+    if (this.state.selectedTags.length !== 0) { //remove from screen if there are tags selected and none of them are a tag of the problem
+      for (let i = 0; i < this.state.selectedTags.length; i++) {
+        if (!problem.tags.includes(this.state.selectedTags[i])) {
+          return false
+        }
+      }
+    }
+    if (this.state.selectedTitle !== "" && !problem.title.toLowerCase().includes(this.state.selectedTitle) && !problem.questionID.toString().includes(this.state.selectedTitle)) { //remove from screen if 
+      return false
+    }
+    return true
   }
 
   async componentDidMount() {
@@ -65,20 +98,26 @@ export default class Problem extends Component {
     this.setState({
       allProbs: allTemp,
       bellProbs: bellTemp,
+      bellSelected: bellTemp,
       jaleProbs: jaleTemp,
+      jaleSelected: jaleTemp,
       habeProbs: habeTemp,
-      ghosProbs: ghosTemp
+      habeSelected: habeTemp,
+      ghosProbs: ghosTemp,
+      ghosSelected: ghosTemp
     })
   }
 
   render() {
     const styles = {
       container: {
+        padding: '0em 3em',
+        maxHeight: 'calc(100vh - 8em)'
+      },
+      problemBodyContainer: {
         display: 'flex',
         justifyContent: 'space-between',
         gap: '3em',
-        padding: '0em 3em',
-        maxHeight: 'calc(100vh - 8em)'
       },
       pad: {
         minHeight: '1em',
@@ -86,7 +125,9 @@ export default class Problem extends Component {
         width: '100%'
       },
       bySearchContainer: {
-
+        display: 'flex',
+        justifyContent: 'spaceBetween',
+        marginBottom: '1em'
       },
       tagSelect: {
         control: (baseStyles, state) => ({
@@ -98,17 +139,18 @@ export default class Problem extends Component {
       }
     }
 
-    return (<>
+    return (<div style={styles.container}>
       <div style={styles.bySearchContainer}>
+        <h5>constrain your search:</h5>
         <input style={styles.textInput} type="text"  name="title" default="Enter" value={this.state.selectedTitle} onChange={this.handleTitleChange.bind(this)}/>
         <Select styles={styles.tagSelect} options={this.options} onChange={this.handleTagsChange.bind(this)} isSearchable isMulti closeMenuOnSelect={false}/>
       </div>
-      <div style={styles.container}>
-        <ProblemBody i={0} diff={"Bell"} problems={this.state.bellProbs}/>
-        <ProblemBody i={1} diff={"Jalepeño"} problems={this.state.jaleProbs}/>
-        <ProblemBody i={2} diff={"Habenero"} problems={this.state.habeProbs}/>
-        <ProblemBody i={3} diff={"Ghost"} problems={this.state.ghosProbs}/>
+      <div style={styles.problemBodyContainer}>
+        <ProblemBody i={0} diff={"Bell"} problems={this.state.bellSelected}/>
+        <ProblemBody i={1} diff={"Jalepeño"} problems={this.state.jaleSelected}/>
+        <ProblemBody i={2} diff={"Habenero"} problems={this.state.habeSelected}/>
+        <ProblemBody i={3} diff={"Ghost"} problems={this.state.ghosSelected}/>
       </div>
-      </>);
+      </div>);
   }
 };

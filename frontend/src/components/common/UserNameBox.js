@@ -6,8 +6,6 @@ import { Link } from 'react-router-dom'
 const UserNameBox = () => {
   const user = useContext(userContext).user
 
-  console.log(user)
-
   const styles = {
     userInfo: {
       display: 'flex',
