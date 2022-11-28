@@ -8,7 +8,7 @@ function shiftDate(date, numDays) {
     return newDate;
   }
 
-export default function HeatMap() {
+export default function HeatMap({user}) {
     const today = new Date();
 
     return (

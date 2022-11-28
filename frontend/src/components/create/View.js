@@ -3,43 +3,69 @@ import { useContext } from 'react'
 import Text from './Text';
 import { colors, diffMap } from '../../global/vars'
 
-const View = ({ context, preview, diff}) => {
+const View = ({ context, diff}) => {
 
   const inputs = useContext(context);
+  console.log(inputs)
 
   const styles = {
     cont: {
+      width: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '2em',
+      overflowWrap: 'break-word'
+    },
+    diff: {
+      color: colors[diffMap[diff]]
+    },
+    lineBreak: {
+      height: '0.3em',
+      width: '100%',
+      backgroundColor: colors[diffMap[diff]]
+    },
+    smallTitle: {
+      fontWeight: 'bold'
+    },
+    mathContainer: {
       display: 'flex',
       flexDirection: 'column',
       gap: '1em'
     },
-    diff: {
-      color: colors[diffMap[diff]]
+    mathTitle: {
+      fontWeight: 'bold',
+      fontSize: '1.8em'
     }
   }
 
   return (
     <div style={styles.cont}>
-      <h2>{inputs.name}</h2>
-      <h5 style={styles.diff}>Time Limit: {inputs.time} second - Memory Limit: {inputs.memory} MB</h5>
-      <Text key={"Input"} text={inputs.text} />
-      <h3>Input</h3>
-      <Text key={"Output"} text={inputs.input} />
-      <h3>Output</h3>
-      <Text key={"Example"} text={inputs.output} />
-      <h3>Example</h3>
-      <p key={"Input Title"}>Input:</p>
-      <Text key={"Example Input"} text={
-        preview ? inputs.exampleInput : inputs.example.exampleInput
-      } />
-      <p key={"Output Title"}>Output:</p>
-      <Text key={"Example Output"} text={
-        preview ? inputs.exampleOutput : inputs.example.exampleOutput
-      } />
-      <p key={"Explanation Title"}>Explanation:</p>
-      <Text key={"Explanation"} text={
-        preview ? inputs.exampleText : inputs.example.exampleText
-      } />
+      <h2>{inputs.title}</h2>
+      <h5 style={styles.diff}>Time Limit: {inputs.time} sec - Memory Limit: {inputs.memory} MB</h5>
+      <Text key={"Description"} text={inputs.description} />
+      <div style={styles.mathContainer}>
+        <div style={styles.mathJax}><span style={styles.mathTitle}>Input: </span><Text id={1} text={inputs.input} /></div>
+        <div style={styles.mathJax}><span style={styles.mathTitle}>Output: </span><Text id={1} text={inputs.output} /></div>
+      </div>
+      <div style={styles.lineBreak} />
+      <div style={styles.individualExample}>
+        <h5>Example 1</h5>
+        <p><span style={styles.smallTitle}>Inputs(s): </span>{inputs.e1input}</p>
+        <p><span style={styles.smallTitle}>Output(s): </span>{inputs.e1output}</p>
+        <p><span style={styles.smallTitle}>Explanation: </span>{inputs.e1explanation}</p>
+      </div>
+      <div style={styles.individualExample}>
+        <h5>Example 2</h5>
+        <p><span style={styles.smallTitle}>Inputs(s): </span>{inputs.e2input}</p>
+        <p><span style={styles.smallTitle}>Output(s): </span>{inputs.e2output}</p>
+        <p><span style={styles.smallTitle}>Explanation: </span>{inputs.e2explanation}</p>
+      </div>
+      <div style={styles.individualExample}>
+        <h5>Example 3</h5>
+        <p><span style={styles.smallTitle}>Inputs(s): </span>{inputs.e3input}</p>
+        <p><span style={styles.smallTitle}>Output(s): </span>{inputs.e3output}</p>
+        <p><span style={styles.smallTitle}>Explanation: </span>{inputs.e3explanation}</p>
+      </div>
     </div>
   )
 }

@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { colors } from '../../global/vars';
 import UserNameBox from './UserNameBox';
+import { userContext } from '../../userContext';
 
-const Header = ({user}) => {
+const Header = () => {
   const [titleHover, setTitleHover] = useState(false);
   const handleMouseEnter = () => {
     setTitleHover(true);
@@ -18,7 +19,8 @@ const Header = ({user}) => {
       height: '8em',
       padding: '0em 2em 0.5em 2em',
       alignItems: 'center',
-      justifyContent: 'space-between'
+      justifyContent: 'space-between',
+      zIndex: 2
     },
     title: {
       color: titleHover ? colors.accent1 : colors.accent2,
@@ -33,7 +35,12 @@ const Header = ({user}) => {
   return (
     <nav style={styles.nav}>
       <Link to="/"><h3 style={styles.title} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}><span style={styles.span}>eat</span>code</h3></Link>
-      <UserNameBox user={user}/>
+      <userContext.Consumer>
+        {({user}) => {
+          return(
+            <UserNameBox user={user}/>
+          )}}
+      </userContext.Consumer>
     </nav>
   )
 }
