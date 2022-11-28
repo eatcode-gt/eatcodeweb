@@ -3,6 +3,7 @@ import { colors } from '../global/vars'
 import { useState, createContext  } from 'react'
 import Axios from 'axios'
 import View from '../components/create/View'
+import Tags from '../components/create/Tags'
 
 
 const Create = () => {
@@ -13,18 +14,20 @@ const Create = () => {
       width: '100vw',
       height: '100vh',
       justifyContent: 'space-between',
-      backgroundColor: colors.grey
+      backgroundColor: colors.grey,
     },
     left: {
       backgroundColor: colors.accent2,
       width: '50%',
       height: '100%',
+      overflow: 'auto',
     },
     right: {
       backgroundColor: colors.accent1,
       maxWidth: '50%',
       width: '50%',
       height: '100%',
+      overflow: 'auto',
     },
     form: {
       display: "flex",
@@ -43,10 +46,15 @@ const Create = () => {
     },
     textarea: {
       height: "5vh",
+    },
+    padding: {
+      height: '100px',
     }
   }
   
   const UserContext = createContext()
+  const fileInput = document.getElementById('fileInput');
+  const [checkedTags, setCheckedTags] = useState([]);
   const [inputs, setInputs] = useState({
     difficulty: 1,
     time: 1,
@@ -56,35 +64,85 @@ const Create = () => {
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
-    setInputs(values => ({...values, [name]: value}));
+    if(event.target.type === "checkbox") {
+      if(event.target.checked === true && !checkedTags.includes(event.target.name)) {
+        setCheckedTags(values => [...values, event.target.name]);
+      } else if(event.target.checked === false) {
+        setCheckedTags(checkedTags.filter(tag =>  tag !== event.target.name));
+      }
+    } else {
+      setInputs(values => ({...values, [name]: value}));
+    }
+  }
+
+  const resetForm = () => {
+    setInputs({
+      difficulty: 1,
+      time: 1,
+      memory: 256,
+    });
+    fileInput.value = "";
   }
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    Axios.post("http://localhost:3002/create", {
-      name: inputs.name,
-      diff: inputs.difficulty,
-      time: inputs.time,
-      memory: inputs.memory,
-      status: 0,
-      text: inputs.problemText,
-      input: inputs.input,
-      output: inputs.output,
-      example: {
-        exampleInput: inputs.exampleInput,
-        exampleOutput: inputs.exampleOutput,
-        exampleText: inputs.exampleText,
-      },
-      numberOfAttemptedUsers: 0,
-      numberOfSolvedUsers: 0,
-    }).then((response) => {
-      console.log("Created Problem");
-      setInputs({
-        difficulty: 1,
-        time: 1,
-        memory: 256,
-      });
-    });
+    if (fileInput.value === null || fileInput.value === "") {
+      alert("Please submit a file");
+      return;
+    }
+    let questionID = -1;
+    Axios.get("http://localhost:3002/findLastPost").then((response) => {
+      questionID = response.data.questionID;
+      console.log(questionID);
+      Axios.post("http://localhost:3002/create", {
+        questionID,
+        name: inputs.name,
+        diff: inputs.difficulty,
+        time: inputs.time,
+        memory: inputs.memory,
+        status: 0,
+        text: inputs.text,
+        input: inputs.input,
+        output: inputs.output,
+        example: {
+          exampleInput: inputs.exampleInput,
+          exampleOutput: inputs.exampleOutput,
+          exampleText: inputs.exampleText,
+        },
+        numberOfAttemptedUsers: 0,
+        numberOfSolvedUsers: 0,
+        tags: checkedTags,
+      }).then((response) => {
+        console.log("Created Problem");
+
+        const config = {
+          headers: {
+            'content-type': 'multipart/form-data',
+          },
+        };
+
+        const fileData = new FormData();
+        fileData.append("zippedFile", fileInput.files[0]);
+        fileData.append("questionID", questionID);
+
+
+        Axios.post("http://localhost:3002/createFiles", fileData, config).then((response) => {
+          console.log(response.data);
+        }).catch((error) => {
+          console.log("Something went wrong with Problem Files");
+          console.log(error);
+        })
+
+        resetForm();
+
+      }).catch((error) => {
+        console.log("Something went wrong with Problem Data");
+        console.log(error);
+      })
+    }).catch((error) => {
+      console.log("Something went wrong with retrieving last problem index");
+      console.log(error);
+    })
   };
 
   return (
@@ -104,9 +162,10 @@ const Create = () => {
           <label style={styles.label}>
             Difficulty:
             <select name="difficulty" value={inputs.difficulty || 1} onChange={handleChange}>
-              <option value={0}>Mild</option>
-              <option value={1}>Med</option>
-              <option value={2}>Hot</option>
+              <option value={0}>Bell</option>
+              <option value={1}>Jalepeño</option>
+              <option value={2}>Habenero</option>
+              <option value={3}>Ghost</option>
             </select>
           </label>
           <label style={styles.label}>
@@ -130,8 +189,8 @@ const Create = () => {
           </label>
           <textarea 
               style={styles.textarea}
-              name="problemText"
-              value={inputs.problemText || ""}
+              name="text"
+              value={inputs.text || ""}
               onChange={handleChange}
             /> 
           <label style={styles.label}>
@@ -179,8 +238,14 @@ const Create = () => {
               value={inputs.exampleText || ""}
               onChange={handleChange}
             /> 
+          <label  style={styles.label}>Problem Tags</label>
+          <Tags handleChange={handleChange}/>
+          <label style={styles.label}>Choose a zip file with all the test cases</label>
+          {/* <input id='fileInput' type="file" name='file' accept=".zip,.7zip" /> */}
+          <input id='fileInput' type="file" name='file'/>
           <input type="submit" onSubmit={handleSubmit}/>
         </form>
+        <div style={styles.padding} ></div>
       </div>
       <div style={styles.right} className="preview-container">
         <UserContext.Provider value={inputs}>

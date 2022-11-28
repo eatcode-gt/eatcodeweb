@@ -18,17 +18,17 @@ const Text = ( {text} ) => {
   const [filteredText, setFilteredText] = useState([]);
   let isLatex = false;
 
-  const appendToPreview = (element) => {
+  const appendToPreview = (element, i) => {
     if(isLatex) {
       isLatex = false;
       return (
-        <MathComponent tex={element} display={false} />
+        <MathComponent key={i} tex={element} display={false} />
       )
     }
     else {
       isLatex = true;
       return (
-        <p style={styles.p}>{element}</p>
+        <p key={i} style={styles.p}>{element}</p>
       )
     }
   }
@@ -43,8 +43,8 @@ const Text = ( {text} ) => {
 
   return (
     <div>
-      {filteredText.map((data) => {
-        return appendToPreview(data);
+      {filteredText.map((data, i) => {
+        return appendToPreview(data, i);
       })}
     </div>
   )
