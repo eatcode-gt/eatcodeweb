@@ -11,7 +11,7 @@ const Problems = ({user}) => {
   const [problemsByDiff, setProblemsByDiff] = useState([[], [], [], []]);
 
   const getUserProgress = (user) => {
-    console.log(user)
+    // console.log(user)
     const solved = new Map();
     const solvedCountByDiff = new Array(4).fill(0);;
     for (const property in user.attemptedProblems) {
@@ -30,7 +30,7 @@ const Problems = ({user}) => {
       const res = response.data.result;
       setListOfProblems(res);
 
-      console.log(res)
+      // console.log(res)
       const difficultyBuckets = [[], [], [], []];
       for (let i = 0; i < res.length; i++) {
         if (solved.has(res[i].questionID)) {

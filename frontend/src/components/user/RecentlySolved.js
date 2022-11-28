@@ -10,7 +10,7 @@ export default function RecentlySolved() {
         Axios.get("http://localhost:3002/problems").then((response) => {
             setListOfProblems(response.data.result);
         });
-        console.log(listOfProblems)
+        // console.log(listOfProblems)
     }, [listOfProblems]);
 
     const styles = {
