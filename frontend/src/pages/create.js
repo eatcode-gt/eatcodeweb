@@ -7,7 +7,7 @@ import View from '../components/create/View'
 const defaultInputs = {
   title: "Default Title",
   description: "This is the default problem description. You should probably change this. You should probably change this.You should probably change this.",
-  difficulty: 1,
+  difficulty: 0,
   time: 1,
   memory: 256,
   input: "The only line of each test contains two integers $$n$$ and $$\\left ( 0 \\leq k < n < 10^{6} \\right )$$.",
@@ -28,7 +28,7 @@ const Create = () => {
   const [inputs, setInputs] = useState({
     title: "Default Title",
     description: "This is the default problem description. You should probably change this. You should probably change this.You should probably change this.",
-    difficulty: 1,
+    difficulty: 0,
     time: 1,
     memory: 256,
     input: "The only line of each test contains two integers $$n$$ and $$\\left ( 0 \\leq k < n < 10^{6} \\right )$$.",
@@ -151,13 +151,17 @@ const Create = () => {
       color: colors[diffMap[inputs.difficulty]]
     },
     textInput: {
-
+      width: '100%',
+      resize: 'vertical'
     },
     dropdownInput: {
 
     },
     fileInput: {
 
+    },
+    individualExample: {
+      
     }
   }
 
@@ -205,18 +209,20 @@ const Create = () => {
               value={inputs.description}
               onChange={handleChange}
             />
-          <textarea 
+          <div style={styles.individualExample}>
+            <textarea 
               style={styles.textInput}
               name="input"
               value={inputs.input}
               onChange={handleChange}
-            />
-          <textarea 
+              />
+            <textarea 
               style={styles.textInput}
               name="output"
               value={inputs.output}
               onChange={handleChange}
             />
+          </div>
           <div style={styles.individualExample}>
             <textarea key={`e1input`}
               style={styles.textInput}
