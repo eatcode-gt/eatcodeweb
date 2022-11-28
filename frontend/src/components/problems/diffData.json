@@ -1,14 +1,18 @@
 {
     "Jalapeño": {
-        "desc": "The Jalapeño difficulty introduces beginner programming concepts to build a solid foundation for more difficult problems later on."
+        "desc": "The Jalapeño difficulty introduces beginner programming concepts to build a solid foundation for more difficult problems later on.",
+        "beefRange": "100 - 500"
     },
     "Hungarian": {
-        "desc": "The easier half of technical interviews will have a problem from this difficulty. The algorithms and data structures used here are more complex than those in Jalapeño problems."
+        "desc": "The easier half of technical interviews will have a problem from this difficulty. The algorithms and data structures used here are more complex than those in Jalapeño problems.",
+        "beefRange": "600 - 1000"
     },
     "Habenero": {
-        "desc": "The harder half of technical interviews will have a problem from this difficulty. Oftentimes based on the same principles from the Hungarian difficulty but with a complex twist."
+        "desc": "The harder half of technical interviews will have a problem from this difficulty. Oftentimes based on the same principles from the Hungarian difficulty but with a complex twist.",
+        "beefRange": "1100-1500"
     },
     "Ghost": {
-        "desc": "Insanely diffcult programming problems that are not seen in regular software engineering interviews."
+        "desc": "Insanely diffcult programming problems that are not seen in regular software engineering interviews.",
+        "beefRange": "1600-2000"
     }
 }
