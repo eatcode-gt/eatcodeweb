@@ -1,6 +1,6 @@
 import React from 'react'
 import Problem from './Problem'
-import { colors, diffMap } from '../../global/vars'
+import { colors } from '../../global/vars'
 import diffData from './diffData.json'
 const ProblemBody = ({ i, diff, problems, eaten }) => {
   const styles = {
@@ -57,7 +57,7 @@ const ProblemBody = ({ i, diff, problems, eaten }) => {
           ? <h4 style={styles.noProblems}>no problems found</h4>
           : problems.map((problem, j) => {
               return (
-                <Problem key={1000 * i * j} problem={problem} />
+                <Problem key={1000 * i * j} problem={problem}/>
               );
             })
         }

@@ -47,7 +47,7 @@ export default class Problem extends Component {
         solvedCountByDiff[user.attemptedProblems[property].difficulty] += 1;
       }
     }
-    this.setState({userSolved: {...solved}, userSolvedCountByDiff: [...solvedCountByDiff]}, () => console.log(this.state.userSolved, this.state.userSolvedCountByDiff)) 
+    this.setState({userSolved: {...solved}, userSolvedCountByDiff: [...solvedCountByDiff]}) 
   }
 
   handleTagsChange(e) {
@@ -76,7 +76,7 @@ export default class Problem extends Component {
   problemIsSelected(problem) {
     if (this.state.selectedTags.length !== 0) { //remove from screen if there are tags selected and none of them are a tag of the problem
       for (let i = 0; i < this.state.selectedTags.length; i++) {
-        if (!problem.tags.includes(this.state.selectedTags[i])) {
+        if (!problem.tags.includes(this.state.selectedTags[i].value)) {
           return false
         }
       }
@@ -98,7 +98,7 @@ export default class Problem extends Component {
     });
     allTemp.forEach(problem => {
       if (this.context.user.attemptedProblems.hasOwnProperty(problem.questionID)) {
-        if (this.context.user.attemptedProblems[problem.questionID].solved === true) {
+        if (this.context.user.attemptedProblems.valueOf(problem.questionID).solved === true) {
           problem.status = 2 //cooked
         } else { problem.status = 1 } //cooking
       } else { problem.status = 0 } //raw
@@ -128,6 +128,8 @@ export default class Problem extends Component {
       ghosProbs: ghosTemp,
       ghosSelected: ghosTemp
     })
+
+    this.getUserProgress(this.context.user)
   }
 
   render() {
