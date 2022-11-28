@@ -4,7 +4,7 @@ import Axios from "axios";
 import { diffMap } from '../../global/vars';
 import DifficultyBar from './DifficultyBar';
 
-export default function ProblemSolvedCard() {
+export default function ProblemSolvedCard({user}) {
   const userDiffObject = [1, 1, 1, 0]
   const [listOfProblems, setListOfProblems] = useState([]);
 

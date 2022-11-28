@@ -1,18 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import Axios from "axios";
+import { Component, useState, useEffect } from 'react';
 import Problem from '../problems/Problem';
 import { Scrollbars } from 'react-custom-scrollbars';
 
-export default function RecentlySolved() {
-    const [listOfProblems, setListOfProblems] = useState([]);
-
-    useEffect(() => {
-        Axios.get("http://localhost:3002/problems").then((response) => {
-            setListOfProblems(response.data.result);
-        });
-        // console.log(listOfProblems)
-    }, [listOfProblems]);
-
+export default class RecentlySolved extends Component {
+    constructor(props) {
+        super(props)
+        this.attemptedProblems = Array.from(this.props.user.attemptedProblems.values())
+    }
+    
+    render() {
     const styles = {
         container: {
             display: "inline-box",
@@ -38,21 +34,22 @@ export default function RecentlySolved() {
             <h3>Recently Solved Problems</h3>            
             <div style={styles.grid}>
                 <Scrollbars style={styles.scroll}>
-                    {listOfProblems.map((problem) => {
+                    {this.attemptedProblems.map((problem) => {
                         return (<>
-                                    <Problem key={problem.id} problem={problem} />
-                                    <Problem key={problem.id} problem={problem} />
-                                    <Problem key={problem.id} problem={problem} />
-                                    <Problem key={problem.id} problem={problem} />
-                                    <Problem key={problem.id} problem={problem} />
-                                    <Problem key={problem.id} problem={problem} />
-                                    <Problem key={problem.id} problem={problem} />
-                                    <Problem key={problem.id} problem={problem} />
-                                </>
+                                <Problem key={problem.id} problem={problem} />
+                                <Problem key={problem.id} problem={problem} />
+                                <Problem key={problem.id} problem={problem} />
+                                <Problem key={problem.id} problem={problem} />
+                                <Problem key={problem.id} problem={problem} />
+                                <Problem key={problem.id} problem={problem} />
+                                <Problem key={problem.id} problem={problem} />
+                                <Problem key={problem.id} problem={problem} />
+                            </>
                         );
                     })}
                 </Scrollbars>
             </div>
         </div>
     )
+    }
 }

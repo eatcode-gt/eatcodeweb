@@ -1,77 +1,68 @@
 import React from 'react'
 import Problem from './Problem'
-import Peppers from './Peppers'
 import { colors, diffMap } from '../../global/vars'
 import diffData from './diffData.json'
-import Button from '../common/Button'
-
-const ProblemBody = ({ i, diff, problems, eaten }) => {
+const ProblemBody = ({ i, diff, problems }) => {
   const userDiffObject = [3, 1, 0, 5]
 
   const styles = {
     container: {
-      display: 'flex'
+      display: 'flex',
+      width: '100%',
+      flexDirection: "column"
     },
     left: {
-      width: 'calc(50vw - 6em)',
-      height: '100%',
-      padding: '3em',
       display: 'flex'
     },
-    grid: {
-      width: '50vw',
+    topTitle: {
       display: 'flex',
-      gap: '2em',
-      padding: '0em 1em',
-      flexDirection: 'column',
-      maxHeight: '58em',
-      overflowX: 'scroll'
+      alignItems: 'center',
+      justifyContent: 'space-between',
     },
-    scroll: {
-      width: '100vw',
-      minHeight: '100vh',
-      height: 'auto'
+    grid: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '2em',
+      marginTop: '2em'
     },
     diffTitle: {
       color: colors[diff],
+      textAlign: 'center'
     },
-    companyCont: {
-      display: 'flex',
-      marginTop: '1em',
-      gap: '1em'
+    break: {
+      height: '0.2em',
+      width: '100%',
+      backgroundColor: colors.black,
+      marginTop: '1.5em'
     },
-    pepperCont: {
-      minHeight: '100%',
-      display: 'flex',
-      alignItems: 'center'
+    noProblems: {
+      color:  colors[diff],
+      textAlign: 'center'
     }
   }
 
   return (
-    <div style={styles.container}>
+    <div key={i} style={styles.container}>
       <div style={styles.left}>
         <div>
-          <h2 style={styles.diffTitle}>{diff}</h2>
-          <p>{diffData[diff].desc}</p>
-          <h3>{diff}s eaten: {eaten}</h3>
-          <div style={styles.companyCont}>
-            {diffData[diff].companies.map((problem) => {
-              return (
-                <Button key={problem} text={problem} color={colors[diff]} />
-              );
-            })}
+          <div style={styles.topTitle}>
+            <h2 style={styles.diffTitle}>{diff}</h2>
           </div>
-        </div>
-        <div style={styles.pepperCont}>
-          <Peppers diff={diff} size={"20rem"}/>
+          <p>{diffData[diff].desc}</p>
+          <h3>{diff}s eaten: {userDiffObject[diffMap.indexOf(diff)]}</h3>
+          <div style={styles.break} />
         </div>
       </div>
       <div style={styles.grid}>
-        {problems.map((problem) => {
-          return (
-            <Problem key={problem.id} problem={problem} />
-          );
-        })}
+        {
+          problems.length == 0
+          ? <h4 style={styles.noProblems}>no problems found</h4>
+          : problems.map((problem, j) => {
+              return (
+                <Problem key={1000 * i * j} problem={problem} />
+              );
+            })
+        }
       </div>
     </div>
   )

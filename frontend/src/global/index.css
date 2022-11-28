@@ -37,7 +37,7 @@ h5 {
   margin: 0;
 }
 p {
-  font-size: 2em;
+  font-size: 1.7em;
 }
 .MathJax {
   font-size: 1.5em;
@@ -94,6 +94,11 @@ a {
   h2 {
       font-size: 1.4em;
   }
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #555555;
+  opacity: 1; /* Firefox */
 }
 
 ::-webkit-scrollbar-track {

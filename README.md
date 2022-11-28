@@ -46,7 +46,7 @@ Although EatCode is open-source, EatCode is protected under copyright. Under __*
 ## 🤝 Contacts
 - [Race Williams (Project Manager)](https://github.com/r4c3)
 - [Giovanni Hsu (Project Member)](https://github.com/Giovanni1014)
-- [Aaron Liuo (Project Member)](https://github.com/aaronliuo)
+- [Aaron Liu (Project Member)](https://github.com/aaronliuo)
 - [Rian Rahman (Project Member)](https://github.com/RiRah123)
 - [Ethan Li (Project Member)](https://github.com/EthanLi1360)
 - [Dylan Kelly (Project Member)](https://github.com/dylankelly04)

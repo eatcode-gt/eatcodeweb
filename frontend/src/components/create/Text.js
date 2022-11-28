@@ -2,12 +2,19 @@ import React from 'react'
 import { MathComponent } from 'mathjax-react'
 import { useState, useEffect } from 'react'
 
-const Text = ( {text} ) => {
+const Text = ({ text }) => {
 
   const styles = {
+    container: {
+      margin: 0,
+      padding: 0,
+      fontSize: '1em',
+      display: "inline"
+    },
     p: {
       display: "inline",
       whiteSpace: "pre-wrap",
+      fontSize: `${'1.7'}em`,
     },
     error: {
       color: "red",
@@ -42,7 +49,7 @@ const Text = ( {text} ) => {
   }, [text])
 
   return (
-    <div>
+    <div style={styles.container}>
       {filteredText.map((data, i) => {
         return appendToPreview(data, i);
       })}
