@@ -29,12 +29,21 @@ export default class Problem extends Component {
       userSolvedCountByDiff: new Array(4).fill(0)
     }
 
-    this.options = [
+    this.tagOptions = [
       { value: 'Binary Search', label: 'binary search' }, { value: 'Bitmasks', label: 'bitmasks' }, { value: 'Brute Force', label: 'brute force' },
       { value: 'DP', label: 'dp' }, { value: 'Geometry', label: 'geometry' }, { value: 'Graphs', label: 'graphs' }, { value: 'Greedy', label: 'greedy' },
       { value: 'Math', label: 'math' }, { value: 'Number Theory', label: 'number theory' }, { value: 'Prefix-Sum', label: 'prefix-sum' },
       { value: 'Probability', label: 'probability' }, { value: 'Shortest Paths', label: 'shortest paths' }, { value: 'Sorting', label: 'sorting' },
       { value: 'Trees', label: 'trees' }, { value: 'Two Pointers', label: 'two pointers' }
+    ]
+
+    this.statusOptions = [
+      { value: 0, label: 'raw' }, { value: 1, label: 'cooking' }, { value: 2, label: 'cooked' }
+    ]
+
+    this.groupedOptions = [
+      { label: 'status', options: this.statusOptions},
+      { label: 'problem tags', options: this.tagOptions}
     ]
   }
 
@@ -76,11 +85,16 @@ export default class Problem extends Component {
   problemIsSelected(problem) {
     if (this.state.selectedTags.length !== 0) { //remove from screen if there are tags selected and none of them are a tag of the problem
       for (let i = 0; i < this.state.selectedTags.length; i++) {
-        if (!problem.tags.includes(this.state.selectedTags[i].value)) {
+        if (Number.isFinite(this.state.selectedTags[i].value) && problem.status != this.state.selectedTags[i].value) {
+          console.log(this.state.selectedTags[i].value)
+          return false
+        }
+        if (!Number.isFinite(this.state.selectedTags[i].value) && !problem.tags.includes(this.state.selectedTags[i].value)) {
           return false
         }
       }
     }
+
     if (this.state.selectedTitle !== "" && !problem.title.toLowerCase().includes(this.state.selectedTitle) && !problem.questionID.toString().includes(this.state.selectedTitle)) { //remove from screen if 
       return false
     }
@@ -188,12 +202,14 @@ export default class Problem extends Component {
           border: 'none',
           outline: 'none',
         }),
-        option: (styles) => {
+        option: (styles, state) => {
+          console.log(state)
           return {
             ...styles,
-            color: colors.black,
+            color: state.isFocused ? colors.white : colors.black,
             fontWeight: 'bold',
-            fontSize: '2em'
+            fontSize: '2em',
+            transition: 'all 0.3s ease'
           }
         },
         placeholder: (styles) => {
@@ -216,7 +232,17 @@ export default class Problem extends Component {
             fontSize: '2em',
             noOptionsText: "tag not found"
           }
-        }
+        },
+        groupHeading: (styles) => {
+          return {
+            ...styles,
+            textTransform: 'none',
+            color: colors.accent1,
+            fontWeight: 'bold',
+            fontSize: '2em',
+            textAlign: 'center'
+          }
+        },
       }
     }
 
@@ -224,7 +250,7 @@ export default class Problem extends Component {
       <div style={styles.bySearchContainer}>
         <input style={styles.textInput} placeholder="no title specified" type="text"  name="title" default="Enter" value={this.state.selectedTitle} onChange={this.handleTitleChange.bind(this)}/>
         <h5 style={styles.constrainText}>&larr; constrain your search &rarr;</h5>
-        <Select styles={styles.tagSelect} options={this.options} onChange={this.handleTagsChange.bind(this)} isSearchable isMulti closeMenuOnSelect={false} placeholder="no tags selected" noOptionsMessage={() => "tag not found"}
+        <Select styles={styles.tagSelect} options={this.groupedOptions} onChange={this.handleTagsChange.bind(this)} isSearchable isMulti closeMenuOnSelect={false} placeholder="no tags selected" noOptionsMessage={() => "tag not found"}
           theme={(theme) => ({
             ...theme,
             borderRadius: 0,
