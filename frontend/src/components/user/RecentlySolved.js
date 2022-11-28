@@ -12,10 +12,10 @@ export default class RecentlySolved extends Component {
         // this.attemptedProblems = Array.from(this.props.user.attemptedProblems.values())
         // console.log("kkkk:", Object.getOwnPropertyNames(this.props.user.attemptedProblems))
         const userAttempedProblems = Object.getOwnPropertyNames(this.props.user.attemptedProblems).map(x => parseInt(x))
-        // console.log("arr:", userAttempedProblems)
         Axios.post("http://localhost:3002/getProblems", {filter:{
             questionID : { "$in": userAttempedProblems }
           }}).then((response) => {
+            console.log(this.state.attemptedProblems)
             this.setState({attemptedProblems: response.data.result}, ()=>{});
         });
     }
@@ -48,7 +48,7 @@ export default class RecentlySolved extends Component {
                 <Scrollbars style={styles.scroll}>
                     {this.state.attemptedProblems.map((problem) => {
                         return (
-                                <Problem key={problem.id} problem={problem} />
+                            <Problem key={problem.id} problem={problem} />
                         );
                     })}
                 </Scrollbars>
