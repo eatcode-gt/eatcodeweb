@@ -46,9 +46,9 @@ const View = ({ problem }) => {
       <div style={styles.lineBreak} />
       <div style={styles.individualExample}>
         <h5>Example 1</h5>
-        <p><span style={styles.smallTitle}>Inputs(s): </span>{problem.e1input}</p>
-        <p><span style={styles.smallTitle}>Output(s): </span>{problem.e1output}</p>
-        <p><span style={styles.smallTitle}>Explanation: </span>{problem.e1explanation}</p>
+        <div style={styles.mathJax}><span style={styles.mathTitle}>Input<br></br> </span><Text id={1} text={problem.e1input} /></div>
+        <div style={styles.mathJax}><span style={styles.mathTitle}>Output<br></br> </span><Text id={1} text={problem.e1output} /></div>
+        <div style={styles.mathJax}><span style={styles.mathTitle}>Explanation<br></br> </span><Text id={1} text={problem.e1explanation} /></div>
       </div>
       <div style={styles.individualExample}>
         <h5>Example 2</h5>
