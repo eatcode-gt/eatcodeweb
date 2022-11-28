@@ -75,7 +75,7 @@ const Problem = ({ key, problem }) => {
           </div>
           <div style={styles.hovered}>
             <h5 style={styles.status}>{statusMap[problem.status]}</h5>
-            <h5 style={styles.scoville}>3742 🔥</h5>
+            <h5 style={styles.scoville}>{problem.beef} 🥩</h5>
           </div>
       </div>
     </Link>
