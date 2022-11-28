@@ -13,20 +13,19 @@ export default class Problem extends Component {
     super(props)
     this.state = {
       allProbs: [],
-      hungProbs: [],
       jalaProbs: [],
+      hungProbs: [],
       habeProbs: [],
       ghosProbs: [],
 
-      hungSelected: [],
       jalaSelected: [],
+      hungSelected: [],
       habeSelected: [],
       ghosSelected: [],
 
       selectedTags: [],
       selectedTitle: "",
 
-      userSolved: new Map(),
       userSolvedCountByDiff: new Array(4).fill(0)
     }
 
@@ -60,10 +59,10 @@ export default class Problem extends Component {
   }
 
   handleFilter() {
-    this.setState({hungSelected: this.state.hungProbs.filter((problem) => {
+    this.setState({jalaSelected: this.state.jalaProbs.filter((problem) => {
       return this.problemIsSelected(problem)
     })})
-    this.setState({jalaSelected: this.state.jalaProbs.filter((problem) => {
+    this.setState({hungSelected: this.state.hungProbs.filter((problem) => {
       return this.problemIsSelected(problem)
     })})
     this.setState({habeSelected: this.state.habeProbs.filter((problem) => {
@@ -98,6 +97,11 @@ export default class Problem extends Component {
       allTemp = response.data.result
     });
     allTemp.forEach(problem => {
+      if (this.context.user.attemptedProblems.hasOwnProperty(problem.questionID)) {
+        if (this.context.user.attemptedProblems[problem.questionID].solved === true) {
+          problem.status = 2 //cooked
+        } else { problem.status = 1 } //cooking
+      } else { problem.status = 0 } //raw
       switch (problem.difficulty) {
         case 0:
           jalaTemp.push(problem)
@@ -124,8 +128,6 @@ export default class Problem extends Component {
       ghosProbs: ghosTemp,
       ghosSelected: ghosTemp
     })
-
-    this.getUserProgress(this.context.user);
   }
 
   render() {
