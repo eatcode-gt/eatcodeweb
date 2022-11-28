@@ -6,8 +6,9 @@ import { Scrollbars } from 'react-custom-scrollbars';
 export default class RecentlySolved extends Component {
     constructor(props) {
         super(props)
+        console.log(props)
         this.state = {
-            listOfProblems: []
+            userSolved: props.user.attemptedProblems //THIS IS UNTESTED
         }
     }
 

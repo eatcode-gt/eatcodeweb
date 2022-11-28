@@ -21,7 +21,9 @@ class App extends Component {
         userName: "Not Logged In",
         userID: null,
         userProfilePictureUrl: "https://cdn.pixabay.com/photo/2017/02/12/21/29/false-2061132_1280.png",
-        isAdmin: false
+        isAdmin: false,
+        totalScore: 0,
+        attemptedProblems: Map()
       }
     }
 
@@ -32,7 +34,9 @@ class App extends Component {
       userName: "Not Logged In",
       userID: null,
       userProfilePictureUrl: "https://cdn.pixabay.com/photo/2017/02/12/21/29/false-2061132_1280.png",
-      isAdmin: false
+      isAdmin: false,
+      totalScore: 0,
+      attemptedProblems: Map()
     }
   }
 
@@ -44,14 +48,18 @@ class App extends Component {
         userName: foundUser.name,
         userID: foundUser.userID,
         userProfilePictureUrl: foundUser.profilePictureUrl,
-        isAdmin: foundUser.isAdmin
+        isAdmin: foundUser.isAdmin, //check on server
+        totalScore: foundUser.totalScore, //check on server
+        attemptedProblems: foundUser.attemptedProblems
       }})
     } else {
       this.setState({user: {
-        userName: "Not Logged In",
-        userID: null,
-        userProfilePictureUrl: "https://cdn.pixabay.com/photo/2017/02/12/21/29/false-2061132_1280.png",
-        isAdmin: false
+        userName: this.loggedOutUserObject.userName,
+        userID: this.loggedOutUserObject.userID,
+        userProfilePictureUrl: this.loggedOutUserObject.userProfilePictureUrl,
+        isAdmin: this.loggedOutUserObject.isAdmin,
+        totalScore: this.loggedOutUserObject.totalScore,
+        attemptedProblems: this.loggedOutUserObject.attemptedProblems
       }})
     }
   }
@@ -65,6 +73,9 @@ class App extends Component {
       userName: this.loggedOutUserObject.userName,
       userID: this.loggedOutUserObject.userID,
       userProfilePictureUrl: this.loggedOutUserObject.userProfilePictureUrl,
+      isAdmin: this.loggedOutUserObject.isAdmin,
+      totalScore: this.loggedOutUserObject.totalScore,
+      attemptedProblems: this.loggedOutUserObject.attemptedProblems
     }})
     localStorage.clear()
   }
@@ -74,7 +85,9 @@ class App extends Component {
       userName: newUserData.name,
       userID: newUserData.userID,
       userProfilePictureUrl: newUserData.profilePictureUrl,
-      isAdmin: newUserData.isAdmin
+      isAdmin: newUserData.isAdmin,
+      totalScore: newUserData.totalScore,
+      attemptedProblems: newUserData.attemptedProblems
     }})
     localStorage.setItem("user", JSON.stringify(newUserData))
     console.log('logged in', this.state.user)
