@@ -67,7 +67,7 @@ export default class Problem extends Component {
     }
 
     return (<>
-      <BySearch problems={this.state.allProbs} />
+      <BySearch bellProbs={this.state.bellProbs} jaleProbs={this.state.jaleProbs} habeProbs={this.state.habeProbs} ghosProbs={this.state.ghosProbs} />
       <div style={styles.container}>
         <ProblemBody i={0} diff={"Bell"} problems={this.state.bellProbs}/>
         <ProblemBody i={1} diff={"Jalepeño"} problems={this.state.jaleProbs}/>

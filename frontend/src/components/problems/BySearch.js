@@ -4,7 +4,7 @@ import Tags from '../create/Tags';
 import Problem from './Problem';
 import { colors } from '../../global/vars';
 
-const BySearch = ({problems}) => {
+const BySearch = ({bellProbs, jaleProbs, habeProbs, ghosProbs}) => {
 
   const styles = {
     container: {
@@ -48,8 +48,6 @@ const BySearch = ({problems}) => {
       cursor: 'pointer',
     },
   }
-
-  const [filteredProblems, setFilteredProblems] = useState(problems);
 
   const handleFilter = (event) => {
     event.preventDefault();
@@ -95,7 +93,7 @@ const BySearch = ({problems}) => {
   }
 
   const clearFilter = () => {
-    setFilteredProblems(problems);
+    setFilteredProblems(props.problems);
   }
 
   return (
@@ -104,25 +102,6 @@ const BySearch = ({problems}) => {
         <div style={styles.formElement} >
           <h5>Problem Search</h5>
           <input style={styles.searchBar} type="text" placeholder='Search...' name='search' />
-        </div>
-        <div  style={styles.formElement}>
-          <h5>Difficulty</h5>
-          <div>
-            <input type="checkbox" name={0} />
-            <label for={0}>Bell</label>
-          </div>
-          <div>
-            <input type="checkbox" name={1} />
-            <label for={1}>Jalepeno</label>
-          </div>
-          <div>
-            <input type="checkbox" name={2} />
-            <label for={2}>Habenero</label>
-          </div>
-          <div>
-            <input type="checkbox" name={3} />
-            <label for={3}>Ghost</label>
-          </div>
         </div>
         <div style={styles.formElement} >
           <h5>Tags</h5>
@@ -133,13 +112,6 @@ const BySearch = ({problems}) => {
           <button style={styles.button} type='reset' onClick={clearFilter} >Clear</button>
         </div>
       </form>
-      <div style={styles.problems} >
-        {filteredProblems.map((problem) => {
-          return (
-            <Problem key={problem.id} problem={problem} />
-          );
-        })}
-      </div>
     </div>
   )
 }
