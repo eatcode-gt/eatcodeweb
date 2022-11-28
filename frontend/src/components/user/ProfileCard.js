@@ -1,8 +1,10 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { colors } from '../../global/vars';
+import Button from '../common/Button'
 
 export default function ProfileCard() {
+
     let { userName } = useParams();
 
     const styles = {
@@ -12,40 +14,35 @@ export default function ProfileCard() {
             position: 'absolute',
             marginLeft: "20px",
             width: "300px",
-            height: "480px",
+            height: "300px",
             backgroundColor: colors.accent2,
             borderRadius: "10px",
             boxShadow: "0px 1px 10px 1px black"
         },
         upperContainer: {
-            height: "100px",
+            height: "75px",
             backgroundColor: colors.accent1,
         },
         lowerContainer: {
-            height: "300px",
+            height: "160px",
             background: colors.accent2,
             textAlign: "center",
             marginTop: "60px",
         },
         imageContainer:{
             background: "white",
+            alignContent: "center",
             width: "100px",
             height: "100px",
             borderRadius: "50%",
             padding: "5px",
-            transform: "translate(95px, 45px)",
+            transform: "translate(95px, 20px)",
         },
         profileButton: {
-            margin: "1rem",
+            width: "220px",
+            marginLeft: "2rem",
             marginTop: "0",
-            color: colors.assent2,
-            font: "bold",
-            backgroundColor: colors.assent1,
-            border: "2px solid #db747d",
-            padding: "0.6rem",
             borderRadius: "6px",
-            transitionDuration: "0.5s",
-            animation: "ease-in-out",
         }
     }
 
@@ -56,9 +53,10 @@ export default function ProfileCard() {
             </div>
             <div style={styles.lowerContainer}>
                 <h4>{userName}</h4>
-                <h5>Beef Points</h5>
-                <p>I am going to add a progress bar here for the total number of mild, medium, and hot problems the user has done just like LeetCode does</p>
-                <button style={styles.profileButton}>Edit Profile</button>
+                <p>Brief Description</p>
+                <div style={styles.profileButton}>
+                    <Button text={"Edit Profile"} color={colors.accent1} />
+                </div>
             </div>
         </div>   
     )

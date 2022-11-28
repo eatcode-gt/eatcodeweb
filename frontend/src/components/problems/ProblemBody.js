@@ -48,7 +48,7 @@ const ProblemBody = ({ i, diff, problems, eaten }) => {
   }
 
   return (
-    <div key={i} style={styles.container}>
+    <div style={styles.container}>
       <div style={styles.left}>
         <div>
           <h2 style={styles.diffTitle}>{diff}</h2>
@@ -63,7 +63,7 @@ const ProblemBody = ({ i, diff, problems, eaten }) => {
           </div>
         </div>
         <div style={styles.pepperCont}>
-          <Peppers diff={diff} />
+          <Peppers diff={diff} size={"20rem"}/>
         </div>
       </div>
       <div style={styles.grid}>
