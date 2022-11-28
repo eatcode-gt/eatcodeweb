@@ -3,6 +3,7 @@ import { Component,useState, useEffect } from 'react'
 import Axios from "axios";
 import ProblemBody from '../components/problems/ProblemBody'
 import Select from 'react-select'
+import { colors } from '../global/vars';
 
 export default class Problem extends Component {
   constructor(props) {
@@ -111,13 +112,19 @@ export default class Problem extends Component {
   render() {
     const styles = {
       container: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: '3em',
         padding: '0em 3em',
-        maxHeight: 'calc(100vh - 8em)'
+        maxHeight: 'calc(100vh - 8em)',
+        zIndex: 1
       },
       problemBodyContainer: {
         display: 'flex',
         justifyContent: 'space-between',
         gap: '3em',
+        paddingTop: '2em'
       },
       pad: {
         minHeight: '1em',
@@ -126,24 +133,50 @@ export default class Problem extends Component {
       },
       bySearchContainer: {
         display: 'flex',
-        justifyContent: 'spaceBetween',
-        marginBottom: '1em'
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: '3em',
+        position: 'absolute',
+        top: '3em'
+      },
+      constrainText: {
+        color: colors.accent1,
+        fontSize: '2.7em'
+      },
+      textInput: {
+        backgroundColor: colors.grey,
+        fontSize: '2em',
+        border: 'none',
+        outline: 'none',
+        width: '10em',
+        fontWeight: 'bold',
+        color: colors.accent2
       },
       tagSelect: {
+        width: '10em',
         control: (baseStyles, state) => ({
           ...baseStyles,
-          border: 'none !important',
-          outline: 'none !important',
-          backgroundColor: 'transparent'
-        }),
+          fontSize: '1.4em',
+          fontWeight: 'bold'
+        })
       }
     }
 
     return (<div style={styles.container}>
       <div style={styles.bySearchContainer}>
-        <h5>constrain your search:</h5>
-        <input style={styles.textInput} type="text"  name="title" default="Enter" value={this.state.selectedTitle} onChange={this.handleTitleChange.bind(this)}/>
-        <Select styles={styles.tagSelect} options={this.options} onChange={this.handleTagsChange.bind(this)} isSearchable isMulti closeMenuOnSelect={false}/>
+        <Select styles={styles.tagSelect} options={this.options} onChange={this.handleTagsChange.bind(this)} isSearchable isMulti closeMenuOnSelect={false} placeholder="no tags selected"
+          theme={(theme) => ({
+            ...theme,
+            borderRadius: 0,
+            colors: {
+              ...theme.colors,
+              primary25: colors.accent1,
+              primary: colors.accent2,
+              neutral0: colors.grey
+            },
+        })}/>
+        <h5 style={styles.constrainText}>&larr; constrain your search &rarr;</h5>
+        <input style={styles.textInput} placeholder="no title specified" type="text"  name="title" default="Enter" value={this.state.selectedTitle} onChange={this.handleTitleChange.bind(this)}/>
       </div>
       <div style={styles.problemBodyContainer}>
         <ProblemBody i={0} diff={"Bell"} problems={this.state.bellSelected}/>

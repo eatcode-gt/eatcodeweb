@@ -19,7 +19,8 @@ const Header = () => {
       height: '8em',
       padding: '0em 2em 0.5em 2em',
       alignItems: 'center',
-      justifyContent: 'space-between'
+      justifyContent: 'space-between',
+      zIndex: 2
     },
     title: {
       color: titleHover ? colors.accent1 : colors.accent2,
