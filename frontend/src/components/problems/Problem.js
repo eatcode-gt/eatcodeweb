@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { colors } from '../../global/vars'
+import { colors, statusMap } from '../../global/vars'
 import { Link } from 'react-router-dom'
 import { diffMap } from '../../global/vars'
 
@@ -34,6 +34,7 @@ const Problem = ({ problem }) => {
       <div style={styles.bar} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
           <h5 style={styles.name}>{problem.title}</h5>
       </div>
+      <h5 style={styles.status}>{statusMap[problem.status]}</h5>
     </Link>
   )
 }
