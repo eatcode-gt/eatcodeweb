@@ -107,7 +107,7 @@ export default class Problem extends Component {
     let hungTemp = []
     let habeTemp = []
     let ghosTemp = []
-    await Axios.get("http://localhost:3002/problems").then((response) => {
+    await Axios.post("http://localhost:3002/getProblems",{filter:{}}).then((response) => {
       allTemp = response.data.result
     });
     allTemp.forEach(problem => {

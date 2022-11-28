@@ -1,11 +1,23 @@
 import { Component, useState, useEffect } from 'react';
 import Problem from '../problems/Problem';
 import { Scrollbars } from 'react-custom-scrollbars';
+import Axios from "axios";
 
 export default class RecentlySolved extends Component {
     constructor(props) {
         super(props)
-        this.attemptedProblems = Array.from(this.props.user.attemptedProblems.values())
+        this.state = {
+            attemptedProblems: [],
+        }
+        // this.attemptedProblems = Array.from(this.props.user.attemptedProblems.values())
+        // console.log("kkkk:", Object.getOwnPropertyNames(this.props.user.attemptedProblems))
+        const userAttempedProblems = Object.getOwnPropertyNames(this.props.user.attemptedProblems).map(x => parseInt(x))
+        // console.log("arr:", userAttempedProblems)
+        Axios.post("http://localhost:3002/getProblems", {filter:{
+            questionID : { "$in": userAttempedProblems }
+          }}).then((response) => {
+            this.setState({attemptedProblems: response.data.result}, ()=>{});
+        });
     }
     
     render() {
@@ -34,17 +46,9 @@ export default class RecentlySolved extends Component {
             <h3>Recently Solved Problems</h3>            
             <div style={styles.grid}>
                 <Scrollbars style={styles.scroll}>
-                    {this.attemptedProblems.map((problem) => {
-                        return (<>
+                    {this.state.attemptedProblems.map((problem) => {
+                        return (
                                 <Problem key={problem.id} problem={problem} />
-                                <Problem key={problem.id} problem={problem} />
-                                <Problem key={problem.id} problem={problem} />
-                                <Problem key={problem.id} problem={problem} />
-                                <Problem key={problem.id} problem={problem} />
-                                <Problem key={problem.id} problem={problem} />
-                                <Problem key={problem.id} problem={problem} />
-                                <Problem key={problem.id} problem={problem} />
-                            </>
                         );
                     })}
                 </Scrollbars>
