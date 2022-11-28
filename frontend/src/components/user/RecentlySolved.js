@@ -5,7 +5,8 @@ import { Scrollbars } from 'react-custom-scrollbars';
 export default class RecentlySolved extends Component {
     constructor(props) {
         super(props)
-        this.attemptedProblems = Array.from(this.props.user.attemptedProblems.values())
+        // this.attemptedProblems = Array.from(this.props.user.attemptedProblems.values())
+        console.log("kkkk:", this.props.user.attemptedProblems)
     }
     
     render() {
@@ -33,8 +34,9 @@ export default class RecentlySolved extends Component {
         <div style={styles.container}>
             <h3>Recently Solved Problems</h3>            
             <div style={styles.grid}>
+                <h1>   hello </h1>
                 <Scrollbars style={styles.scroll}>
-                    {this.attemptedProblems.map((problem) => {
+                    {/* {this.attemptedProblems.map((problem) => {
                         return (<>
                                 <Problem key={problem.id} problem={problem} />
                                 <Problem key={problem.id} problem={problem} />
@@ -46,7 +48,7 @@ export default class RecentlySolved extends Component {
                                 <Problem key={problem.id} problem={problem} />
                             </>
                         );
-                    })}
+                    })} */}
                 </Scrollbars>
             </div>
         </div>
