@@ -108,7 +108,6 @@ function LogInButton({user, logInUser, logOutUser}) {
     Axios.post("http://localhost:3002/login", {
       token: response.credential
     }).then((response) => {
-      console.log(response.data);
       getUserInfo(response.data.sub); // just for showcasing.
     });
   }
@@ -118,7 +117,6 @@ function LogInButton({user, logInUser, logOutUser}) {
     Axios.post("http://localhost:3002/userInfo", {
       sub: userID
     }).then((response) => {
-      console.log(response)
       logInUser(response.data.result[0]);
     });
   }
