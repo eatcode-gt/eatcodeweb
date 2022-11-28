@@ -25,11 +25,11 @@ export default class Problem extends Component {
     }
 
     this.options = [
-      { value: 'Binary Search', label: 'Binary Search' }, { value: 'Bitmasks', label: 'Bitmasks' }, { value: 'Brute Force', label: 'Brute Force' },
-      { value: 'DP', label: 'DP' }, { value: 'Geomertry', label: 'Geomertry' }, { value: 'Graphs', label: 'Graphs' }, { value: 'Greedy', label: 'Greedy' },
-      { value: 'Math', label: 'Math' }, { value: 'Number Theory', label: 'Number Theory' }, { value: 'Prefix-Sum', label: 'Prefix-Sum' },
-      { value: 'Probability', label: 'Probability' }, { value: 'Shortest Paths', label: 'Shortest Paths' }, { value: 'Sorting', label: 'Sorting' },
-      { value: 'Trees', label: 'Trees' }, { value: 'Two Pointers', label: 'Two Pointers' }
+      { value: 'Binary Search', label: 'binary search' }, { value: 'Bitmasks', label: 'bitmasks' }, { value: 'Brute Force', label: 'brute force' },
+      { value: 'DP', label: 'dp' }, { value: 'Geometry', label: 'geometry' }, { value: 'Graphs', label: 'graphs' }, { value: 'Greedy', label: 'greedy' },
+      { value: 'Math', label: 'math' }, { value: 'Number Theory', label: 'number theory' }, { value: 'Prefix-Sum', label: 'prefix-sum' },
+      { value: 'Probability', label: 'probability' }, { value: 'Shortest Paths', label: 'shortest paths' }, { value: 'Sorting', label: 'sorting' },
+      { value: 'Trees', label: 'trees' }, { value: 'Two Pointers', label: 'two pointers' }
     ]
   }
 
@@ -135,7 +135,7 @@ export default class Problem extends Component {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        gap: '3em',
+        gap: '1em',
         position: 'absolute',
         top: '3em'
       },
@@ -148,35 +148,72 @@ export default class Problem extends Component {
         fontSize: '2em',
         border: 'none',
         outline: 'none',
-        width: '10em',
+        width: '12em',
         fontWeight: 'bold',
-        color: colors.accent2
+        color: colors.accent2,
+        textAlign: 'right',
+        paddingRight: '0.6em'
       },
       tagSelect: {
-        width: '10em',
-        control: (baseStyles, state) => ({
+        control: (baseStyles) => ({
           ...baseStyles,
-          fontSize: '1.4em',
-          fontWeight: 'bold'
-        })
+          maxWidth: '35vw',
+          minWidth: '12em',
+          width: '12em',
+          maxHeight: '1em',
+          fontSize: '2em',
+          fontWeight: 'bold',
+          border: 'none',
+          outline: 'none',
+        }),
+        option: (styles) => {
+          return {
+            ...styles,
+            color: colors.black,
+            fontWeight: 'bold',
+            fontSize: '2em'
+          }
+        },
+        placeholder: (styles) => {
+          return {
+            ...styles,
+            color: "#555555"
+          }
+        },
+        input: (styles) => {
+          return {
+            ...styles,
+            color: colors.accent2,
+          }
+        },
+        noOptionsMessage: (styles) => {
+          return { 
+            ...styles,
+            color: colors.black,
+            fontWeight: 'bold',
+            fontSize: '2em',
+            noOptionsText: "tag not found"
+          }
+        }
       }
     }
 
     return (<div style={styles.container}>
       <div style={styles.bySearchContainer}>
-        <Select styles={styles.tagSelect} options={this.options} onChange={this.handleTagsChange.bind(this)} isSearchable isMulti closeMenuOnSelect={false} placeholder="no tags selected"
+        <input style={styles.textInput} placeholder="no title specified" type="text"  name="title" default="Enter" value={this.state.selectedTitle} onChange={this.handleTitleChange.bind(this)}/>
+        <h5 style={styles.constrainText}>&larr; constrain your search &rarr;</h5>
+        <Select styles={styles.tagSelect} options={this.options} onChange={this.handleTagsChange.bind(this)} isSearchable isMulti closeMenuOnSelect={false} placeholder="no tags selected" noOptionsMessage={() => "tag not found"}
           theme={(theme) => ({
             ...theme,
             borderRadius: 0,
             colors: {
               ...theme.colors,
-              primary25: colors.accent1,
-              primary: colors.accent2,
-              neutral0: colors.grey
+              primary25: colors.accent2,
+              primary: colors.grey,
+              neutral0: colors.grey,
+              neutral20: colors.grey
             },
         })}/>
-        <h5 style={styles.constrainText}>&larr; constrain your search &rarr;</h5>
-        <input style={styles.textInput} placeholder="no title specified" type="text"  name="title" default="Enter" value={this.state.selectedTitle} onChange={this.handleTitleChange.bind(this)}/>
       </div>
       <div style={styles.problemBodyContainer}>
         <ProblemBody i={0} diff={"Bell"} problems={this.state.bellSelected}/>
