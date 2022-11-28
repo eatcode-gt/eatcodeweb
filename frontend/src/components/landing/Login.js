@@ -51,7 +51,13 @@ function Login({user, updateUser}) {
 
   return (
     <div>
+      {/* The Google Login Button */}
+      {/* <div id="buttonDiv"></div> */}
       {user.loggedIn ? <button onClick={signOut}> Logout </button> : <div id="buttonDiv"></div>}
+      {/* <h1 id="nameBanner">Name: {userName}</h1>
+      <button onClick={onSignout}> Sign Out </button> */}
+      {/* To see the problems -> <ProblemBody></ProblemBody> */}
+      {/* <ProblemBody></ProblemBody> */}
     </div>
   );
 }

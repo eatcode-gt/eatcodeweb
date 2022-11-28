@@ -1,22 +1,33 @@
 const mongoose = require('mongoose');
 
+const ExampleSchema = new mongoose.Schema({
+  exampleInput: {
+    type: String,
+    required: true,
+  },
+  exampleOutput: {
+    type: String,
+    required: true,
+  },
+  exampleText: {
+    type: String,
+    required: false,
+  }
+});
+
 const ProblemSchema = new mongoose.Schema({
   questionID: {
     type: Number,
     required: true,
     unique: true,
   },
-  title: {
+  name: {
     type: String,
     required: true,
   },
-  description: {
-    type: String,
-    required: true,
-  },
-  difficulty: {
+  diff: {
     type: Number,
-    required: true,
+    required: true, 
   },
   time: {
     type: Number,
@@ -26,53 +37,20 @@ const ProblemSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  status: {
-    type: Number,
+  text: {
+    type: String,
     required: true,
-    default: 0,
   },
   input: {
     type: String,
-    required: true
+    required: true,
   },
   output: {
     type: String,
-    required: true
-  },
-  e1input: {
-    type: String,
     required: true,
   },
-  e1output: {
-    type: String,
-    required: true,
-  },
-  e1explanation: {
-    type: String,
-    required: true,
-  },
-  e2input: {
-    type: String,
-    required: true,
-  },
-  e2output: {
-    type: String,
-    required: true,
-  },
-  e2explanation: {
-    type: String,
-    required: true,
-  },
-  e3input: {
-    type: String,
-    required: true,
-  },
-  e3output: {
-    type: String,
-    required: true,
-  },
-  e3explanation: {
-    type: String,
+  example: {
+    type: ExampleSchema,
     required: true,
   },
   numberOfAttemptedUsers: {
@@ -85,7 +63,19 @@ const ProblemSchema = new mongoose.Schema({
     required: true,
     default: 0,
   },
+  tags: {
+    type: [String],
+    required: false,
+  }
 });
 
 const ProblemModel = mongoose.model("problems", ProblemSchema);
 module.exports = ProblemModel;
+
+// "problemID": 2, 
+// "problemName": "McDouble", 
+// "problemDifficulty": "med", 
+// "problemStatus": "new",
+// "problemText": "Such cool text",
+// "numberOfAttemptedUsers": 0,
+// "numberOfSolvedUsers": 0

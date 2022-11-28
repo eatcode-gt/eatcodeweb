@@ -12,7 +12,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.finishedRunningSubmission = exports.enqueueWorker = exports.createSubmission = void 0;
 const binary_search_tree_1 = require("@datastructures-js/binary-search-tree");
 const queue_1 = require("@datastructures-js/queue");
-const SubmissionModel = require('../models/Submissions.js');
+const { SubmissionModel, SubmissionSchema } = require('../models/Submissions.js');
+const ProblemModel = require('../models/Problems.js');
+const UserModel = require('../models/Users');
 const notProcessedSubmissions = new binary_search_tree_1.BinarySearchTree((a, b) => a.submissionID - b.submissionID);
 const idleWorkersQueue = new queue_1.Queue();
 const processingSubmissions = new Map();
@@ -37,6 +39,22 @@ function createSubmission(requestBody, res) {
                 submissionID: lastSubmissionID + 1,
                 callback: res,
             });
+            UserModel.findOne({ userID }, (err, user) => __awaiter(this, void 0, void 0, function* () {
+                if (err)
+                    console.error(err);
+                const question = yield ProblemModel.findOne({ questionID });
+                const diff = question.diff;
+                if (!user.attemptedProblems.has(questionID.toString())) {
+                    user.attemptedProblems.set(questionID.toString(), {
+                        solved: false,
+                        bestScore: 0,
+                        diff,
+                        bestSubmissionID: lastSubmissionID + 1,
+                    });
+                }
+                user.attemptedProblems.get(questionID.toString()).pastSubmissionIDs.push(lastSubmissionID + 1);
+                user.save();
+            }));
             console.log("Submission created! ID:[" + (lastSubmissionID + 1) + "]");
             printSubmissionStats();
         }
@@ -78,6 +96,36 @@ function enqueueWorker(res) {
     scheduleJob();
 }
 exports.enqueueWorker = enqueueWorker;
+function updateUserAttemptedProblem(newScore, submissionID) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const submission = yield SubmissionModel.findOne({ submissionID });
+        const userID = submission.userID;
+        const questionID = submission.questionID;
+        UserModel.findOne({ userID }, (err, user) => {
+            if (err)
+                console.error(err);
+            try {
+                const problem = user.attemptedProblems.get(questionID.toString());
+                if (true || problem.bestScore < newScore) {
+                    problem.bestScore = newScore;
+                    problem.bestSubmissionID = submissionID;
+                    if (newScore == 100) { // To be fixed
+                        problem.solved = true;
+                    }
+                    const totalScore = Array.from(user.attemptedProblems.values()).reduce((a, val) => a + val.bestScore, 0);
+                    // console.log(typeof user.attemptedProblems.entries())
+                    // console.log("totalScore", totalScore)
+                    // console.log("array:", Array.from(user.attemptedProblems.values()))
+                    user.totalScore = totalScore;
+                    user.save();
+                }
+            }
+            catch (error) {
+                console.error(error);
+            }
+        });
+    });
+}
 function finishedRunningSubmission(submissionID) {
     return __awaiter(this, void 0, void 0, function* () {
         const submission = yield SubmissionModel.findOne({ submissionID });
@@ -85,6 +133,9 @@ function finishedRunningSubmission(submissionID) {
             const job = processingSubmissions.get(submissionID);
             processingSubmissions.delete(submissionID);
             try {
+                console.log("results: ", submission.results);
+                const newScore = submission.results.finalResult == 0 ? 100 : 0;
+                updateUserAttemptedProblem(newScore, submissionID);
                 job.callback.json(submission.results);
             }
             catch (error) {

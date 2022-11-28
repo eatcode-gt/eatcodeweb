@@ -1,8 +1,8 @@
 export const colors = {
     black: "#000000", //pure black (text, etc)
     grey: "#e1e1e1", //background color grey ALWAYS UPDATE INDEX.CSS, INNDEX.HTML line 7
-    accent1: "#106620", //green
-    accent2: "#2f823e", //black
+    accent1: "#d65a56", //purple
+    accent2: "#518a52", //green
     white: '#FFFFFF', //pure white
     Bell: "#c99222", //mild question difficulty
     Jalepeño: "#104d09", //medium question difficulty

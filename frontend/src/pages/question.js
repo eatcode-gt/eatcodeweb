@@ -1,11 +1,22 @@
 import React from 'react'
-import { colors, diffMap } from '../global/vars'
+import { colors } from '../global/vars'
 import { useLocation } from 'react-router-dom'
-import { createContext  } from 'react'
+import { useState, createContext  } from 'react'
+import Axios from 'axios'
 import CodeArea from '../components/create/CodeArea'
 import View from '../components/create/View'
+import Button from '../components/common/Button'
 
-const Question = () => {
+const resultCodeToString = [
+                            "Correct",
+                            "Wrong Answer",
+                            "Time Limit Exceeded",
+                            "Memory Limit Exceeded",
+                            "Runtime Error",
+                            "System Error"
+                          ]
+
+const Question = ({user, updateUserAxios}) => {
   const styles = {
     content: {
       display: 'flex',
@@ -27,11 +38,45 @@ const Question = () => {
       maxWidth: 'calc(50% - 4em)',
       width: '50%',
       height: '100%'
+    },
+    buttonDiv: {
+      display: "flex",
+      width: '100%',
+      gap: '2em',
+      justifyContent: 'space-between'
     }
   }
+  const [code, setCode] = useState(`def add(a, b):\n  return a + b;\n`);
+  const [result, setResult] = useState("");
+  const [finalResult, setFinalResult] = useState("Raw");
+
+  const handleOnChange = (event) => {
+    setCode(event.target.value);
+  }
+
 
   const UserContext = createContext()
   const problem = useLocation().state.problem
+
+  const handleSubmit = () => {
+    console.log("Submitted Problem");
+    setFinalResult("Pending");
+    setResult("");
+    Axios.post("http://localhost:3002/problems", {
+      code: code, 
+      language: "python", 
+      questionID: problem.questionID,
+      userID: user.userID,
+    }).then((response) => {
+      const result = response.data.result;
+      const finalResult = response.data.finalResult;
+      setFinalResult(resultCodeToString[finalResult])
+      setResult(result.map((val) => {return resultCodeToString[val]}));
+      updateUserAxios()
+    }).catch((error) => {
+      console.log(error)
+    });
+  }
 
   return (
     <div style={styles.content}>
@@ -42,11 +87,17 @@ const Question = () => {
       </div>
       <div style={styles.right}>
         <CodeArea 
-          color={colors[diffMap[problem.difficulty]]}
           style={styles.textarea}
-          questionID={problem.questionID}
-          //moved code={code} setCode={setCode} to CodeArea.js
+          onChange={handleOnChange}
+          code={code} setCode={setCode}
         />
+        <div style={styles.buttonDiv}>
+          <Button onClick={handleSubmit} color={colors.accent1} text={"get cookin"} />
+          <Button onClick={handleSubmit} color={colors.hover} text={"stess ball"} />
+          <Button onClick={handleSubmit} color={colors.accent2} text={"see solution"} />
+        </div>
+        <h5>Result: {finalResult}</h5>
+        <pre>{result}</pre>
       </div>
     </div>
   )

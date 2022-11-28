@@ -1,13 +1,13 @@
 import express, { Express, Request, Response } from 'express'; //server manager in js
 import dotenv from 'dotenv'; //allows use of enviroment variables in ./.env
 import cors from 'cors'; //cross origin resource sharing middleware
-import {createSubmission, enqueueWorker, finishedRunningSubmission} from './createSubmission'
+import {createSubmission, enqueueWorker, finishedRunningSubmission} from './createSubmission';
 import fileUpload from 'express-fileupload';
 import database from './database';
-
+ 
 const jwt = require("jsonwebtoken");
 const morgan = require('morgan');
- 
+
 const UserModel = require('../models/Users');
 const ProblemModel = require('../models/Problems.js');
 const TestCasesZippedModel = require('../models/Tests.js');
@@ -31,8 +31,9 @@ app.get('/', (req: Request, res: Response) => { //get requests to eatcode.com/
   res.send('placeholder'); 
 });
 
-app.get('/problems', (req: Request, res: Response) => { //gets requests to eatcode.com/problems
-  ProblemModel.find({}, (err: Error, result: Response) => {
+app.get('/problems', async (req: Request, res: Response) => { //gets requests to eatcode.com/problems
+  ProblemModel.find({}, null, {sort: {questionID: 1}}, (err: Error, result: Response) => {
+    // console.log(result);
     if(err) {
       res.json(err);
     } else {
@@ -41,10 +42,14 @@ app.get('/problems', (req: Request, res: Response) => { //gets requests to eatco
   })
 })
 
+app.post('/register', (req: Request, res: Response) => { //post requests to eatcode.com/register
+  res.send('placeholder');
+}); 
+
 app.post("/login", (req: Request, res: Response) => {
   const token = req.body.token;
   const decoded = jwt.decode(token);
-  console.log(decoded);
+  //console.log(decoded);
 
   UserModel.find({userID:decoded.sub}, async (err: Error, result: Array<typeof UserModel>) => { 
     if (err) {
@@ -54,10 +59,7 @@ app.post("/login", (req: Request, res: Response) => {
         userID: decoded.sub,
         name: decoded.name,
         email: decoded.email,
-        totalScore: 0,
-        attemptedProblems: null,
-        isAdmin: false,
-        profilePictureUrl: decoded.picture
+        attemptedProblems: new Map(),
       };
       const newUser = new UserModel(user);
       await newUser.save();
@@ -121,7 +123,7 @@ app.post('/createFiles', async (req: Request, res: Response) => {
 
 app.post('/userInfo', (req: Request, res: Response) => {
   const userSub = req.body.sub;
-  console.log(userSub);
+  //console.log(userSub);
   UserModel.find({userID:userSub}, (err: Error, result: Array<typeof UserModel>) => { 
     if (err) {
       res.json(err);

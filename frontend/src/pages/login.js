@@ -10,7 +10,7 @@ function Login({user, updateUser}) {
     Axios.post("http://localhost:3002/login", {
       token: response.credential
     }).then((response) => {
-      console.log(response.data);
+      // console.log(response.data);
       getUserInfo(response.data.sub); // just for showcasing.
     });
   }

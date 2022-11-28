@@ -1,8 +1,9 @@
 import React from 'react';
 import { colors } from '../../global/vars';
+import Title from './Title'
 import PageLink from './PageLink';
 
-const Default = ({user, setIsDefault}) => {
+const Default = ({user}) => {
 
   const styles = {
     content: {
@@ -26,6 +27,7 @@ const Default = ({user, setIsDefault}) => {
   return (
     <div style={styles.content}>
       <div style={styles.left}>
+        <Title />
         <PageLink page="/problems" name="problems" utensil="fork" />
         {user.loggedIn
         ? <>
