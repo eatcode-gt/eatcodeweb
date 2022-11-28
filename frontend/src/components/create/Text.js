@@ -8,13 +8,13 @@ const Text = ({ text }) => {
     container: {
       margin: 0,
       padding: 0,
-      fontSize: '1.2em',
+      fontSize: '1em',
       display: "inline"
     },
     p: {
       display: "inline",
       whiteSpace: "pre-wrap",
-      fontSize: `${2 / 1.2}em`,
+      fontSize: `${'1.7'}em`,
     },
     error: {
       color: "red",

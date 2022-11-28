@@ -11,7 +11,7 @@ const defaultInputs = {
   time: 1,
   memory: 256,
   input: "The only line of each test contains two integers $$n$$ and $$\\left ( 0 \\leq k < n < 10^{6} \\right )$$.",
-  output: "Output a single integer - the answer modulo $$10^{9} + 7$$.",
+  output: "Output a single integer — the answer modulo $$10^{9} + 7$$.",
   e1input: "param1 = 'd', param2 = [3, 2, 3]",
   e1output: "[0, 1]",
   e1explanation: "This is the explanation on how the inputs yielded the outputs.",
@@ -180,13 +180,6 @@ const Create = () => {
                 <select style={styles.selectInput} name="memory" value={inputs.memory} onChange={handleChange}>
                   <option value={256}>256MB</option>
                   <option value={512}>512MB</option>
-                </select>
-              </label>
-              <label style={styles.label}>
-                <select style={styles.selectInput} name="numExamples" value={inputs.numExamples} onChange={handleChange}>
-                  <option value={1}>1</option>
-                  <option value={2}>2</option>
-                  <option value={2}>3</option>
                 </select>
               </label>
           </div>

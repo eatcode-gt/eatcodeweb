@@ -34,7 +34,7 @@ const View = ({ context, diff}) => {
     },
     mathTitle: {
       fontWeight: 'bold',
-      fontSize: '2em'
+      fontSize: '1.8em'
     }
   }
 

@@ -11,10 +11,7 @@ export default function CodeArea({color, questionID}) {
   const user = useContext(userContext)
   const [getCookingText, setGetCookingText] = useState("get cookin")
   const [code, setCode] = useState(`def add(a, b):\n  return a + b;\n`);
-  const [result, setResult] = useState(
-    // [0, 1, 2, 3, 4, 5]
-    []
-    );
+  const [result, setResult] = useState([]);
 
   const handleSubmit = () => {
     if (user.user.userID == null) {
@@ -29,8 +26,8 @@ export default function CodeArea({color, questionID}) {
         userID: user.user.userID
       }).then((response) => {
         setGetCookingText("cooked")
+        console.log(response)
         setResult(response.data.result);
-        console.log(result)
       });
     }
   }
