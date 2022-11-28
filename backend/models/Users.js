@@ -49,6 +49,10 @@ const UserSchema = new mongoose.Schema({
                 required: true,
                 default: 0,
             },
+            diff: {
+                type: Number,
+                required: true,
+            },
             bestSubmissionID: Number,
             pastSubmissionIDs: [Number],
         }),

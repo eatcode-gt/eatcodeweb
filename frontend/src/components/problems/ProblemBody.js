@@ -5,7 +5,7 @@ import { colors, diffMap } from '../../global/vars'
 import diffData from './diffData.json'
 import Button from '../common/Button'
 
-const ProblemBody = ({ i, props }) => {
+const ProblemBody = ({ i, diff, problems, eaten }) => {
   const userDiffObject = [3, 1, 0, 5]
 
   const styles = {
@@ -33,7 +33,7 @@ const ProblemBody = ({ i, props }) => {
       height: 'auto'
     },
     diffTitle: {
-      color: colors[props.diff],
+      color: colors[diff],
     },
     companyCont: {
       display: 'flex',
@@ -51,23 +51,23 @@ const ProblemBody = ({ i, props }) => {
     <div key={i} style={styles.container}>
       <div style={styles.left}>
         <div>
-          <h2 style={styles.diffTitle}>{props.diff}</h2>
-          <p>{diffData[props.diff].desc}</p>
-          <h3>{props.diff}s eaten: {userDiffObject[diffMap.indexOf(props.diff)]}</h3>
+          <h2 style={styles.diffTitle}>{diff}</h2>
+          <p>{diffData[diff].desc}</p>
+          <h3>{diff}s eaten: {eaten}</h3>
           <div style={styles.companyCont}>
-            {diffData[props.diff].companies.map((problem) => {
+            {diffData[diff].companies.map((problem) => {
               return (
-                <Button key={problem} text={problem} color={colors[props.diff]} />
+                <Button key={problem} text={problem} color={colors[diff]} />
               );
             })}
           </div>
         </div>
         <div style={styles.pepperCont}>
-          <Peppers diff={props.diff} />
+          <Peppers diff={diff} />
         </div>
       </div>
       <div style={styles.grid}>
-        {props.problems.map((problem) => {
+        {problems.map((problem) => {
           return (
             <Problem key={problem.id} problem={problem} />
           );

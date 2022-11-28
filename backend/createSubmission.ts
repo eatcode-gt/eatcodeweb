@@ -6,6 +6,7 @@ import {
   import { Queue } from '@datastructures-js/queue';
 
 const {SubmissionModel, SubmissionSchema} = require('../models/Submissions.js');
+const ProblemModel = require('../models/Problems.js');
 const UserModel = require('../models/Users');
 
 interface Submission {
@@ -43,12 +44,15 @@ async function createSubmission(requestBody: { code: string; language: string; q
         submissionID: lastSubmissionID + 1,
         callback: res,
       })
-      UserModel.findOne({userID}, (err: any, user: { attemptedProblems: { has: { (arg0: string | number): any; (arg0: string | number): any; constructor: any; }; set: (arg0: string, arg1: { solved: boolean; bestScore: number; bestSubmissionID: any; }) => void; get: (arg0: string) => { (): any; new(): any; pastSubmissionIDs: any[]; }; }; save: () => void; }) => {
+      UserModel.findOne({userID}, async (err: any, user: { attemptedProblems: { has: (arg0: string) => any; set: (arg0: string, arg1: { solved: boolean; bestScore: number; diff: any; bestSubmissionID: any; }) => void; get: (arg0: string) => { (): any; new(): any; pastSubmissionIDs: any[]; }; }; save: () => void; }) => {
         if (err) console.error(err);
+        const question = await ProblemModel.findOne({questionID});
+        const diff = question.diff;
         if (!user.attemptedProblems.has(questionID.toString())) {
             user.attemptedProblems.set(questionID.toString(), {
             solved: false,
             bestScore: 0,
+            diff,
             bestSubmissionID: lastSubmissionID + 1,
           })
         } 

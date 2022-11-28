@@ -13,6 +13,7 @@ exports.finishedRunningSubmission = exports.enqueueWorker = exports.createSubmis
 const binary_search_tree_1 = require("@datastructures-js/binary-search-tree");
 const queue_1 = require("@datastructures-js/queue");
 const { SubmissionModel, SubmissionSchema } = require('../models/Submissions.js');
+const ProblemModel = require('../models/Problems.js');
 const UserModel = require('../models/Users');
 const notProcessedSubmissions = new binary_search_tree_1.BinarySearchTree((a, b) => a.submissionID - b.submissionID);
 const idleWorkersQueue = new queue_1.Queue();
@@ -38,19 +39,22 @@ function createSubmission(requestBody, res) {
                 submissionID: lastSubmissionID + 1,
                 callback: res,
             });
-            UserModel.findOne({ userID }, (err, user) => {
+            UserModel.findOne({ userID }, (err, user) => __awaiter(this, void 0, void 0, function* () {
                 if (err)
                     console.error(err);
+                const question = yield ProblemModel.findOne({ questionID });
+                const diff = question.diff;
                 if (!user.attemptedProblems.has(questionID.toString())) {
                     user.attemptedProblems.set(questionID.toString(), {
                         solved: false,
                         bestScore: 0,
+                        diff,
                         bestSubmissionID: lastSubmissionID + 1,
                     });
                 }
                 user.attemptedProblems.get(questionID.toString()).pastSubmissionIDs.push(lastSubmissionID + 1);
                 user.save();
-            });
+            }));
             console.log("Submission created! ID:[" + (lastSubmissionID + 1) + "]");
             printSubmissionStats();
         }

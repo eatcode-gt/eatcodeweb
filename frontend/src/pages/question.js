@@ -16,7 +16,7 @@ const resultCodeToString = [
                             "System Error"
                           ]
 
-const Question = ({user}) => {
+const Question = ({user, updateUserAxios}) => {
   const styles = {
     content: {
       display: 'flex',
@@ -72,6 +72,7 @@ const Question = ({user}) => {
       const finalResult = response.data.finalResult;
       setFinalResult(resultCodeToString[finalResult])
       setResult(result.map((val) => {return resultCodeToString[val]}));
+      updateUserAxios()
     }).catch((error) => {
       console.log(error)
     });

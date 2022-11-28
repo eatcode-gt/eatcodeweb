@@ -17,10 +17,7 @@ async function retrieveAndCompute() {
       const result = array.slice(0, -1)
       const finalResult = array[array.length - 1]
 
-      console.log(testResult)
-      console.log(finalWord)
-      console.log("GGGGGG", finalResult)
-      console.log(result)
+      console.log("finalResult:", finalResult)
 
       try{
         await SubmissionModel.updateOne({submissionID}, {$set:{processed:true, results: {result, finalResult}}}, {new:true});
