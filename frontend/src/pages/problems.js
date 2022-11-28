@@ -10,13 +10,13 @@ export default class Problem extends Component {
     super(props)
     this.state = {
       allProbs: [],
-      bellProbs: [],
-      jaleProbs: [],
+      datilProbs: [],
+      jalaProbs: [],
       habeProbs: [],
       ghosProbs: [],
 
-      bellSelected: [],
-      jaleSelected: [],
+      datilSelected: [],
+      jalaSelected: [],
       habeSelected: [],
       ghosSelected: [],
 
@@ -43,10 +43,10 @@ export default class Problem extends Component {
   }
 
   handleFilter() {
-    this.setState({bellSelected: this.state.bellProbs.filter((problem) => {
+    this.setState({datilSelected: this.state.datilProbs.filter((problem) => {
       return this.problemIsSelected(problem)
     })})
-    this.setState({jaleSelected: this.state.jaleProbs.filter((problem) => {
+    this.setState({jalaSelected: this.state.jalaProbs.filter((problem) => {
       return this.problemIsSelected(problem)
     })})
     this.setState({habeSelected: this.state.habeProbs.filter((problem) => {
@@ -73,8 +73,8 @@ export default class Problem extends Component {
 
   async componentDidMount() {
     let allTemp = []
-    let bellTemp = []
-    let jaleTemp = []
+    let jalaTemp = []
+    let datilTemp = []
     let habeTemp = []
     let ghosTemp = []
     await Axios.get("http://localhost:3002/problems").then((response) => {
@@ -83,10 +83,10 @@ export default class Problem extends Component {
     allTemp.forEach(problem => {
       switch (problem.difficulty) {
         case 0:
-          bellTemp.push(problem)
+          jalaTemp.push(problem)
           break
         case 1:
-          jaleTemp.push(problem)
+          datilTemp.push(problem)
           break
         case 2:
           habeTemp.push(problem)
@@ -98,10 +98,10 @@ export default class Problem extends Component {
     })
     this.setState({
       allProbs: allTemp,
-      bellProbs: bellTemp,
-      bellSelected: bellTemp,
-      jaleProbs: jaleTemp,
-      jaleSelected: jaleTemp,
+      jalaProbs: jalaTemp,
+      jalaSelected: jalaTemp,
+      datilProbs: datilTemp,
+      datilSelected: datilTemp,
       habeProbs: habeTemp,
       habeSelected: habeTemp,
       ghosProbs: ghosTemp,
@@ -215,8 +215,8 @@ export default class Problem extends Component {
         })}/>
       </div>
       <div style={styles.problemBodyContainer}>
-        <ProblemBody i={0} diff={"Bell"} problems={this.state.bellSelected}/>
-        <ProblemBody i={1} diff={"Jalepeño"} problems={this.state.jaleSelected}/>
+        <ProblemBody i={0} diff={"Jalapeño"} problems={this.state.jalaSelected}/>
+        <ProblemBody i={1} diff={"Datil"} problems={this.state.datilSelected}/>
         <ProblemBody i={2} diff={"Habenero"} problems={this.state.habeSelected}/>
         <ProblemBody i={3} diff={"Ghost"} problems={this.state.ghosSelected}/>
       </div>

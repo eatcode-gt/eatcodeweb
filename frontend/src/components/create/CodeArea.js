@@ -7,7 +7,7 @@ import TestResultBar from './TestResultBar'
 
 import { userContext } from '../../userContext';
 
-export default function CodeArea({color, questionID}) {
+export default function CodeArea({ color, questionID }) {
   const user = useContext(userContext)
   const [getCookingText, setGetCookingText] = useState("get cookin")
   const [code, setCode] = useState(`def add(a, b):\n  return a + b;\n`);
