@@ -1,7 +1,6 @@
 import React from 'react'
 import { colors, diffMap } from '../global/vars'
 import { useLocation } from 'react-router-dom'
-import { createContext  } from 'react'
 import CodeArea from '../components/create/CodeArea'
 import View from '../components/create/View'
 
@@ -30,22 +29,18 @@ const Question = () => {
     }
   }
 
-  const UserContext = createContext()
   const problem = useLocation().state.problem
 
   return (
     <div style={styles.content}>
       <div style={styles.left}>
-        <UserContext.Provider value={problem}>
-          <View context={UserContext} preview={false} diff={problem.diff}></View>
-        </UserContext.Provider>
+        <View problem={problem}></View>
       </div>
       <div style={styles.right}>
-        <CodeArea 
-          color={colors[diffMap[problem.difficulty]]}
+        <CodeArea
           style={styles.textarea}
+          color={colors[diffMap[problem.difficulty]]}
           questionID={problem.questionID}
-          //moved code={code} setCode={setCode} to CodeArea.js
         />
       </div>
     </div>

@@ -93,7 +93,6 @@ class App extends Component {
       attemptedProblems: newUserData.attemptedProblems
     }})
     localStorage.setItem("user", JSON.stringify(newUserData))
-    console.log('logged in', this.state.user)
   }
 
   render() {

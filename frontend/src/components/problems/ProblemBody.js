@@ -2,9 +2,7 @@ import React from 'react'
 import Problem from './Problem'
 import { colors, diffMap } from '../../global/vars'
 import diffData from './diffData.json'
-const ProblemBody = ({ i, diff, problems }) => {
-  const userDiffObject = [3, 1, 0, 5]
-
+const ProblemBody = ({ i, diff, problems, eaten }) => {
   const styles = {
     container: {
       display: 'flex',
@@ -49,7 +47,7 @@ const ProblemBody = ({ i, diff, problems }) => {
             <h2 style={styles.diffTitle}>{diff}</h2>
           </div>
           <p>{diffData[diff].desc}</p>
-          <h3>{diff}s eaten: {userDiffObject[diffMap.indexOf(diff)]}</h3>
+          <h3>{diff}s eaten: {eaten}</h3>
           <div style={styles.break} />
         </div>
       </div>
