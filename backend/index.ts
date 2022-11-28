@@ -49,6 +49,7 @@ app.post("/login", (req: Request, res: Response) => {
   //console.log(decoded);
 
   UserModel.find({userID:decoded.sub}, async (err: Error, result: Array<typeof UserModel>) => { 
+    console.log(decoded)
     if (err) {
       res.json(err);
     } else if (result.length == 0){
@@ -56,6 +57,8 @@ app.post("/login", (req: Request, res: Response) => {
         userID: decoded.sub,
         name: decoded.name,
         email: decoded.email,
+        totalScore: 0,
+        profilePictureUrl: decoded.picture,
         isAdmin: false, //default not an admin
         attemptedProblems: new Map(),
       };

@@ -52,6 +52,7 @@ app.post("/login", (req, res) => {
     const decoded = jwt.decode(token);
     //console.log(decoded);
     UserModel.find({ userID: decoded.sub }, (err, result) => __awaiter(void 0, void 0, void 0, function* () {
+        console.log(decoded);
         if (err) {
             res.json(err);
         }
@@ -60,6 +61,8 @@ app.post("/login", (req, res) => {
                 userID: decoded.sub,
                 name: decoded.name,
                 email: decoded.email,
+                totalScore: 0,
+                profilePictureUrl: decoded.picture,
                 isAdmin: false,
                 attemptedProblems: new Map(),
             };

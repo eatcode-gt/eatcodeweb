@@ -40,6 +40,10 @@ const UserSchema = new mongoose.Schema({
         required: false,
         default: 0,
     },
+    profilePictureUrl: {
+        type: String,
+        required: true
+    },
     attemptedProblems: {
         type: Map,
         of: new mongoose.Schema({
