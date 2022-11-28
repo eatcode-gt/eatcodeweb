@@ -38,7 +38,7 @@ app.get('/', (req, res) => {
 });
 app.get('/problems', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     ProblemModel.find({}, null, { sort: { questionID: 1 } }, (err, result) => {
-        console.log(result);
+        // console.log(result);
         if (err) {
             res.json(err);
         }
@@ -53,7 +53,7 @@ app.post('/register', (req, res) => {
 app.post("/login", (req, res) => {
     const token = req.body.token;
     const decoded = jwt.decode(token);
-    console.log(decoded);
+    //console.log(decoded);
     UserModel.find({ userID: decoded.sub }, (err, result) => __awaiter(void 0, void 0, void 0, function* () {
         if (err) {
             res.json(err);
@@ -63,6 +63,7 @@ app.post("/login", (req, res) => {
                 userID: decoded.sub,
                 name: decoded.name,
                 email: decoded.email,
+                attemptedProblems: new Map(),
             };
             const newUser = new UserModel(user);
             yield newUser.save();
@@ -122,7 +123,7 @@ app.post('/createFiles', (req, res) => __awaiter(void 0, void 0, void 0, functio
 }));
 app.post('/userInfo', (req, res) => {
     const userSub = req.body.sub;
-    console.log(userSub);
+    //console.log(userSub);
     UserModel.find({ userID: userSub }, (err, result) => {
         if (err) {
             res.json(err);

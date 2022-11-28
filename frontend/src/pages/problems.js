@@ -2,22 +2,49 @@ import React from 'react';
 import { useState, useEffect } from 'react'
 import Axios from "axios";
 import ByDifficulty from '../components/problems/ByDifficulty';
-import Button from '../components/common/Button';
 import BySearch from '../components/problems/BySearch';
 import { colors } from '../global/vars';
 
-const Problems = () => {
+const Problems = ({user}) => {
   const [listOfProblems, setListOfProblems] = useState([]);
   const [display, setDisplay] = useState(0);
   const [problemsByDiff, setProblemsByDiff] = useState([[], [], [], []]);
+
+  const getUserProgress = (user) => {
+    // console.log(user)
+    const solved = new Map();
+    const solvedCountByDiff = new Array(4).fill(0);;
+    for (const property in user.attemptedProblems) {
+      solved.set(parseInt(property), user.attemptedProblems[property].solved)
+      if (user.attemptedProblems[property].solved) {
+        solvedCountByDiff[user.attemptedProblems[property].diff] += 1;
+      }
+    }
+    // console.log(solved, solvedCountByDiff)
+    return {solved, solvedCountByDiff}
+  }
+  const {solved, solvedCountByDiff} = getUserProgress(user);
 
   useEffect(() => {
     Axios.get("http://localhost:3002/problems").then((response) => {
       const res = response.data.result;
       setListOfProblems(res);
 
+      // console.log(res)
       const difficultyBuckets = [[], [], [], []];
       for (let i = 0; i < res.length; i++) {
+        if (solved.has(res[i].questionID)) {
+          if (solved.get(res[i].questionID) === true) {
+            // solved (cooked)
+            res[i].status = 2;
+          } else {
+            // attempted (cooking)
+            res[i].status = 1;
+          }
+        } else {
+          // not attempted (raw)
+          res[i].status = 0;
+        }
         difficultyBuckets[res[i].diff].push(res[i]);
       }
       setProblemsByDiff(difficultyBuckets);
@@ -61,12 +88,13 @@ const Problems = () => {
         <button style={styles.button} value={1} onClick={handleClick} >By Search</button>
       </div>
       <div style={styles.container}>
-        {display == 0 ? 
+        {display === 0 ? 
         <ByDifficulty
           bell={problemsByDiff[0]}
           jalepeno={problemsByDiff[1]}
           habenero={problemsByDiff[2]}
-          ghost={problemsByDiff[3]} >
+          ghost={problemsByDiff[3]}
+          solvedCountByDiff={solvedCountByDiff} >
         </ByDifficulty>
         : <BySearch problems={listOfProblems} ></BySearch>
         }

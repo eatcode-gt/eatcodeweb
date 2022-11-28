@@ -37,11 +37,6 @@ const ProblemSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  status: {
-    type: Number,
-    required: true,
-    default: 0,
-  },
   text: {
     type: String,
     required: true,

@@ -1,14 +1,14 @@
 import React from 'react';
 import ProblemBody from './ProblemBody';
 
-const ByDifficulty = (props) => {
+const ByDifficulty = ({bell, jalepeno, habenero, ghost, solvedCountByDiff}) => {
   
   return (
     <>
-      <ProblemBody i={0} props={{diff: "Bell", problems: props.bell}}/>
-      <ProblemBody i={1} props={{diff: "Jalepeño", problems: props.jalepeno}}/>
-      <ProblemBody i={2} props={{diff: "Habenero", problems: props.habenero}}/>
-      <ProblemBody i={3} props={{diff: "Ghost", problems: props.ghost}}/>
+      <ProblemBody i={0} diff={"Bell"} problems={bell} eaten={solvedCountByDiff[0]}/>
+      <ProblemBody i={1} diff={"Jalepeño"} problems={jalepeno} eaten={solvedCountByDiff[1]}/>
+      <ProblemBody i={2} diff={"Habenero"} problems={habenero} eaten={solvedCountByDiff[2]}/>
+      <ProblemBody i={3} diff={"Ghost"} problems={ghost} eaten={solvedCountByDiff[3]}/>
     </>
   )
 }
