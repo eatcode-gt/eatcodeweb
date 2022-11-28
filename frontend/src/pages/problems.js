@@ -13,12 +13,12 @@ export default class Problem extends Component {
     super(props)
     this.state = {
       allProbs: [],
-      datilProbs: [],
+      hungProbs: [],
       jalaProbs: [],
       habeProbs: [],
       ghosProbs: [],
 
-      datilSelected: [],
+      hungSelected: [],
       jalaSelected: [],
       habeSelected: [],
       ghosSelected: [],
@@ -60,7 +60,7 @@ export default class Problem extends Component {
   }
 
   handleFilter() {
-    this.setState({datilSelected: this.state.datilProbs.filter((problem) => {
+    this.setState({hungSelected: this.state.hungProbs.filter((problem) => {
       return this.problemIsSelected(problem)
     })})
     this.setState({jalaSelected: this.state.jalaProbs.filter((problem) => {
@@ -91,7 +91,7 @@ export default class Problem extends Component {
   async componentDidMount() {
     let allTemp = []
     let jalaTemp = []
-    let datilTemp = []
+    let hungTemp = []
     let habeTemp = []
     let ghosTemp = []
     await Axios.get("http://localhost:3002/problems").then((response) => {
@@ -103,7 +103,7 @@ export default class Problem extends Component {
           jalaTemp.push(problem)
           break
         case 1:
-          datilTemp.push(problem)
+          hungTemp.push(problem)
           break
         case 2:
           habeTemp.push(problem)
@@ -117,8 +117,8 @@ export default class Problem extends Component {
       allProbs: allTemp,
       jalaProbs: jalaTemp,
       jalaSelected: jalaTemp,
-      datilProbs: datilTemp,
-      datilSelected: datilTemp,
+      hungProbs: hungTemp,
+      hungSelected: hungTemp,
       habeProbs: habeTemp,
       habeSelected: habeTemp,
       ghosProbs: ghosTemp,
@@ -235,7 +235,7 @@ export default class Problem extends Component {
       </div>
       <div style={styles.problemBodyContainer}>
         <ProblemBody i={0} diff={"Jalapeño"} problems={this.state.jalaSelected} eaten={this.state.userSolvedCountByDiff[0]}/>
-        <ProblemBody i={1} diff={"Datil"} problems={this.state.datilSelected} eaten={this.state.userSolvedCountByDiff[1]}/>
+        <ProblemBody i={1} diff={"Hungarian"} problems={this.state.hungSelected} eaten={this.state.userSolvedCountByDiff[1]}/>
         <ProblemBody i={2} diff={"Habenero"} problems={this.state.habeSelected} eaten={this.state.userSolvedCountByDiff[2]}/>
         <ProblemBody i={3} diff={"Ghost"} problems={this.state.ghosSelected} eaten={this.state.userSolvedCountByDiff[3]}/>
       </div>

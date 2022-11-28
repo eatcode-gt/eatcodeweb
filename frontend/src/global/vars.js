@@ -4,7 +4,7 @@ export const colors = {
     accent1: "#d65a56", //purple
     accent2: "#518a52", //green
     white: '#FFFFFF', //pure white
-    Datil: "#c99222", //mild question difficulty
+    Hungarian: "#c99222", //mild question difficulty
     Jalapeño: "#104d09", //medium question difficulty
     Habenero: "#db6204", //hot question difficulty
     Ghost: "#c41000",
@@ -15,5 +15,5 @@ export const colors = {
     hover: '#3e3e3e'
 }
 
-export const diffMap = ["Jalapeño", "Datil", "Habenero", "Ghost"]
+export const diffMap = ["Jalapeño", "Hungarian", "Habenero", "Ghost"]
 export const statusMap = ["raw", "cooking", "cooked"]

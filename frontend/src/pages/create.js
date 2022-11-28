@@ -183,7 +183,7 @@ const Create = () => {
             <label style={styles.label}>
                 <select style={styles.dropdownInput} name="difficulty" value={inputs.difficulty} onChange={handleChange}>
                   <option value={0}>Jalapeño</option>
-                  <option value={1}>Datil</option>
+                  <option value={1}>Hungarian</option>
                   <option value={2}>Habenero</option>
                   <option value={3}>Ghost</option>
                 </select>
