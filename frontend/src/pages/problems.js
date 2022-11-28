@@ -124,7 +124,6 @@ export default class Problem extends Component {
         display: 'flex',
         justifyContent: 'space-between',
         gap: '3em',
-        paddingTop: '2em'
       },
       pad: {
         minHeight: '1em',
@@ -137,7 +136,7 @@ export default class Problem extends Component {
         alignItems: 'center',
         gap: '1em',
         position: 'absolute',
-        top: '3em'
+        top: '2em'
       },
       constrainText: {
         color: colors.accent1,

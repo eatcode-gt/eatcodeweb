@@ -25,17 +25,19 @@ const ProblemBody = ({ i, diff, problems }) => {
       gap: '2em',
       marginTop: '2em'
     },
-    scroll: {
-      minHeight: '100vh',
-      height: 'auto'
-    },
     diffTitle: {
       color: colors[diff],
+      textAlign: 'center'
     },
-    pepperCont: {
-      minHeight: '100%',
-      display: 'flex',
-      alignItems: 'center'
+    break: {
+      height: '0.2em',
+      width: '100%',
+      backgroundColor: colors.black,
+      marginTop: '1.5em'
+    },
+    noProblems: {
+      color:  colors[diff],
+      textAlign: 'center'
     }
   }
 
@@ -48,14 +50,19 @@ const ProblemBody = ({ i, diff, problems }) => {
           </div>
           <p>{diffData[diff].desc}</p>
           <h3>{diff}s eaten: {userDiffObject[diffMap.indexOf(diff)]}</h3>
+          <div style={styles.break} />
         </div>
       </div>
       <div style={styles.grid}>
-        {problems.map((problem, j) => {
-          return (
-            <Problem key={1000 * i * j} problem={problem} />
-          );
-        })}
+        {
+          problems.length == 0
+          ? <h4 style={styles.noProblems}>no problems found</h4>
+          : problems.map((problem, j) => {
+              return (
+                <Problem key={1000 * i * j} problem={problem} />
+              );
+            })
+        }
       </div>
     </div>
   )

@@ -5,7 +5,11 @@ import { Scrollbars } from 'react-custom-scrollbars';
 export default class RecentlySolved extends Component {
     constructor(props) {
         super(props)
-        // this.attemptedProblems = Array.from(props.user.attemptedProblems.values())
+        this.attemptedProblems = []
+    }
+
+    componentDidMount() {
+        this.setState({attemptedProblems: Array.from(this.props.user.attemptedProblems.values())})
     }
 
     render() {
