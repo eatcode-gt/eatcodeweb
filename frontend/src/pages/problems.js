@@ -98,7 +98,7 @@ export default class Problem extends Component {
     });
     allTemp.forEach(problem => {
       if (this.context.user.attemptedProblems.hasOwnProperty(problem.questionID)) {
-        if (this.context.user.attemptedProblems.valueOf(problem.questionID).solved === true) {
+        if (this.context.user.attemptedProblems[problem.questionID].solved === true) {
           problem.status = 2 //cooked
         } else { problem.status = 1 } //cooking
       } else { problem.status = 0 } //raw

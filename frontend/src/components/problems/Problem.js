@@ -11,7 +11,7 @@ const Problem = ({ problem }) => {
   const handleMouseLeave = () => {
     setBarHover(false);
   }
-
+  
   const styles = {
     bar: {
       position: 'relative',
