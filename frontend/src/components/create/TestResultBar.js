@@ -31,7 +31,7 @@ export default function TestResultBar({number, code}) {
       margin: 0
     }
   }
-
+  
   return (
     <p style={styles.testIndividual}>Test {number} : {resultCodeToString[code]}</p>
   )

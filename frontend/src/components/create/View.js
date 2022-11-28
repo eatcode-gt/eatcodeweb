@@ -34,6 +34,11 @@ const View = ({ problem }) => {
     mathTitle: {
       fontWeight: 'bold',
       fontSize: '1.8em'
+    },
+    individualExample: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '0.7em'
     }
   }
 
