@@ -1,13 +1,14 @@
 import React from 'react';
 import { Component,useState, useEffect } from 'react'
 import Axios from "axios";
-import { diffMap } from '../global/vars'
 import ProblemBody from '../components/problems/ProblemBody'
+import BySearch from '../components/problems/BySearch';
 
 export default class Problem extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      allProbs: [],
       bellProbs: [],
       jaleProbs: [],
       habeProbs: [],
@@ -16,16 +17,15 @@ export default class Problem extends Component {
   }
 
   async componentDidMount() {
-    let allProblems;
+    let allTemp = []
     let bellTemp = []
     let jaleTemp = []
     let habeTemp = []
     let ghosTemp = []
     await Axios.get("http://localhost:3002/problems").then((response) => {
-      allProblems = response.data.result
-      console.log(allProblems)
+      allTemp = response.data.result
     });
-    allProblems.forEach(problem => {
+    allTemp.forEach(problem => {
       switch (problem.difficulty) {
         case 0:
           bellTemp.push(problem)
@@ -42,6 +42,7 @@ export default class Problem extends Component {
       }
     })
     this.setState({
+      allProbs: allTemp,
       bellProbs: bellTemp,
       jaleProbs: jaleTemp,
       habeProbs: habeTemp,
@@ -65,13 +66,14 @@ export default class Problem extends Component {
       }
     }
 
-    return (
+    return (<>
+      <BySearch problems={this.state.allProbs} />
       <div style={styles.container}>
         <ProblemBody i={0} diff={"Bell"} problems={this.state.bellProbs}/>
         <ProblemBody i={1} diff={"Jalepeño"} problems={this.state.jaleProbs}/>
         <ProblemBody i={2} diff={"Habenero"} problems={this.state.habeProbs}/>
         <ProblemBody i={3} diff={"Ghost"} problems={this.state.ghosProbs}/>
       </div>
-    );
+      </>);
   }
 };

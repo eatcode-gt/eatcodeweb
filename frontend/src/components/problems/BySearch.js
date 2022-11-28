@@ -4,12 +4,11 @@ import Tags from '../create/Tags';
 import Problem from './Problem';
 import { colors } from '../../global/vars';
 
-const BySearch = (props) => {
+const BySearch = ({problems}) => {
 
   const styles = {
     container: {
       display: 'flex',
-      // flexDirection: 'column',
       width: '100%',
     },
     form: {
@@ -50,7 +49,7 @@ const BySearch = (props) => {
     },
   }
 
-  const [filteredProblems, setFilteredProblems] = useState(props.problems);
+  const [filteredProblems, setFilteredProblems] = useState(problems);
 
   const handleFilter = (event) => {
     event.preventDefault();
@@ -67,7 +66,7 @@ const BySearch = (props) => {
         }
       }
     }
-    let filteredData = props.problems.filter((problem) => {
+    let filteredData = problems.filter((problem) => {
       return (problem.name.toLowerCase().includes(searchKey) || problem.questionID.toString().includes(searchKey));
     });
     filteredData = filteredData.filter((problem) => {
@@ -96,7 +95,7 @@ const BySearch = (props) => {
   }
 
   const clearFilter = () => {
-    setFilteredProblems(props.problems);
+    setFilteredProblems(problems);
   }
 
   return (
