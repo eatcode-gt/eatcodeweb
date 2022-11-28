@@ -1,24 +1,14 @@
 import { Component, useState, useEffect } from 'react';
-import Axios from "axios";
 import Problem from '../problems/Problem';
 import { Scrollbars } from 'react-custom-scrollbars';
 
 export default class RecentlySolved extends Component {
     constructor(props) {
         super(props)
-        console.log(props)
-        this.state = {
-            userSolved: props.user.attemptedProblems //THIS IS UNTESTED
-        }
+        // this.attemptedProblems = Array.from(props.user.attemptedProblems.values())
     }
 
-    componentDidMount() {
-        Axios.get("http://localhost:3002/problems").then((response) => {
-            this.state.listOfProblems = response.data.result;
-        });
-    }
-
-    render () {
+    render() {
     const styles = {
         container: {
             display: "inline-box",
@@ -44,7 +34,7 @@ export default class RecentlySolved extends Component {
             <h3>Recently Solved Problems</h3>            
             <div style={styles.grid}>
                 <Scrollbars style={styles.scroll}>
-                    {this.state.listOfProblems.map((problem) => {
+                    {this.attemptedProblems.map((problem) => {
                         return (<>
                                 <Problem key={problem.id} problem={problem} />
                                 <Problem key={problem.id} problem={problem} />
