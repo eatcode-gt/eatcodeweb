@@ -47,9 +47,6 @@ app.get('/problems', (req, res) => __awaiter(void 0, void 0, void 0, function* (
         }
     });
 }));
-app.post('/register', (req, res) => {
-    res.send('placeholder');
-});
 app.post("/login", (req, res) => {
     const token = req.body.token;
     const decoded = jwt.decode(token);
@@ -63,6 +60,7 @@ app.post("/login", (req, res) => {
                 userID: decoded.sub,
                 name: decoded.name,
                 email: decoded.email,
+                isAdmin: false,
                 attemptedProblems: new Map(),
             };
             const newUser = new UserModel(user);

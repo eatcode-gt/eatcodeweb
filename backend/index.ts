@@ -4,6 +4,7 @@ import cors from 'cors'; //cross origin resource sharing middleware
 import {createSubmission, enqueueWorker, finishedRunningSubmission} from './createSubmission';
 import fileUpload from 'express-fileupload';
 import database from './database';
+import { decode } from 'punycode';
  
 const jwt = require("jsonwebtoken");
 const morgan = require('morgan');
@@ -42,10 +43,6 @@ app.get('/problems', async (req: Request, res: Response) => { //gets requests to
   })
 })
 
-app.post('/register', (req: Request, res: Response) => { //post requests to eatcode.com/register
-  res.send('placeholder');
-}); 
-
 app.post("/login", (req: Request, res: Response) => {
   const token = req.body.token;
   const decoded = jwt.decode(token);
@@ -59,6 +56,7 @@ app.post("/login", (req: Request, res: Response) => {
         userID: decoded.sub,
         name: decoded.name,
         email: decoded.email,
+        isAdmin: false, //default not an admin
         attemptedProblems: new Map(),
       };
       const newUser = new UserModel(user);
