@@ -32,13 +32,14 @@ const Landing = () => {
       </div>
 
       <div style={styles.side}>
-        <PageLink name="problems" utensil="fork" />
+        <PageLink name="problems" page={"problems"} utensil="fork" />
         <userContext.Consumer>
           {({user, logInUser, logOutUser}) => {
             return (<>
-            { user.isAdmin
-            ? <PageLink name="create" utensil="knife"/>
-            :<></>}
+            { user.isAdmin &&
+            <PageLink name="create" page="create" utensil="knife"/>}
+            { user.userID &&
+            <PageLink name="profile" page={`user/${user.userID}`} utensil="knife"/>}
             <LogInButton user={user} logInUser={logInUser} logOutUser={logOutUser}/>
             </>)
           }}
@@ -50,7 +51,7 @@ const Landing = () => {
   
 export default Landing;
 
-const PageLink = ({name, signOut, utensil}) => {
+const PageLink = ({name, page, signOut, utensil}) => {
   const [pageLinkHover, setPageLinkHover] = useState(false);
   const handleMouseEnter = () => {
     setPageLinkHover(true);
@@ -94,7 +95,7 @@ const PageLink = ({name, signOut, utensil}) => {
     <div style={styles.container}>
       <img style={styles.utensil} src={require(`../components/common/${utensil}.svg`)} alt="" />
       {name != "sign out"
-      ? <Link to={`/${name}`}><h2 style={styles.pageLink} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>{name}</h2></Link>
+      ? <Link to={`/${page}`}><h2 style={styles.pageLink} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>{name}</h2></Link>
       : <div onClick={signOut}><h2 style={styles.pageLink} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>{name}</h2></div>
       }
       <img style={styles.utensilFlip} src={require(`../components/common/${utensil}.svg`)} alt="" />

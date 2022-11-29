@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Axios from 'axios'
 import View from '../components/create/View'
 import Tags from '../components/create/Tags'
+import PageContainer from '../components/common/PageContainer'
 
 const defaultInputs = {
   title: "Default Title",
@@ -78,7 +79,7 @@ const Create = () => {
     }
     let questionID = -1;
     Axios.get("http://localhost:3002/findLastPost").then((response) => {
-      questionID = response.data.questionID + 100;
+      questionID = response.data.questionID;
       Axios.post("http://localhost:3002/create", {
         questionID,
         title: inputs.title,
@@ -138,10 +139,7 @@ const Create = () => {
   const styles = {
     content: {
       display: 'flex',
-      padding: '0em 3em',
       gap: '3em',
-      width: 'calc(100vw - 6em)',
-      height: '100vh',
       justifyContent: 'space-between',
       backgroundColor: colors.grey
     },
@@ -183,6 +181,7 @@ const Create = () => {
   }
 
   return (
+    <PageContainer children={
     <div style={styles.content}>
       <div style={styles.left}>
         <form style={styles.form} onSubmit={handleSubmit}>
@@ -324,7 +323,7 @@ const Create = () => {
           <View problem={inputs}></View>
       </div>
     </div>
-  )
+  } />)
 }
 
 export default Create

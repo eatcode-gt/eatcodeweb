@@ -10,7 +10,11 @@ const View = ({ problem }) => {
       display: 'flex',
       flexDirection: 'column',
       gap: '2em',
-      overflowWrap: 'break-word'
+      overflowWrap: 'break-word',
+      overflowY: 'scroll'
+    },
+    title: {
+      marginBottom: '-0.4em'
     },
     diff: {
       color: colors[diffMap[problem.difficulty]]
@@ -42,11 +46,11 @@ const View = ({ problem }) => {
     }
   }
 
-  console.log(problem.e2input)
+  // console.log(problem.e2input)
 
   return (
     <div style={styles.cont}>
-      <h2>{problem.title}</h2>
+      <h2 style={styles.title}>{problem.title}</h2>
       <h5 style={styles.diff}>Time Limit: {problem.time} sec - Memory Limit: {problem.memory} MB&nbsp;<span style={styles.beef}>| {problem.beef} 🥩</span></h5>
       <Text key={"Description"} text={problem.description} />
       <div style={styles.mathContainer}>
