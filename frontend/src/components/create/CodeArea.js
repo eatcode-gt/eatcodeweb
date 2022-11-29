@@ -15,14 +15,12 @@ export default function CodeArea({ color, questionID, userSolvedThis, beef }) {
   const [result, setResult] = useState([]);
   const [lang, selectedLang] = useState("py")
 
-  console.log(lang)
-
   let languageOptions = [
-    { value:'cp', label:'c+'}, { value:'jav', label:'jav'}, { value:'p', label:'pytho'}
+    { value: "cpp", label: "c++"}, { value: "java", label: "java"}, { value: "py", label: "python"}
   ]
 
   function handleLanguageChange(e) {
-    selectedLang(e)
+    selectedLang(e.value)
   }
 
   const handleSubmit = () => {
@@ -33,7 +31,7 @@ export default function CodeArea({ color, questionID, userSolvedThis, beef }) {
       setGetCookingText("cooking...")
       Axios.post("http://localhost:3002/problems", {
         code: code, 
-        language: "python", 
+        language: lang, 
         questionID: questionID,
         userID: user.user.userID
       }).then((response) => {
@@ -50,7 +48,7 @@ export default function CodeArea({ color, questionID, userSolvedThis, beef }) {
 
   const styles = {
     container: {
-      display:'flex',
+      display: 'flex',
       flexDirection: 'column',
       gap: '1em',
       height: '100%'
