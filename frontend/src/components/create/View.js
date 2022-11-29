@@ -38,7 +38,7 @@ const View = ({ problem }) => {
     individualExample: {
       display: 'flex',
       flexDirection: 'column',
-      gap: '0.7em'
+      gap: '0.7em',
     }
   }
 
@@ -50,15 +50,15 @@ const View = ({ problem }) => {
       <h5 style={styles.diff}>Time Limit: {problem.time} sec - Memory Limit: {problem.memory} MB&nbsp;<span style={styles.beef}>| {problem.beef} 🥩</span></h5>
       <Text key={"Description"} text={problem.description} />
       <div style={styles.mathContainer}>
-        <div style={styles.mathJax}><span style={styles.mathTitle}>Input: </span><Text id={1} text={problem.input} /></div>
-        <div style={styles.mathJax}><span style={styles.mathTitle}>Output: </span><Text id={1} text={problem.output} /></div>
+        <div style={styles.mathJax}><span style={styles.mathTitle}>Input<br></br> </span><Text id={1} text={problem.input} /></div>
+        <div style={styles.mathJax}><span style={styles.mathTitle}>Output<br></br> </span><Text id={1} text={problem.output} /></div>
       </div>
       <div style={styles.lineBreak} />
       <div style={styles.individualExample}>
         <h5>Example 1</h5>
-        <p><span style={styles.smallTitle}>Inputs(s): </span>{problem.e1input}</p>
-        <p><span style={styles.smallTitle}>Output(s): </span>{problem.e1output}</p>
-        <p><span style={styles.smallTitle}>Explanation: </span>{problem.e1explanation}</p>
+        <div style={styles.mathJax}><span style={styles.mathTitle}>Input<br></br> </span><Text id={1} text={problem.e1input} /></div>
+        <div style={styles.mathJax}><span style={styles.mathTitle}>Output<br></br>  </span><Text id={1} text={problem.e1output} /></div>
+        <div style={styles.mathJax}><span style={styles.mathTitle}>Explanation<br></br>  </span><Text id={1} text={problem.e1explanation} /></div>
       </div>
       {problem.e2input != "" && 
         <div style={styles.individualExample}>

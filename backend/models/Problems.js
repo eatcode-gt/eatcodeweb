@@ -6,7 +6,7 @@ const ProblemSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  name: {
+  title: {
     type: String,
     required: true,
   },
@@ -27,7 +27,7 @@ const ProblemSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  text: {
+  description: {
     type: String,
     required: true,
   },
@@ -49,7 +49,7 @@ const ProblemSchema = new mongoose.Schema({
   },
   e1explanation: {
     type: String,
-    required: true
+    required: false
   },
   e2input: {
     type: String,
