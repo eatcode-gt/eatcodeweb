@@ -9,7 +9,7 @@ export default function ProblemSolvedCard({user}) {
   const [listOfProblems, setListOfProblems] = useState([]);
 
   useEffect(() => {
-    Axios.get("http://localhost:3002/problems").then((response) => {
+    Axios.post("http://localhost:3002/getProblems", {filter:{}}).then((response) => {
       setListOfProblems(response.data.result);
     });
   }, []);

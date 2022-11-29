@@ -32,8 +32,9 @@ app.get('/', (req: Request, res: Response) => { //get requests to eatcode.com/
   res.send('placeholder'); 
 });
 
-app.get('/problems', async (req: Request, res: Response) => { //gets requests to eatcode.com/problems
-  ProblemModel.find({}, null, {sort: {questionID: 1}}, (err: Error, result: Response) => {
+app.post('/getProblems', async (req: Request, res: Response) => { //gets requests to eatcode.com/problems
+  console.log(req.body)
+  ProblemModel.find(req.body.filter, null, {sort: {questionID: 1}}, (err: Error, result: Response) => {
     // console.log(result);
     if(err) {
       res.json(err);

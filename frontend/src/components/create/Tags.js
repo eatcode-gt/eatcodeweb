@@ -27,7 +27,7 @@ const Tags = (props) => {
         return (
           <div key={tag} className="checkBox" style={styles.checkbox}>
             <input type="checkbox" name={tag} onChange={props.handleChange}/>
-            <label for={tag}>{tag}</label>
+            <label>{tag}</label>
           </div>
         )
       })}

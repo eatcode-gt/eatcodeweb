@@ -3,11 +3,13 @@ import { colors, diffMap } from '../global/vars'
 import { useState } from 'react'
 import Axios from 'axios'
 import View from '../components/create/View'
+import Tags from '../components/create/Tags'
 
 const defaultInputs = {
   title: "Default Title",
   description: "This is the default problem description. You should probably change this. You should probably change this.You should probably change this.",
   difficulty: 0,
+  beef: 0,
   time: 1,
   memory: 256,
   input: "The only line of each test contains two integers $$n$$ and $$\\left ( 0 \\leq k < n < 10^{6} \\right )$$.",
@@ -29,6 +31,7 @@ const Create = () => {
     title: "Default Title",
     description: "This is the default problem description. You should probably change this. You should probably change this.You should probably change this.",
     difficulty: 0,
+    beef: 0,
     time: 1,
     memory: 256,
     input: "The only line of each test contains two integers $$n$$ and $$\\left ( 0 \\leq k < n < 10^{6} \\right )$$.",
@@ -41,13 +44,23 @@ const Create = () => {
     e2explanation: "Remove the nth node from the end of the linked list.",
     e3input: "head = [1, 2, 3, 4, 5], n = 2",
     e3output: "[1, 2, 3, 5]",
-    e3explanation: "Remove the nth node from the end of the linked list."
+    e3explanation: "Remove the nth node from the end of the linked list.",
+    tags: []
   });
+  const [checkedTags, setCheckedTags] = useState([]);
 
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
-    setInputs(values => ({...values, [name]: value}));
+    if (event.target.type === "checkbox") {
+      if (event.target.checked === true && !checkedTags.includes(event.target.name)) {
+        setCheckedTags(values => [...values, event.target.name]);
+      } else if (event.target.checked === false) {
+        setCheckedTags(checkedTags.filter(tag =>  tag !== event.target.name));
+      }
+    } else {
+      setInputs(values => ({...values, [name]: value}));
+    }
   }
 
   const resetForm = () => {
@@ -57,6 +70,8 @@ const Create = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    // console.log({...inputs, tags: checkedTags})
+    // return
     if (fileInput.value === null || fileInput.value === "") {
       alert("Please submit a file");
       return;
@@ -69,6 +84,7 @@ const Create = () => {
         title: inputs.title,
         description: inputs.description,
         difficulty: inputs.difficulty,
+        beef: inputs.beef,
         time: inputs.time,
         memory: inputs.memory,
         status: 0,
@@ -85,6 +101,7 @@ const Create = () => {
         e3explanation: inputs.e3explanation,
         numberOfAttemptedUsers: 0,
         numberOfSolvedUsers: 0,
+        tags: checkedTags
       }).then((response) => {
         console.log("Created Problem", response);
 
@@ -202,6 +219,17 @@ const Create = () => {
                   <option value={512}>512MB</option>
                 </select>
               </label>
+              <label>
+              <input 
+                style={styles.textInput}
+                type="text" 
+                name="beef"
+                placeholder='amount of beef'
+                default="{beef amount}"
+                value={inputs.beef}
+                onChange={handleChange}
+              />
+            </label>
           </div>
           <textarea 
               style={styles.textInput}
@@ -283,6 +311,8 @@ const Create = () => {
               onChange={handleChange}
             />
           </div>
+          <label  style={styles.label}>Problem Tags</label>
+          <Tags handleChange={handleChange}/>
           <div style={styles.fileInput}>
             <p style={styles.smallTitle}>Choose a zip file with all the test cases</p>
             <input id='fileInput' type="file" name='file'/>
