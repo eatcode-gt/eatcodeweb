@@ -1,7 +1,7 @@
 import { Component, useState, useEffect } from 'react';
 import Problem from '../problems/Problem';
-import { Scrollbars } from 'react-custom-scrollbars';
 import Axios from "axios";
+import { colors } from '../../global/vars';
 
 export default class RecentlySolved extends Component {
     constructor(props) {
@@ -9,6 +9,9 @@ export default class RecentlySolved extends Component {
         this.state = {
             attemptedProblems: [],
         }
+    }
+    
+    componentDidMount() {
         // this.attemptedProblems = Array.from(this.props.user.attemptedProblems.values())
         // console.log("kkkk:", Object.getOwnPropertyNames(this.props.user.attemptedProblems))
         // console.log("state:", this.props.user.attemptedProblems)
@@ -21,40 +24,33 @@ export default class RecentlySolved extends Component {
             this.setState({attemptedProblems: response.data.result}, ()=>{});
         });
     }
-    
-    
+
     render() {
     const styles = {
         container: {
-            display: "inline-box",
-            position: "absolute",
-            marginTop: "220px",
-            marginLeft: "340px",
+            flex: 1
         },
-        grid: {
-            width: '80vw',
+        title: {
+            color: colors.accent1,
+            marginBottom: '0.25em',
+            textAlign: 'center'
+        },
+        flex: {
             display: 'flex',
             flexDirection: 'column',
-            maxHeight: '90em',
-            overflowY: "scroll"
-        },
-        scroll: {
-            width: 1170,
-            height: 465,
+            gap: '1em'
         }
     }
 
     return (
         <div style={styles.container}>
-            <h3>your latest submissions</h3>            
-            <div style={styles.grid}>
-                <Scrollbars style={styles.scroll}>
-                    {this.state.attemptedProblems.map((problem) => {
-                        return (
-                            <Problem key={problem.id} problem={problem} />
-                        );
-                    })}
-                </Scrollbars>
+            <h3 style={styles.title}>recent problems</h3>            
+            <div style={styles.flex}>
+                {this.state.attemptedProblems.map((problem, i) => {
+                    return (
+                        <Problem key={i} problem={problem} />
+                    );
+                })}
             </div>
         </div>
     )

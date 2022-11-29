@@ -74,7 +74,9 @@ const Problem = ({ problem }) => {
             <h5 style={styles.name}>{problem.title}</h5>
           </div>
           <div style={styles.hovered}>
-            <h5 style={styles.status}>{statusMap[problem.status]}</h5>
+            {problem.status != null &&
+              <h5 style={styles.status}>{statusMap[problem.status]}</h5>
+            }
             <h5 style={styles.scoville}>{problem.beef} 🥩</h5>
           </div>
       </div>

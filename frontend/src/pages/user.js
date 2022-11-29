@@ -7,16 +7,25 @@ import { userContext } from '../userContext';
 import PageContainer from '../components/common/PageContainer';
 
 const User = () => {
+  const styles = {
+    flex: {
+      display: 'flex',
+      gap: '2em',
+      justifyContent: 'space-between'
+    }
+  }
+
 
   return (
     <userContext.Consumer>
     {({user}) => {
-      return (<PageContainer children={<>
+      return (<PageContainer children={
+      <div style={styles.flex}>
       <ProfileCard user={user} />
       <UserStats user={user} />
-      <HeatMap user={user} />
+      {/* <HeatMap user={user} /> */}
       <RecentlySolved user={user} />
-      </>}/>)}}
+      </div>}/>)}}
     </userContext.Consumer>
   );
 };
