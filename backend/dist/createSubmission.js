@@ -43,12 +43,12 @@ function createSubmission(requestBody, res) {
                 if (err)
                     console.error(err);
                 const question = yield ProblemModel.findOne({ questionID });
-                const diff = question.diff;
+                const difficulty = question.difficulty;
                 if (!user.attemptedProblems.has(questionID.toString())) {
                     user.attemptedProblems.set(questionID.toString(), {
                         solved: false,
                         bestScore: 0,
-                        diff,
+                        difficulty,
                         bestSubmissionID: lastSubmissionID + 1,
                     });
                 }

@@ -92,8 +92,8 @@ class App extends Component {
       totalScore: newUserData.totalScore,
       attemptedProblems: newUserData.attemptedProblems
     }})
+    console.log("this:", this)
     localStorage.setItem("user", JSON.stringify(newUserData))
-    console.log('logged in', this.state.user)
   }
 
   render() {

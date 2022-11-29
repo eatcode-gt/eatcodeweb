@@ -1,38 +1,63 @@
 import React from 'react';
-import { Component,useState, useEffect } from 'react'
+import { Component } from 'react'
 import Axios from "axios";
 import ProblemBody from '../components/problems/ProblemBody'
 import Select from 'react-select'
 import { colors } from '../global/vars';
+import { userContext } from '../userContext'
 
 export default class Problem extends Component {
+  static contextType = userContext
+
   constructor(props) {
     super(props)
     this.state = {
       allProbs: [],
-      bellProbs: [],
-      jaleProbs: [],
+      jalaProbs: [],
+      hungProbs: [],
       habeProbs: [],
       ghosProbs: [],
 
-      bellSelected: [],
-      jaleSelected: [],
+      jalaSelected: [],
+      hungSelected: [],
       habeSelected: [],
       ghosSelected: [],
 
       selectedTags: [],
-      selectedTitle: ""
+      selectedTitle: "",
+
+      userSolvedCountByDiff: new Array(4).fill(0)
     }
 
-    this.options = [
+    this.tagOptions = [
       { value: 'Binary Search', label: 'binary search' }, { value: 'Bitmasks', label: 'bitmasks' }, { value: 'Brute Force', label: 'brute force' },
       { value: 'DP', label: 'dp' }, { value: 'Geometry', label: 'geometry' }, { value: 'Graphs', label: 'graphs' }, { value: 'Greedy', label: 'greedy' },
       { value: 'Math', label: 'math' }, { value: 'Number Theory', label: 'number theory' }, { value: 'Prefix-Sum', label: 'prefix-sum' },
       { value: 'Probability', label: 'probability' }, { value: 'Shortest Paths', label: 'shortest paths' }, { value: 'Sorting', label: 'sorting' },
       { value: 'Trees', label: 'trees' }, { value: 'Two Pointers', label: 'two pointers' }
     ]
+
+    this.statusOptions = [
+      { value: 0, label: 'raw' }, { value: 1, label: 'cooking' }, { value: 2, label: 'cooked' }
+    ]
+
+    this.groupedOptions = [
+      { label: 'status', options: this.statusOptions},
+      { label: 'problem tags', options: this.tagOptions}
+    ]
   }
 
+  getUserProgress = (user) => {
+    const solved = new Map();
+    const solvedCountByDiff = new Array(4).fill(0);;
+    for (const property in user.attemptedProblems) {
+      solved.set(parseInt(property), user.attemptedProblems[property].solved)
+      if (user.attemptedProblems[property].solved) {
+        solvedCountByDiff[user.attemptedProblems[property].difficulty] += 1;
+      }
+    }
+    this.setState({userSolved: {...solved}, userSolvedCountByDiff: [...solvedCountByDiff]}) 
+  }
 
   handleTagsChange(e) {
     this.setState({selectedTags: e}, this.handleFilter)
@@ -43,10 +68,10 @@ export default class Problem extends Component {
   }
 
   handleFilter() {
-    this.setState({bellSelected: this.state.bellProbs.filter((problem) => {
+    this.setState({jalaSelected: this.state.jalaProbs.filter((problem) => {
       return this.problemIsSelected(problem)
     })})
-    this.setState({jaleSelected: this.state.jaleProbs.filter((problem) => {
+    this.setState({hungSelected: this.state.hungProbs.filter((problem) => {
       return this.problemIsSelected(problem)
     })})
     this.setState({habeSelected: this.state.habeProbs.filter((problem) => {
@@ -60,11 +85,16 @@ export default class Problem extends Component {
   problemIsSelected(problem) {
     if (this.state.selectedTags.length !== 0) { //remove from screen if there are tags selected and none of them are a tag of the problem
       for (let i = 0; i < this.state.selectedTags.length; i++) {
-        if (!problem.tags.includes(this.state.selectedTags[i])) {
+        if (Number.isFinite(this.state.selectedTags[i].value) && problem.status != this.state.selectedTags[i].value) {
+          console.log(this.state.selectedTags[i].value)
+          return false
+        }
+        if (!Number.isFinite(this.state.selectedTags[i].value) && !problem.tags.includes(this.state.selectedTags[i].value)) {
           return false
         }
       }
     }
+
     if (this.state.selectedTitle !== "" && !problem.title.toLowerCase().includes(this.state.selectedTitle) && !problem.questionID.toString().includes(this.state.selectedTitle)) { //remove from screen if 
       return false
     }
@@ -73,20 +103,25 @@ export default class Problem extends Component {
 
   async componentDidMount() {
     let allTemp = []
-    let bellTemp = []
-    let jaleTemp = []
+    let jalaTemp = []
+    let hungTemp = []
     let habeTemp = []
     let ghosTemp = []
-    await Axios.get("http://localhost:3002/problems").then((response) => {
+    await Axios.post("http://localhost:3002/getProblems",{filter:{}}).then((response) => {
       allTemp = response.data.result
     });
     allTemp.forEach(problem => {
+      if (this.context.user.attemptedProblems.hasOwnProperty(problem.questionID)) {
+        if (this.context.user.attemptedProblems[problem.questionID].solved === true) {
+          problem.status = 2 //cooked
+        } else { problem.status = 1 } //cooking
+      } else { problem.status = 0 } //raw
       switch (problem.difficulty) {
         case 0:
-          bellTemp.push(problem)
+          jalaTemp.push(problem)
           break
         case 1:
-          jaleTemp.push(problem)
+          hungTemp.push(problem)
           break
         case 2:
           habeTemp.push(problem)
@@ -98,15 +133,17 @@ export default class Problem extends Component {
     })
     this.setState({
       allProbs: allTemp,
-      bellProbs: bellTemp,
-      bellSelected: bellTemp,
-      jaleProbs: jaleTemp,
-      jaleSelected: jaleTemp,
+      jalaProbs: jalaTemp,
+      jalaSelected: jalaTemp,
+      hungProbs: hungTemp,
+      hungSelected: hungTemp,
       habeProbs: habeTemp,
       habeSelected: habeTemp,
       ghosProbs: ghosTemp,
       ghosSelected: ghosTemp
     })
+
+    this.getUserProgress(this.context.user)
   }
 
   render() {
@@ -165,12 +202,14 @@ export default class Problem extends Component {
           border: 'none',
           outline: 'none',
         }),
-        option: (styles) => {
+        option: (styles, state) => {
+          console.log(state)
           return {
             ...styles,
-            color: colors.black,
+            color: state.isFocused ? colors.white : colors.black,
             fontWeight: 'bold',
-            fontSize: '2em'
+            fontSize: '2em',
+            transition: 'all 0.3s ease'
           }
         },
         placeholder: (styles) => {
@@ -193,7 +232,17 @@ export default class Problem extends Component {
             fontSize: '2em',
             noOptionsText: "tag not found"
           }
-        }
+        },
+        groupHeading: (styles) => {
+          return {
+            ...styles,
+            textTransform: 'none',
+            color: colors.accent1,
+            fontWeight: 'bold',
+            fontSize: '2em',
+            textAlign: 'center'
+          }
+        },
       }
     }
 
@@ -201,7 +250,7 @@ export default class Problem extends Component {
       <div style={styles.bySearchContainer}>
         <input style={styles.textInput} placeholder="no title specified" type="text"  name="title" default="Enter" value={this.state.selectedTitle} onChange={this.handleTitleChange.bind(this)}/>
         <h5 style={styles.constrainText}>&larr; constrain your search &rarr;</h5>
-        <Select styles={styles.tagSelect} options={this.options} onChange={this.handleTagsChange.bind(this)} isSearchable isMulti closeMenuOnSelect={false} placeholder="no tags selected" noOptionsMessage={() => "tag not found"}
+        <Select styles={styles.tagSelect} options={this.groupedOptions} onChange={this.handleTagsChange.bind(this)} isSearchable isMulti closeMenuOnSelect={false} placeholder="no tags selected" noOptionsMessage={() => "tag not found"}
           theme={(theme) => ({
             ...theme,
             borderRadius: 0,
@@ -215,10 +264,10 @@ export default class Problem extends Component {
         })}/>
       </div>
       <div style={styles.problemBodyContainer}>
-        <ProblemBody i={0} diff={"Bell"} problems={this.state.bellSelected}/>
-        <ProblemBody i={1} diff={"Jalepeño"} problems={this.state.jaleSelected}/>
-        <ProblemBody i={2} diff={"Habenero"} problems={this.state.habeSelected}/>
-        <ProblemBody i={3} diff={"Ghost"} problems={this.state.ghosSelected}/>
+        <ProblemBody i={0} diff={"Jalapeño"} problems={this.state.jalaSelected} eaten={this.state.userSolvedCountByDiff[0]}/>
+        <ProblemBody i={1} diff={"Hungarian"} problems={this.state.hungSelected} eaten={this.state.userSolvedCountByDiff[1]}/>
+        <ProblemBody i={2} diff={"Habenero"} problems={this.state.habeSelected} eaten={this.state.userSolvedCountByDiff[2]}/>
+        <ProblemBody i={3} diff={"Ghost"} problems={this.state.ghosSelected} eaten={this.state.userSolvedCountByDiff[3]}/>
       </div>
       </div>);
   }

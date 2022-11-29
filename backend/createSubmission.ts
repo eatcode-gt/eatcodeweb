@@ -44,15 +44,15 @@ async function createSubmission(requestBody: { code: string; language: string; q
         submissionID: lastSubmissionID + 1,
         callback: res,
       })
-      UserModel.findOne({userID}, async (err: any, user: { attemptedProblems: { has: (arg0: string) => any; set: (arg0: string, arg1: { solved: boolean; bestScore: number; diff: any; bestSubmissionID: any; }) => void; get: (arg0: string) => { (): any; new(): any; pastSubmissionIDs: any[]; }; }; save: () => void; }) => {
+      UserModel.findOne({userID}, async (err: any, user: { attemptedProblems: { has: (arg0: string) => any; set: (arg0: string, arg1: { solved: boolean; bestScore: number; difficulty: any; bestSubmissionID: any; }) => void; get: (arg0: string) => { (): any; new(): any; pastSubmissionIDs: any[]; }; }; save: () => void; }) => {
         if (err) console.error(err);
         const question = await ProblemModel.findOne({questionID});
-        const diff = question.diff;
+        const difficulty = question.difficulty;
         if (!user.attemptedProblems.has(questionID.toString())) {
             user.attemptedProblems.set(questionID.toString(), {
             solved: false,
             bestScore: 0,
-            diff,
+            difficulty,
             bestSubmissionID: lastSubmissionID + 1,
           })
         } 
