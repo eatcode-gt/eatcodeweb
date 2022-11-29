@@ -17,6 +17,7 @@ class App extends Component {
   loggedOutUserObject = {
     userName: "Not Logged In",
     userID: null,
+    email: null,
     userProfilePictureUrl: "https://cdn.pixabay.com/photo/2017/02/12/21/29/false-2061132_1280.png",
     isAdmin: false,
     totalScore: 0,
@@ -30,6 +31,7 @@ class App extends Component {
       user: {
         userName: this.loggedOutUserObject.userName,
         userID: this.loggedOutUserObject.userID,
+        email: this.loggedOutUserObject.email,
         userProfilePictureUrl: this.loggedOutUserObject.userProfilePictureUrl,
         isAdmin: this.loggedOutUserObject.isAdmin,
         totalScore: this.loggedOutUserObject.totalScore,
@@ -40,8 +42,6 @@ class App extends Component {
     this.logIn = this.logIn.bind(this)
     this.logOut = this.logOut.bind(this)
     this.updateUser = this.updateUser.bind(this)
-
-
   }
 
   componentDidMount() {
@@ -51,6 +51,7 @@ class App extends Component {
       this.setState({user: {
         userName: foundUser.name,
         userID: foundUser.userID,
+        email: foundUser.email,
         userProfilePictureUrl: foundUser.profilePictureUrl,
         isAdmin: foundUser.isAdmin, //check on server
         totalScore: foundUser.totalScore, //check on server
@@ -60,6 +61,7 @@ class App extends Component {
       this.setState({user: {
         userName: this.loggedOutUserObject.userName,
         userID: this.loggedOutUserObject.userID,
+        email: this.loggedOutUserObject.email,
         userProfilePictureUrl: this.loggedOutUserObject.userProfilePictureUrl,
         isAdmin: this.loggedOutUserObject.isAdmin,
         totalScore: this.loggedOutUserObject.totalScore,
@@ -76,6 +78,7 @@ class App extends Component {
     this.setState({user: {
       userName: this.loggedOutUserObject.userName,
       userID: this.loggedOutUserObject.userID,
+      email: this.loggedOutUserObject.email,
       userProfilePictureUrl: this.loggedOutUserObject.userProfilePictureUrl,
       isAdmin: this.loggedOutUserObject.isAdmin,
       totalScore: this.loggedOutUserObject.totalScore,
@@ -85,16 +88,37 @@ class App extends Component {
   }
 
   logIn(newUserData) {
+    this.calculateTotalScore(newUserData.attemptedProblems) //sets totalScore from a calculation of the beef assigned to user's solved problems
     this.setState({user: {
       userName: newUserData.name,
       userID: newUserData.userID,
+      email: newUserData.email,
       userProfilePictureUrl: newUserData.profilePictureUrl,
       isAdmin: newUserData.isAdmin,
-      totalScore: newUserData.totalScore,
+      // totalScore: newUserData.totalScore,
       attemptedProblems: newUserData.attemptedProblems
     }})
     // console.log("this:", this)
     localStorage.setItem("user", JSON.stringify(newUserData))
+  }
+
+  calculateTotalScore(attemptedProblems) {
+    let solvedProblemIds = []
+    for (const property in attemptedProblems) {
+      if (attemptedProblems[property].solved) {
+        solvedProblemIds.push(Number.parseInt(property))
+      }
+    }
+
+    Axios.post("http://localhost:3002/getProblems", {filter:{
+      questionID : { "$in": solvedProblemIds }
+      }}).then((response) => {
+        let calculatedScore = 0
+        response.data.result.forEach((solvedProblem) => {
+          calculatedScore += solvedProblem.beef
+        });
+        this.setState({user: {...this.state.user, totalScore: calculatedScore}})
+    })
   }
 
   updateUser(userID) {

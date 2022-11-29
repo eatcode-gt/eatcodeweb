@@ -11,9 +11,16 @@ import { userContext } from '../../userContext';
 export default function CodeArea({ color, questionID, userSolvedThis, beef }) {
   const user = useContext(userContext)
   const [getCookingText, setGetCookingText] = useState("get cookin")
-  const [code, setCode] = useState(`#receieve test case from standard input\ninput1 = input()\ninput2 = input()\n\n#compute solution\ndef solve(num1, num2):\n  ans = num1 + num2\n  return ans\n  \n#print output\nprint(solve(input1, input2))`);
   const [result, setResult] = useState([]);
   const [lang, selectedLang] = useState("py")
+
+  let placeholderCode = {
+    cpp: "#include <iostream>\nusing namespace std;\n\nint main()\n{\n  //get test cases from standard input\n  int input1;\n  int input2;\n  cin >> input1;\n  cin >> input2;\n  \n  //compute solution\n  int ans = input1 + input2;\n   \n  //print solution\n  cout << ans;\n  return 0;\n}",
+    java: "import java.util.*;\npublic class Solution {\n  public static void main(String[] args) {\n\n    //get test cases from standard input\n    Scanner scanner = new Scanner(System.in);\n    int input1 = Integer.parseInt(scanner.nextLine());\n    int input2 = Integer.parseInt(scanner.nextLine());\n    \n    //compute solution\n    int result = input1 + input2;\n    \n    //print solution\n    System.out.println(result);\n   }\n}",
+    py: "#get test cases from standard input\ninput1 = int(input())\ninput2 = int(input())\n\n#compute solution\nans = num1 + num2\n  \n#print output\nprint(ans)"
+  }
+
+  const [code, setCode] = useState(placeholderCode.py);
 
   let languageOptions = [
     { value: "cpp", label: "c++"}, { value: "java", label: "java"}, { value: "py", label: "python"}
@@ -21,6 +28,7 @@ export default function CodeArea({ color, questionID, userSolvedThis, beef }) {
 
   function handleLanguageChange(e) {
     selectedLang(e.value)
+    setCode(placeholderCode[e.value])
   }
 
   const handleSubmit = () => {
@@ -30,7 +38,7 @@ export default function CodeArea({ color, questionID, userSolvedThis, beef }) {
       console.log("Submitted Problem");
       setGetCookingText("cooking...")
       Axios.post("http://localhost:3002/problems", {
-        code: code, 
+  code: code, 
         language: lang, 
         questionID: questionID,
         userID: user.user.userID
@@ -52,7 +60,8 @@ export default function CodeArea({ color, questionID, userSolvedThis, beef }) {
       display: 'flex',
       flexDirection: 'column',
       gap: '1em',
-      height: '100%'
+      minHeight: 'calc(100vh - 8em - 8em)', //header height
+      maxHeight: 'calc(100vh - 8em - 8em)',
     },
     alreadySolved: {
       display: userSolvedThis ? 'inline' : 'none',
@@ -68,15 +77,15 @@ export default function CodeArea({ color, questionID, userSolvedThis, beef }) {
       fontSize: '1.7em',
       backgroundColor: colors.codeBg,
       fontFamily: 'ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace',
-      minHeight: '50%',
-      maxHeight: '50%',
+      minHeight: '60vh',
+      maxHeight: '60vh',
       overflowY: 'scroll',
       color: 'white'
     },
     buttonDiv: {
       display: "flex",
       width: '100%',
-      gap: '2em',
+      gap: '1em',
       justifyContent: 'space-between',
       alignItems: 'center'
     },
@@ -91,8 +100,9 @@ export default function CodeArea({ color, questionID, userSolvedThis, beef }) {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      padding: '5em 0em',
-      color: colors.white
+      color: colors.white,
+      height: 'max-content',
+      padding: '5em 3em'
     },
     langSelect: {
       container: (styles) => ({

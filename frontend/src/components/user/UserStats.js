@@ -51,44 +51,30 @@ export default function ProblemSolvedCard({user}) {
   }
 
     const styles = {
-        card: {
-            display: "inline-box",
-            color: "white",
-            position: 'absolute',
-            marginTop: "310px",
-            marginLeft: "20px",
-            width: "300px",
-            height: "420px",
-            backgroundColor: colors.accent1,
-            borderRadius: "10px",
-            boxShadow: "0px 1px 10px 1px black"
-        },
-        upperContainer: {
-            height: "75px",
-            backgroundColor: colors.accent2,
-            textAlign: "center",
-        },
-        lowerContainer: {
-            height: "270px",
-            background: colors.accent1,
-            textAlign: "center",
-            marginTop: "10px"
-        },
+      card: {
+        flex: 1,
+      },
+      title: {
+          color: colors.accent1,
+          marginBottom: '0.25em',
+          textAlign: 'center'
+      },
+      flex: {
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '1em'
+      }
     }
 
     return (
-        <div style={styles.card}>
-            <div style={styles.upperContainer}>
-                <br />
-                <br /> 
-                <h5 styles ={styles.title}>Beef Stats</h5>
-            </div>
-            <div style={styles.lowerContainer}>
-                <DifficultyBar diff={"Bell"} completed={completed[0]} maxCompleted={maxCompleted[0]} bgColor={colors.Bell}/>
-                <DifficultyBar diff={"Jalepeño"} completed={completed[1]} maxCompleted={maxCompleted[1]} bgColor={colors.Jalepeño}/>
-                <DifficultyBar diff={"Habenero"} completed={completed[2]} maxCompleted={maxCompleted[2]} bgColor={colors.Habenero}/>
-                <DifficultyBar diff={"Ghost"} completed={completed[3]} maxCompleted={maxCompleted[3]} bgColor={colors.Ghost}/>
-            </div>
-        </div>
+      <div style={styles.card}>
+        <h3 style={styles.title}>difficulty completion</h3>            
+          <div style={styles.flex}>
+            <DifficultyBar diff={"Jalapeño"} completed={completed[0]} maxCompleted={maxCompleted[0]} bgColor={colors.Jalapeño}/>
+            <DifficultyBar diff={"Hungarian"} completed={completed[1]} maxCompleted={maxCompleted[1]} bgColor={colors.Hungarian}/>
+            <DifficultyBar diff={"Habenero"} completed={completed[2]} maxCompleted={maxCompleted[2]} bgColor={colors.Habenero}/>
+            <DifficultyBar diff={"Ghost"} completed={completed[3]} maxCompleted={maxCompleted[3]} bgColor={colors.Ghost}/>
+          </div>
+      </div>
     )
 }

@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import Header from './Header';
 
-const HeaderSkip = ({user}) => {
+const HeaderSkip = () => {
   const styles = {
     container: {
       overflowY: 'auto'
@@ -10,7 +10,7 @@ const HeaderSkip = ({user}) => {
 
   return (
     <div style={styles.container}>
-      <Header user={user}/>
+      <Header />
       <Outlet />
     </div>
   );

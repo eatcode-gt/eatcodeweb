@@ -64,7 +64,7 @@ const ProblemBody = ({ i, diff, problems, eaten }) => {
           ? <h4 style={styles.noProblems}>no problems found</h4>
           : problems.map((problem, j) => {
               return (
-                <Problem key={1000 * i * j} problem={problem}/>
+                <Problem key={`${i}${j}`} problem={problem}/>
               );
             })
         }

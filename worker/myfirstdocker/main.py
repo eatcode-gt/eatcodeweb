@@ -54,6 +54,7 @@ def run_test_case(solution, input_path, output_path, return_value):
         end_data = resource.getrusage(resource.RUSAGE_CHILDREN)
         
         # check output
+        print(stdout)
         if (stdout == correct_output):
             return_value.value = 0
         else:
