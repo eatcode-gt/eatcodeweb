@@ -11,15 +11,15 @@ async function retrieveAndCompute() {
     const submission = await SubmissionModel.findOne({submissionID})
     if (!submission.processed) {
       let testResult = await testUserCode(submission.language, submission.code, submission.questionID);
-
-      const finalWord = testResult.split(" ");
-      const array = finalWord.map((val: string) => {return parseInt(val)})
-      const result = array.slice(0, -1)
-      const finalResult = array[array.length - 1]
-
-      console.log("finalResult:", finalResult)
+      // console.log(testResult)
+      
 
       try{
+        const finalWord = testResult.split(" ");
+        const array = finalWord.map((val: string) => {return parseInt(val)})
+        const result = array.slice(0, -1)
+        const finalResult = array[array.length - 1] 
+        console.log("finalResult:", finalResult)
         await SubmissionModel.updateOne({submissionID}, {$set:{processed:true, results: {result, finalResult}}}, {new:true});
       } catch (error) {
         console.log("Error", error)

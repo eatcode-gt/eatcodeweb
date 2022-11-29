@@ -10,7 +10,7 @@ export default async function testUserCode(userLanguage: string, //see switch st
     console.log("language:" + userLanguage);
     let solutionFile = "solFiles/solution.py";
     switch (userLanguage) {
-        case "python":
+        case "py":
             fs.writeFile('myfirstdocker/solFiles/solution.py', code, 'utf-8', (err: any) => {
                 if (err) console.log("Error Loading solution file:", err);
             })
@@ -53,9 +53,9 @@ export default async function testUserCode(userLanguage: string, //see switch st
     console.log("Running problem on server.");
     return new Promise( resolve => {
         exec(cmd, (error: any, stdout: any, stderr: any) => {
-            console.log(stdout);
+            // console.log(stdout);
             if (error) {
-                console.log(`error: ${error.message}`);
+                // console.log(`error: ${error.message}`);
                 // return;
             }
             if (stderr) {

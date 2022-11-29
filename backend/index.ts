@@ -157,7 +157,7 @@ app.post("/finishedJob", async (req: Request, res: Response) => {
     console.error(error)
   }
   
-  res.sendStatus(200);
+  res.sendStatus(200); 
 }) 
  
 app.listen(port, () => { //server listens to requests on port {port} 
