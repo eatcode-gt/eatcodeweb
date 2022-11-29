@@ -42,6 +42,8 @@ const View = ({ problem }) => {
     }
   }
 
+  console.log(problem.e2input)
+
   return (
     <div style={styles.cont}>
       <h2>{problem.title}</h2>
@@ -58,18 +60,22 @@ const View = ({ problem }) => {
         <p><span style={styles.smallTitle}>Output(s): </span>{problem.e1output}</p>
         <p><span style={styles.smallTitle}>Explanation: </span>{problem.e1explanation}</p>
       </div>
-      <div style={styles.individualExample}>
-        <h5>Example 2</h5>
-        <p><span style={styles.smallTitle}>Inputs(s): </span>{problem.e2input}</p>
-        <p><span style={styles.smallTitle}>Output(s): </span>{problem.e2output}</p>
-        <p><span style={styles.smallTitle}>Explanation: </span>{problem.e2explanation}</p>
-      </div>
-      <div style={styles.individualExample}>
-        <h5>Example 3</h5>
-        <p><span style={styles.smallTitle}>Input(s): </span>{problem.e3input}</p>
-        <p><span style={styles.smallTitle}>Output(s): </span>{problem.e3output}</p>
-        <p><span style={styles.smallTitle}>Explanation: </span>{problem.e3explanation}</p>
-      </div>
+      {problem.e2input != "" && 
+        <div style={styles.individualExample}>
+          <h5>Example 2</h5>
+          <p><span style={styles.smallTitle}>Inputs(s): </span>{problem.e2input}</p>
+          <p><span style={styles.smallTitle}>Output(s): </span>{problem.e2output}</p>
+          <p><span style={styles.smallTitle}>Explanation: </span>{problem.e2explanation}</p>
+        </div>
+      }
+      {problem.e3input != "" && 
+        <div style={styles.individualExample}>
+          <h5>Example 3</h5>
+          <p><span style={styles.smallTitle}>Input(s): </span>{problem.e3input}</p>
+          <p><span style={styles.smallTitle}>Output(s): </span>{problem.e3output}</p>
+          <p><span style={styles.smallTitle}>Explanation: </span>{problem.e3explanation}</p>
+        </div>
+      }
     </div>
   )
 }
