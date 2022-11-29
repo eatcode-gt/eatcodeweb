@@ -24,8 +24,7 @@ function retrieveAndCompute() {
             console.log("Got:", submissionID);
             const submission = yield SubmissionModel.findOne({ submissionID });
             if (!submission.processed) {
-                // let testResult = await testUserCode(submission.language, submission.code, submission.questionID);
-                let testResult = yield (0, test_user_code_1.default)("cpp", submission.code, submission.questionID);
+                let testResult = yield (0, test_user_code_1.default)(submission.language, submission.code, submission.questionID);
                 const finalWord = testResult.split(" ");
                 const array = finalWord.map((val) => { return parseInt(val); });
                 const result = array.slice(0, -1);
