@@ -7,21 +7,47 @@ import DifficultyBar from './DifficultyBar';
 export default function ProblemSolvedCard({user}) {
   const userDiffObject = [1, 1, 1, 0]
   const [listOfProblems, setListOfProblems] = useState([]);
+  const [maxCompleted, setMaxCompleted] = useState([1,1,1,1])
+  const [completed, setCompleted] = useState([0,0,0,0])
 
   useEffect(() => {
     Axios.post("http://localhost:3002/getProblems", {filter:{}}).then((response) => {
       setListOfProblems(response.data.result);
+      // console.log("list:", response.data.result)
+      // console.log("number:", getProblemsByDiff(response.data.result, 0))
+      // console.log("Attempt:", user.attemptedProblems)
+      const [newMaxCompleted, newCompleted] = getProblemsByDiff(response.data.result, user.attemptedProblems)
+      // console.log(newMaxCompleted, newCompleted)
+      setMaxCompleted(newMaxCompleted)
+      setCompleted(newCompleted)
     });
   }, []);
-
-  function getProblemsByDiff(diff) {
-    var allProblems = listOfProblems
-    var requestedProblems = []
-    for (var i = 0; i < allProblems.length; i++) {
-      if (allProblems[i].diff === diffMap.indexOf(diff))
-      requestedProblems.push(allProblems[i])
-    }
-    return requestedProblems
+  // THIS WHOLE THING IS CRAP, WILL FIX IF I HAVE TIME
+  function getProblemsByDiff(allProblems, attemptedProblems) {
+    const difficulties = [0,1,2,3]
+    // var allProblems = listOfProblems
+    var maxCompleted = [0,0,0,0]
+    var completed = [0,0,0,0]
+    // console.log("attt:", attemptedProblems)
+    difficulties.forEach( difficulty => {
+      allProblems.forEach( problem => {
+        if (problem.difficulty === difficulty) {
+          maxCompleted[difficulty]++;
+          if (attemptedProblems[problem.questionID] && attemptedProblems[problem.questionID].solved) {
+            completed[difficulty]++;
+          }
+        }
+      })
+    })
+    // console.log(maxCompleted, completed)
+    return [maxCompleted, completed]
+    // console.log(maxCompleted, completed)
+    // for (const property in attemptedProblems) {
+    //   if (attemptedProblems[property].solved)
+    //   console.log(property)
+    //   console.log(attemptedProblems[property].solved)
+    // }
+    // return requestedProblems
   }
 
     const styles = {
@@ -58,10 +84,10 @@ export default function ProblemSolvedCard({user}) {
                 <h5 styles ={styles.title}>Beef Stats</h5>
             </div>
             <div style={styles.lowerContainer}>
-                <DifficultyBar diff={"Bell"} completed={userDiffObject[diffMap.indexOf("Bell")]} maxCompleted={getProblemsByDiff("Bell").length} bgColor={colors.Bell}/>
-                <DifficultyBar diff={"Jalepeño"} completed={userDiffObject[diffMap.indexOf("Jalepeño")]} maxCompleted={getProblemsByDiff("Jalepeño").length} bgColor={colors.Jalepeño}/>
-                <DifficultyBar diff={"Habenero"} completed={userDiffObject[diffMap.indexOf("Habenero")]} maxCompleted={getProblemsByDiff("Habenero").length} bgColor={colors.Habenero}/>
-                <DifficultyBar diff={"Ghost"} completed={userDiffObject[diffMap.indexOf("Ghost")]} maxCompleted={getProblemsByDiff("Ghost").length} bgColor={colors.Ghost}/>
+                <DifficultyBar diff={"Bell"} completed={completed[0]} maxCompleted={maxCompleted[0]} bgColor={colors.Bell}/>
+                <DifficultyBar diff={"Jalepeño"} completed={completed[1]} maxCompleted={maxCompleted[1]} bgColor={colors.Jalepeño}/>
+                <DifficultyBar diff={"Habenero"} completed={completed[2]} maxCompleted={maxCompleted[2]} bgColor={colors.Habenero}/>
+                <DifficultyBar diff={"Ghost"} completed={completed[3]} maxCompleted={maxCompleted[3]} bgColor={colors.Ghost}/>
             </div>
         </div>
     )

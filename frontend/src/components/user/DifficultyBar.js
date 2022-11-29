@@ -10,6 +10,9 @@ export default function DifficultyBar(props) {
             gap: "2em"
         }
     }
+    const completed = props.completed;
+    const maxCompleted = props.maxCompleted === 0 ? 1 : props.maxCompleted;
+    // console.log("Props:", props)
     return (
         <>
             <span style={styles.barTitle}>
@@ -18,7 +21,7 @@ export default function DifficultyBar(props) {
                 <Peppers diff={props.diff} size={"2rem"}/>
             </span>
             <ProgressBar 
-                    percentage={"35"}
+                    percentage={(completed / maxCompleted).toString()}
                     rect
                     rectBorderRadius="20px"
                     trackPathColor={colors.white}

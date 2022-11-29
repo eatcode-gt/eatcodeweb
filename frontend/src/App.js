@@ -41,6 +41,7 @@ class App extends Component {
 
     this.logIn = this.logIn.bind(this)
     this.logOut = this.logOut.bind(this)
+    this.updateUser = this.updateUser.bind(this)
 
 
   }
@@ -136,7 +137,8 @@ class App extends Component {
     const value = {
       user: this.state.user,
       logOutUser: this.logOut,
-      logInUser: this.logIn
+      logInUser: this.logIn,
+      updateUser: this.updateUser,
     }
 
     return (

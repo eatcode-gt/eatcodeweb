@@ -46,7 +46,7 @@ const View = ({ problem }) => {
     }
   }
 
-  console.log(problem.e2input)
+  // console.log(problem.e2input)
 
   return (
     <div style={styles.cont}>
