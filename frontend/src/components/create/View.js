@@ -63,17 +63,17 @@ const View = ({ problem }) => {
       {problem.e2input != "" && 
         <div style={styles.individualExample}>
           <h5>Example 2</h5>
-          <p><span style={styles.smallTitle}>Inputs(s): </span>{problem.e2input}</p>
-          <p><span style={styles.smallTitle}>Output(s): </span>{problem.e2output}</p>
-          <p><span style={styles.smallTitle}>Explanation: </span>{problem.e2explanation}</p>
+          <div style={styles.mathJax}><span style={styles.mathTitle}>Input<br></br> </span><Text id={2} text={problem.e2input} /></div>
+          <div style={styles.mathJax}><span style={styles.mathTitle}>Output<br></br>  </span><Text id={2} text={problem.e2output} /></div>
+          <div style={styles.mathJax}><span style={styles.mathTitle}>Explanation<br></br>  </span><Text id={2} text={problem.e2explanation} /></div>
         </div>
       }
       {problem.e3input != "" && 
         <div style={styles.individualExample}>
           <h5>Example 3</h5>
-          <p><span style={styles.smallTitle}>Input(s): </span>{problem.e3input}</p>
-          <p><span style={styles.smallTitle}>Output(s): </span>{problem.e3output}</p>
-          <p><span style={styles.smallTitle}>Explanation: </span>{problem.e3explanation}</p>
+          <div style={styles.mathJax}><span style={styles.mathTitle}>Input<br></br> </span><Text id={3} text={problem.e3input} /></div>
+          <div style={styles.mathJax}><span style={styles.mathTitle}>Output<br></br>  </span><Text id={3} text={problem.e3output} /></div>
+          <div style={styles.mathJax}><span style={styles.mathTitle}>Explanation<br></br>  </span><Text id={3} text={problem.e3explanation} /></div>
         </div>
       }
     </div>
