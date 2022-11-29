@@ -1,11 +1,11 @@
-nums = list(map(int, input().strip().split(" ")))
-target = int(input())
+#receieve test case from standard input
+input1 = input()
+input2 = input()
 
-seen = dict()
-
-for i, n in enumerate(nums):
-    if target-n in seen:
-        print([seen[target-n], i])
-        break
-    else:
-        seen[n] = i
+#compute solution
+def solve(num1, num2):
+  ans = num1 + num2
+  return ans
+  
+#print output
+print(solve(input1, input2))

@@ -1,33 +1,23 @@
 const mongoose = require('mongoose');
 
-const ExampleSchema = new mongoose.Schema({
-  exampleInput: {
-    type: String,
-    required: true,
-  },
-  exampleOutput: {
-    type: String,
-    required: true,
-  },
-  exampleText: {
-    type: String,
-    required: false,
-  }
-});
-
 const ProblemSchema = new mongoose.Schema({
   questionID: {
     type: Number,
     required: true,
     unique: true,
   },
-  name: {
+  title: {
     type: String,
     required: true,
   },
   difficulty: {
     type: Number,
     required: true, 
+  },
+  beef: {
+    type: Number,
+    required: true,
+    default: 0
   },
   time: {
     type: Number,
@@ -37,7 +27,7 @@ const ProblemSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  text: {
+  description: {
     type: String,
     required: true,
   },
@@ -49,9 +39,41 @@ const ProblemSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  example: {
-    type: ExampleSchema,
+  e1input: {
+    type: String,
     required: true,
+  },
+  e1output: {
+    type: String,
+    required: true
+  },
+  e1explanation: {
+    type: String,
+    required: false
+  },
+  e2input: {
+    type: String,
+    required: false,
+  },
+  e2output: {
+    type: String,
+    required: false
+  },
+  e2explanation: {
+    type: String,
+    required: false
+  },
+  e3input: {
+    type: String,
+    required: false,
+  },
+  e3output: {
+    type: String,
+    required: false
+  },
+  e3explanation: {
+    type: String,
+    required: false
   },
   numberOfAttemptedUsers: {
     type: Number,
