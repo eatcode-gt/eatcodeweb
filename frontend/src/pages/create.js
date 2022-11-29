@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Axios from 'axios'
 import View from '../components/create/View'
 import Tags from '../components/create/Tags'
+import PageContainer from '../components/common/PageContainer'
 
 const defaultInputs = {
   title: "Default Title",
@@ -183,6 +184,7 @@ const Create = () => {
   }
 
   return (
+    <PageContainer children={
     <div style={styles.content}>
       <div style={styles.left}>
         <form style={styles.form} onSubmit={handleSubmit}>
@@ -324,7 +326,7 @@ const Create = () => {
           <View problem={inputs}></View>
       </div>
     </div>
-  )
+  } />)
 }
 
 export default Create

@@ -130,11 +130,6 @@ class App extends Component {
       app: {
         fontFamily: 'Inter',
         backgroundColor: colors.grey,
-        height: '100vh',
-        width: '100vw',
-      },
-      container: {
-        overflowY: 'auto !important'
       }
     }
   

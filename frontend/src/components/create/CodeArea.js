@@ -59,7 +59,8 @@ export default function CodeArea({ color, questionID, userSolvedThis, beef }) {
       display: 'flex',
       flexDirection: 'column',
       gap: '1em',
-      height: '100%'
+      minHeight: 'calc(100vh - 8em - 8em)', //header height
+      maxHeight: 'calc(100vh - 8em - 8em)',
     },
     alreadySolved: {
       display: userSolvedThis ? 'inline' : 'none',
@@ -75,15 +76,15 @@ export default function CodeArea({ color, questionID, userSolvedThis, beef }) {
       fontSize: '1.7em',
       backgroundColor: colors.codeBg,
       fontFamily: 'ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace',
-      minHeight: '50%',
-      maxHeight: '50%',
+      minHeight: '60vh',
+      maxHeight: '60vh',
       overflowY: 'scroll',
       color: 'white'
     },
     buttonDiv: {
       display: "flex",
       width: '100%',
-      gap: '2em',
+      gap: '1em',
       justifyContent: 'space-between',
       alignItems: 'center'
     },
@@ -98,8 +99,9 @@ export default function CodeArea({ color, questionID, userSolvedThis, beef }) {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      padding: '5em 0em',
-      color: colors.white
+      color: colors.white,
+      height: 'max-content',
+      padding: '5em 3em'
     },
     langSelect: {
       container: (styles) => ({

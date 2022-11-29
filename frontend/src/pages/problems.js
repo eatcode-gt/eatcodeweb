@@ -5,6 +5,7 @@ import ProblemBody from '../components/problems/ProblemBody'
 import Select from 'react-select'
 import { colors } from '../global/vars';
 import { userContext } from '../userContext'
+import PageContainer from '../components/common/PageContainer';
 
 export default class Problem extends Component {
   static contextType = userContext
@@ -153,8 +154,6 @@ export default class Problem extends Component {
         flexDirection: 'column',
         alignItems: 'center',
         gap: '3em',
-        padding: '0em 3em',
-        maxHeight: 'calc(100vh - 8em)',
         zIndex: 1
       },
       problemBodyContainer: {
@@ -246,7 +245,9 @@ export default class Problem extends Component {
       }
     }
 
-    return (<div style={styles.container}>
+    return (
+      <PageContainer children={
+      <div style={styles.container}>
       <div style={styles.bySearchContainer}>
         <input style={styles.textInput} placeholder="no title specified" type="text"  name="title" default="Enter" value={this.state.selectedTitle} onChange={this.handleTitleChange.bind(this)}/>
         <h5 style={styles.constrainText}>&larr; constrain your search &rarr;</h5>
@@ -269,6 +270,6 @@ export default class Problem extends Component {
         <ProblemBody i={2} diff={"Habenero"} problems={this.state.habeSelected} eaten={this.state.userSolvedCountByDiff[2]}/>
         <ProblemBody i={3} diff={"Ghost"} problems={this.state.ghosSelected} eaten={this.state.userSolvedCountByDiff[3]}/>
       </div>
-      </div>);
+      </div>} />);
   }
 };
