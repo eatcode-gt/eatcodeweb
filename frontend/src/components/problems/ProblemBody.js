@@ -39,6 +39,9 @@ const ProblemBody = ({ i, diff, problems, eaten }) => {
     },
     beef: {
       marginBottom: '0.5em'
+    },
+    eaten: {
+      marginTop: '0.4em'
     }
   }
 
@@ -51,7 +54,7 @@ const ProblemBody = ({ i, diff, problems, eaten }) => {
           </div>
           <h5 style={styles.beef}>worth {diffData[diff].beefRange} beef (🥩)</h5>
           <p>{diffData[diff].desc}</p>
-          <h4>{diff}s eaten: {eaten}</h4>
+          <h4 style={styles.eaten}>{diff}s eaten: {eaten}</h4>
           <div style={styles.break} />
         </div>
       </div>
