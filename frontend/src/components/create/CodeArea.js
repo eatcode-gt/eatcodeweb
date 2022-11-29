@@ -37,6 +37,7 @@ export default function CodeArea({ color, questionID, userSolvedThis, beef }) {
       }).then((response) => {
         let result = response.data.result
         setResult(response.data.result);
+        user.updateUser(user.user.userID);
         if (!result.includes(0)) {
           setGetCookingText("try again?")
         } else {

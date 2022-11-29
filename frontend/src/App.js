@@ -39,6 +39,7 @@ class App extends Component {
 
     this.logIn = this.logIn.bind(this)
     this.logOut = this.logOut.bind(this)
+    this.updateUser = this.updateUser.bind(this)
 
 
   }
@@ -92,9 +93,19 @@ class App extends Component {
       totalScore: newUserData.totalScore,
       attemptedProblems: newUserData.attemptedProblems
     }})
-    console.log("this:", this)
+    // console.log("this:", this)
     localStorage.setItem("user", JSON.stringify(newUserData))
   }
+
+  updateUser(userID) {
+    Axios.post("http://localhost:3002/userInfo", {
+      sub: userID
+    }).then((response) => {
+      this.logIn(response.data.result[0])
+    });
+  }
+
+
 
   render() {
     const styles = {
@@ -112,7 +123,8 @@ class App extends Component {
     const value = {
       user: this.state.user,
       logOutUser: this.logOut,
-      logInUser: this.logIn
+      logInUser: this.logIn,
+      updateUser: this.updateUser,
     }
 
     return (

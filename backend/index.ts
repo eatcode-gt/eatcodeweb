@@ -133,7 +133,7 @@ app.post('/userInfo', (req: Request, res: Response) => {
       res.json({result:result});
     }
   });
-}); 
+});
 
 
 app.post('/problems', async (req: Request, res: Response, next) => { //post requests to eatcode.com/problems
@@ -144,7 +144,7 @@ app.post('/problems', async (req: Request, res: Response, next) => { //post requ
   } catch (error) {
     res.json(error);
   }
-});
+}); 
 
 app.get("/nextJob", async (req: Request, res: Response) => {
   enqueueWorker(res);
