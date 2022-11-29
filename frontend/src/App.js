@@ -1,7 +1,7 @@
 import { colors } from './global/vars'
 import './global/fonts.css';
 import { userContext } from './userContext';
-import Axios from "axios"; //keep for when we verify beef and admin ideally
+import Axios from "axios";
 
 import { Component } from "react";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -42,15 +42,12 @@ class App extends Component {
     this.logIn = this.logIn.bind(this)
     this.logOut = this.logOut.bind(this)
     this.updateUser = this.updateUser.bind(this)
-
-
   }
 
   componentDidMount() {
     const loggedInUser = localStorage.getItem("user");
     if (loggedInUser) {
       const foundUser = JSON.parse(loggedInUser);
-      this.calculateTotalScore(foundUser.attemptedProblems)
       this.setState({user: {
         userName: foundUser.name,
         userID: foundUser.userID,
@@ -71,7 +68,6 @@ class App extends Component {
         attemptedProblems: this.loggedOutUserObject.attemptedProblems
       }})
     }
-    
   }
 
   verifyAdmin() {
@@ -92,18 +88,17 @@ class App extends Component {
   }
 
   logIn(newUserData) {
-    this.calculateTotalScore(newUserData.attemptedProblems)
+    this.calculateTotalScore(newUserData.attemptedProblems) //sets totalScore from a calculation of the beef assigned to user's solved problems
     this.setState({user: {
       userName: newUserData.name,
       userID: newUserData.userID,
       email: newUserData.email,
       userProfilePictureUrl: newUserData.profilePictureUrl,
       isAdmin: newUserData.isAdmin,
-      // totalScore: userTotalScore,
+      // totalScore: newUserData.totalScore,
       attemptedProblems: newUserData.attemptedProblems
-    }}, () => {
-      console.log("this:", this)
-    })
+    }})
+    // console.log("this:", this)
     localStorage.setItem("user", JSON.stringify(newUserData))
   }
 
@@ -125,12 +120,27 @@ class App extends Component {
         this.setState({user: {...this.state.user, totalScore: calculatedScore}})
     })
   }
-  
+
+  updateUser(userID) {
+    Axios.post("http://localhost:3002/userInfo", {
+      sub: userID
+    }).then((response) => {
+      this.logIn(response.data.result[0])
+    });
+  }
+
+
+
   render() {
     const styles = {
       app: {
         fontFamily: 'Inter',
         backgroundColor: colors.grey,
+        height: '100vh',
+        width: '100vw',
+      },
+      container: {
+        overflowY: 'auto !important'
       }
     }
   
