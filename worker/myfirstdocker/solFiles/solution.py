@@ -1,9 +1,2 @@
-#get test cases from standard input
-input1 = int(input())
-#input2 = int(input())
-
-#compute solution
-#ans = num1 + num2
-  
-#print output
-print(1,end="")
+input1 = input()
+print((input1[::-1] == input1) ? 1 : 0,end="")
