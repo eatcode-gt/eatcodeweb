@@ -1,7 +1,7 @@
 import { colors } from './global/vars'
 import './global/fonts.css';
 import { userContext } from './userContext';
-import Axios from "axios";
+import Axios from "axios"; //keep for when we verify beef and admin ideally
 
 import { Component } from "react";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -89,11 +89,15 @@ class App extends Component {
       userID: newUserData.userID,
       userProfilePictureUrl: newUserData.profilePictureUrl,
       isAdmin: newUserData.isAdmin,
-      totalScore: newUserData.totalScore,
+      totalScore: this.calculateTotalScore(newUserData.attemptedProblems),
       attemptedProblems: newUserData.attemptedProblems
     }})
     console.log("this:", this)
     localStorage.setItem("user", JSON.stringify(newUserData))
+  }
+
+  calculateTotalScore(attemptedProblems) {
+    console.log(attemptedProblems)
   }
 
   render() {

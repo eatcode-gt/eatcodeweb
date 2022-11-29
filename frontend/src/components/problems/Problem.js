@@ -3,7 +3,7 @@ import { colors, statusMap } from '../../global/vars'
 import { Link } from 'react-router-dom'
 import { diffMap } from '../../global/vars'
 
-const Problem = ({ key, problem }) => {
+const Problem = ({ problem }) => {
   const [barHover, setBarHover] = useState(false);
   const handleMouseEnter = () => {
     setBarHover(true);
@@ -69,7 +69,7 @@ const Problem = ({ key, problem }) => {
   }
   return (
     <Link to={`/problems/${problem.title}}`} state={ {problem} }>
-      <div key={key} style={styles.bar} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+      <div style={styles.bar} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
           <div style={styles.default}>
             <h5 style={styles.name}>{problem.title}</h5>
           </div>
