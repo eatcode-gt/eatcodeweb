@@ -3,6 +3,7 @@ import { colors } from '../../global/vars';
 
 const Button = ({onClick, color, text}) => {
   const [btnHover, setBtnHover] = useState(false);
+
   const handleMouseEnter = () => {
     setBtnHover(true);
   }
@@ -29,7 +30,7 @@ const Button = ({onClick, color, text}) => {
   }
 
   return (
-    <div style={styles.container} onClick={onClick} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+    <div id="confettiReward" style={styles.container} onClick={onClick} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
         <h4 style={styles.text}>{text}</h4>
     </div>
   )

@@ -1,9 +1,5 @@
-#get test cases from standard input
-input1 = int(input())
-#input2 = int(input())
+n = int(input())
 
-#compute solution
-#ans = num1 + num2
-  
-#print output
-print(1,end="")
+ans = str(n)[::-1] == str(n)
+
+print(1 if ans else 0, end="")
