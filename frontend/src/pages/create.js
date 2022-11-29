@@ -139,10 +139,7 @@ const Create = () => {
   const styles = {
     content: {
       display: 'flex',
-      padding: '0em 3em',
       gap: '3em',
-      width: 'calc(100vw - 6em)',
-      height: '100vh',
       justifyContent: 'space-between',
       backgroundColor: colors.grey
     },
