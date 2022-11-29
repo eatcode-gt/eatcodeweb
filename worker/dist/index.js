@@ -25,12 +25,13 @@ function retrieveAndCompute() {
             const submission = yield SubmissionModel.findOne({ submissionID });
             if (!submission.processed) {
                 let testResult = yield (0, test_user_code_1.default)(submission.language, submission.code, submission.questionID);
-                const finalWord = testResult.split(" ");
-                const array = finalWord.map((val) => { return parseInt(val); });
-                const result = array.slice(0, -1);
-                const finalResult = array[array.length - 1];
-                console.log("finalResult:", finalResult);
+                // console.log(testResult)
                 try {
+                    const finalWord = testResult.split(" ");
+                    const array = finalWord.map((val) => { return parseInt(val); });
+                    const result = array.slice(0, -1);
+                    const finalResult = array[array.length - 1];
+                    console.log("finalResult:", finalResult);
                     yield SubmissionModel.updateOne({ submissionID }, { $set: { processed: true, results: { result, finalResult } } }, { new: true });
                 }
                 catch (error) {

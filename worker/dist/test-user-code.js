@@ -23,7 +23,7 @@ userCode, questionID) {
         console.log("language:" + userLanguage);
         let solutionFile = "solFiles/solution.py";
         switch (userLanguage) {
-            case "python":
+            case "py":
                 fs.writeFile('myfirstdocker/solFiles/solution.py', code, 'utf-8', (err) => {
                     if (err)
                         console.log("Error Loading solution file:", err);
@@ -69,9 +69,9 @@ userCode, questionID) {
         console.log("Running problem on server.");
         return new Promise(resolve => {
             exec(cmd, (error, stdout, stderr) => {
-                console.log(stdout);
+                // console.log(stdout);
                 if (error) {
-                    console.log(`error: ${error.message}`);
+                    // console.log(`error: ${error.message}`);
                     // return;
                 }
                 if (stderr) {
