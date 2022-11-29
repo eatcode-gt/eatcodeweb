@@ -10,6 +10,7 @@ export default function DifficultyBar(props) {
             gap: "2em"
         }
     }
+    console.log(props)
     return (
         <>
             <span style={styles.barTitle}>
