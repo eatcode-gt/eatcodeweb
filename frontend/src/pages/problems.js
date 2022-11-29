@@ -242,7 +242,7 @@ export default class Problem extends Component {
             fontSize: '2em',
             textAlign: 'center'
           }
-        },
+        }
       }
     }
 
