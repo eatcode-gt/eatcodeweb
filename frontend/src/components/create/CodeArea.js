@@ -17,7 +17,7 @@ export default function CodeArea({ color, questionID, userSolvedThis, beef }) {
   let placeholderCode = {
     cpp: "#include <iostream>\nusing namespace std;\n\nint main()\n{\n  //get test cases from standard input\n  int input1;\n  int input2;\n  cin >> input1;\n  cin >> input2;\n  \n  //compute solution\n  int ans = input1 + input2;\n   \n  //print solution\n  cout << ans;\n  return 0;\n}",
     java: "import java.util.*;\npublic class Solution {\n  public static void main(String[] args) {\n\n    //get test cases from standard input\n    Scanner scanner = new Scanner(System.in);\n    int input1 = Integer.parseInt(scanner.nextLine());\n    int input2 = Integer.parseInt(scanner.nextLine());\n    \n    //compute solution\n    int result = input1 + input2;\n    \n    //print solution\n    System.out.println(result);\n   }\n}",
-    py: "#get test cases from standard input\ninput1 = input()\ninput2 = input()\n\n#compute solution\nans = num1 + num2\n  \n#print output\nprint(ans)"
+    py: "#get test cases from standard input\ninput1 = int(input())\ninput2 = int(input())\n\n#compute solution\nans = num1 + num2\n  \n#print output\nprint(ans)"
   }
 
   const [code, setCode] = useState(placeholderCode.py);
