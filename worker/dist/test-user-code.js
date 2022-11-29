@@ -20,11 +20,43 @@ userCode, questionID) {
     return __awaiter(this, void 0, void 0, function* () {
         // let code: string = userCode + "/n/n"; //'code' will be the user's submitted McProblem() function + function calls that check if the user's functions provides expected outputs when given arguments defined in problem-data.json
         let code = userCode;
-        fs.writeFile('myfirstdocker/solFiles/solution.py', code, 'utf-8', (err) => {
-            if (err)
-                console.log("Error Loading solution file:", err);
-        });
-        const solutionFile = "solFiles/solution.py";
+        console.log("language:" + userLanguage);
+        let solutionFile = "solFiles/solution.py";
+        switch (userLanguage) {
+            case "python":
+                fs.writeFile('myfirstdocker/solFiles/solution.py', code, 'utf-8', (err) => {
+                    if (err)
+                        console.log("Error Loading solution file:", err);
+                });
+                break;
+            case "java":
+                const codeLines = code.split("\n");
+                console.log(codeLines);
+                let className = "Solution";
+                for (let i = 0; i < codeLines.length; i++) {
+                    const line = codeLines[i];
+                    if (line.startsWith("public class ")) {
+                        className = line.split(" ")[2];
+                        if (className.endsWith("{")) {
+                            className = className.substring(0, className.length - 1);
+                        }
+                    }
+                }
+                solutionFile = "solFiles/" + className + ".java";
+                fs.writeFile('myfirstdocker/solFiles/' + className + '.java', code, 'utf-8', (err) => {
+                    if (err)
+                        console.log("Error Loading solution file:", err);
+                });
+                console.log(solutionFile);
+                break;
+            case "cpp":
+                solutionFile = "solFiles/Solution.cpp";
+                fs.writeFile('myfirstdocker/solFiles/Solution.cpp', code, 'utf-8', (err) => {
+                    if (err)
+                        console.log("Error Loading solution file:", err);
+                });
+                break;
+        }
         try {
             yield (0, fetchTestCase_1.default)(questionID);
         }
@@ -33,10 +65,11 @@ userCode, questionID) {
             // throw error;
         }
         const testFolder = "TestCases/Problem_" + questionID;
-        const cmd = "sh myfirstdocker/run.sh " + solutionFile + " " + testFolder;
+        const cmd = "sh myfirstdocker/run_" + userLanguage + ".sh " + solutionFile + " " + testFolder;
         console.log("Running problem on server.");
         return new Promise(resolve => {
             exec(cmd, (error, stdout, stderr) => {
+                console.log(stdout);
                 if (error) {
                     console.log(`error: ${error.message}`);
                     // return;
