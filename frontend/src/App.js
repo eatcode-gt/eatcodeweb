@@ -91,7 +91,9 @@ class App extends Component {
       isAdmin: newUserData.isAdmin,
       totalScore: newUserData.totalScore,
       attemptedProblems: newUserData.attemptedProblems
-    }}, () => localStorage.setItem("user", JSON.stringify(newUserData)))
+    }})
+    console.log("this:", this)
+    localStorage.setItem("user", JSON.stringify(newUserData))
   }
 
   render() {
