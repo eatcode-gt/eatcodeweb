@@ -18,11 +18,15 @@ export default function DifficultyBar(props) {
     const completed = props.completed;
     const maxCompleted = props.maxCompleted === 0 ? 1 : props.maxCompleted;
     // console.log("Props:", props)
+    // console.log(completed / maxCompleted)
+    // console.log(3/5)
+    // console.log((3/5).toString)
+    // console.log((3/7 * 100).toString())
     return (
         <div style={styles.bar}>
             <h4 style={styles.title}>{props.diff}</h4>
             <ProgressBar 
-                    percentage={(completed / maxCompleted).toString()}
+                    percentage={Math.round(completed * 100 / maxCompleted ).toString()}
                     rect
                     trackPathColor={colors.white}
                     width="60%"
