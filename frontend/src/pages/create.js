@@ -79,7 +79,7 @@ const Create = () => {
     }
     let questionID = -1;
     Axios.get("http://localhost:3002/findLastPost").then((response) => {
-      questionID = response.data.questionID + 100;
+      questionID = response.data.questionID;
       Axios.post("http://localhost:3002/create", {
         questionID,
         title: inputs.title,
