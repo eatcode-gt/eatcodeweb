@@ -84,22 +84,38 @@ class App extends Component {
   }
 
   logIn(newUserData) {
+    this.calculateTotalScore(newUserData.attemptedProblems)
     this.setState({user: {
       userName: newUserData.name,
       userID: newUserData.userID,
       userProfilePictureUrl: newUserData.profilePictureUrl,
       isAdmin: newUserData.isAdmin,
-      totalScore: this.calculateTotalScore(newUserData.attemptedProblems),
+      // totalScore: userTotalScore, done in calculateTotalScore()
       attemptedProblems: newUserData.attemptedProblems
-    }})
-    console.log("this:", this)
+    }}, console.log("this:", this))
+    
     localStorage.setItem("user", JSON.stringify(newUserData))
   }
 
   calculateTotalScore(attemptedProblems) {
-    console.log(attemptedProblems)
-  }
+    let solvedProblemIds = []
+    for (const property in attemptedProblems) {
+      if (attemptedProblems[property].solved) {
+        solvedProblemIds.push(Number.parseInt(property))
+      }
+    }
 
+    Axios.post("http://localhost:3002/getProblems", {filter:{
+      questionID : { "$in": solvedProblemIds }
+      }}).then((response) => {
+        let calculatedScore = 0
+        response.data.result.forEach((solvedProblem) => {
+          calculatedScore += solvedProblem.beef
+        });
+        this.setState({user: {...this.state.user, totalScore: calculatedScore}})
+    })
+  }
+  
   render() {
     const styles = {
       app: {
