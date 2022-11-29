@@ -10,8 +10,7 @@ async function retrieveAndCompute() {
     console.log("Got:", submissionID);
     const submission = await SubmissionModel.findOne({submissionID})
     if (!submission.processed) {
-      // let testResult = await testUserCode(submission.language, submission.code, submission.questionID);
-      let testResult = await testUserCode("cpp", submission.code, submission.questionID);
+      let testResult = await testUserCode(submission.language, submission.code, submission.questionID);
 
       const finalWord = testResult.split(" ");
       const array = finalWord.map((val: string) => {return parseInt(val)})

@@ -12,9 +12,12 @@ const Button = ({onClick, color, text}) => {
 
   const styles = {
     container: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
       cursor: 'default',
       padding: '0.8em 1.2em',
-      width: '100%',
+      flex: 1,
       backgroundColor: btnHover ? colors.black : color,
       transition: 'all 0.27s ease',
       cursor: 'pointer'

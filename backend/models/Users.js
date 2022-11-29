@@ -35,7 +35,7 @@ const UserSchema = new mongoose.Schema({
         type: Boolean,
         required: true
     },
-    totalScore: {
+    totalScore: { //totalBeef
         type: Number,
         required: false,
         default: 0,
