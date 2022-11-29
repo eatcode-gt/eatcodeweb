@@ -1,6 +1,6 @@
 import React from 'react'
 import Problem from './Problem'
-import { colors, diffMap } from '../../global/vars'
+import { colors } from '../../global/vars'
 import diffData from './diffData.json'
 const ProblemBody = ({ i, diff, problems, eaten }) => {
   const styles = {
@@ -36,6 +36,9 @@ const ProblemBody = ({ i, diff, problems, eaten }) => {
     noProblems: {
       color:  colors[diff],
       textAlign: 'center'
+    },
+    beef: {
+      marginBottom: '0.5em'
     }
   }
 
@@ -46,8 +49,9 @@ const ProblemBody = ({ i, diff, problems, eaten }) => {
           <div style={styles.topTitle}>
             <h2 style={styles.diffTitle}>{diff}</h2>
           </div>
+          <h5 style={styles.beef}>worth {diffData[diff].beefRange} beef (🥩)</h5>
           <p>{diffData[diff].desc}</p>
-          <h3>{diff}s eaten: {eaten}</h3>
+          <h4>{diff}s eaten: {eaten}</h4>
           <div style={styles.break} />
         </div>
       </div>
@@ -57,7 +61,7 @@ const ProblemBody = ({ i, diff, problems, eaten }) => {
           ? <h4 style={styles.noProblems}>no problems found</h4>
           : problems.map((problem, j) => {
               return (
-                <Problem key={1000 * i * j} problem={problem} />
+                <Problem key={1000 * i * j} problem={problem}/>
               );
             })
         }

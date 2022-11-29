@@ -15,6 +15,9 @@ const View = ({ problem }) => {
     diff: {
       color: colors[diffMap[problem.difficulty]]
     },
+    beef: {
+      color: colors.black
+    },
     lineBreak: {
       height: '0.3em',
       width: '100%',
@@ -37,7 +40,7 @@ const View = ({ problem }) => {
   return (
     <div style={styles.cont}>
       <h2>{problem.title}</h2>
-      <h5 style={styles.diff}>Time Limit: {problem.time} sec - Memory Limit: {problem.memory} MB</h5>
+      <h5 style={styles.diff}>Time Limit: {problem.time} sec - Memory Limit: {problem.memory} MB&nbsp;<span style={styles.beef}>| {problem.beef} 🥩</span></h5>
       <Text key={"Description"} text={problem.description} />
       <div style={styles.mathContainer}>
         <div style={styles.mathJax}><span style={styles.mathTitle}>Input: </span><Text id={1} text={problem.input} /></div>

@@ -48,7 +48,7 @@ export default class RecentlySolved extends Component {
                 <Scrollbars style={styles.scroll}>
                     {this.state.attemptedProblems.map((problem) => {
                         return (
-                                <Problem key={problem.id} problem={problem} />
+                            <Problem key={problem.id} problem={problem} />
                         );
                     })}
                 </Scrollbars>
