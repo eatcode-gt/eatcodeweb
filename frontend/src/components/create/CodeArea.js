@@ -1,9 +1,10 @@
 import CodeEditor from '@uiw/react-textarea-code-editor';
 import Axios from 'axios'
 import Button from '../common/Button'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import { colors } from '../../global/vars'
 import TestResultBar from './TestResultBar'
+import Select from 'react-select'
 
 import { userContext } from '../../userContext';
 
@@ -12,8 +13,17 @@ export default function CodeArea({ color, questionID, userSolvedThis, beef }) {
   const [getCookingText, setGetCookingText] = useState("get cookin")
   const [code, setCode] = useState(`#receieve test case from standard input\ninput1 = input()\ninput2 = input()\n\n#compute solution\ndef solve(num1, num2):\n  ans = num1 + num2\n  return ans\n  \n#print output\nprint(solve(input1, input2))`);
   const [result, setResult] = useState([]);
+  const [lang, selectedLang] = useState("py")
 
-  console.log(userSolvedThis)
+  console.log(lang)
+
+  let languageOptions = [
+    { value:'cp', label:'c+'}, { value:'jav', label:'jav'}, { value:'p', label:'pytho'}
+  ]
+
+  function handleLanguageChange(e) {
+    selectedLang(e)
+  }
 
   const handleSubmit = () => {
     if (user.user.userID == null) {
@@ -40,7 +50,7 @@ export default function CodeArea({ color, questionID, userSolvedThis, beef }) {
 
   const styles = {
     container: {
-      display: 'flex',
+      display:'flex',
       flexDirection: 'column',
       gap: '1em',
       height: '100%'
@@ -68,7 +78,8 @@ export default function CodeArea({ color, questionID, userSolvedThis, beef }) {
       display: "flex",
       width: '100%',
       gap: '2em',
-      justifyContent: 'space-between'
+      justifyContent: 'space-between',
+      alignItems: 'center'
     },
     testGrid: {
       display: 'grid',
@@ -83,22 +94,89 @@ export default function CodeArea({ color, questionID, userSolvedThis, beef }) {
       justifyContent: 'center',
       padding: '5em 0em',
       color: colors.white
-
+    },
+    langSelect: {
+      container: (styles) => ({
+        ...styles,
+        flex: 1
+      }),
+      control: (styles) => ({
+        ...styles,
+        height: 'calc(100% - 4px)',
+        fontSize: '2em',
+        fontWeight: 'bold',
+        border: 'none',
+        outline: 'none',
+      }),
+      option: (styles, state) => {
+        console.log(state)
+        return {
+          ...styles,
+          color: state.isFocused ? colors.white : colors.black,
+          fontWeight: 'bold',
+          fontSize: '2em',
+          transition: 'all 0.3s ease'
+        }
+      },
+      placeholder: (styles) => {
+        return {
+          ...styles,
+          color: "#555555"
+        }
+      },
+      input: (styles) => {
+        return {
+          ...styles,
+          color: colors.accent2,
+        }
+      },
+      noOptionsMessage: (styles) => {
+        return { 
+          ...styles,
+          color: colors.black,
+          fontWeight: 'bold',
+          fontSize: '2em',
+          noOptionsText: "tag not found"
+        }
+      },
+      groupHeading: (styles) => {
+        return {
+          ...styles,
+          textTransform: 'none',
+          color: colors.accent1,
+          fontWeight: 'bold',
+          fontSize: '2em',
+          textAlign: 'center'
+        }
+      }
     }
   }
+
 
   return (
   <div style={styles.container}>
     <p style={styles.alreadySolved}>You have already solved this problem and gained {beef} 🥩.</p>
     <CodeEditor
       value={code}
-      language="py"
+      language={lang}
       placeholder="Please enter Python code."
       onChange={(evn) => setCode(evn.target.value)}
       style={styles.codeEditor}
     />
     <div style={styles.buttonDiv}>
       <Button onClick={handleSubmit} color={color} text={getCookingText}/>
+      <Select styles={styles.langSelect} options={languageOptions} onChange={handleLanguageChange} isSearchable closeMenuOnSelect defaultValue={languageOptions[0]} noOptionsMessage={() => "tag not found"}
+          theme={(theme) => ({
+            ...theme,
+            borderRadius: 0,
+            colors: {
+              ...theme.colors,
+              primary25: colors.accent2,
+              primary: colors.accent1,
+              neutral0: colors.accent1,
+              neutral20: colors.black
+            },
+        })}/>
     </div>
     <div style={styles.testGrid}>
 
