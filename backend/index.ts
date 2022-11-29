@@ -133,7 +133,7 @@ app.post('/userInfo', (req: Request, res: Response) => {
       res.json({result:result});
     }
   });
-});
+}); 
 
 
 app.post('/problems', async (req: Request, res: Response, next) => { //post requests to eatcode.com/problems
