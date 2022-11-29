@@ -11,13 +11,13 @@ export default class RecentlySolved extends Component {
         }
         // this.attemptedProblems = Array.from(this.props.user.attemptedProblems.values())
         // console.log("kkkk:", Object.getOwnPropertyNames(this.props.user.attemptedProblems))
-        console.log("state:", this.props.user.attemptedProblems)
+        // console.log("state:", this.props.user.attemptedProblems)
         const userAttempedProblems = Object.getOwnPropertyNames(this.props.user.attemptedProblems).map(x => parseInt(x))
-        console.log("arr:", userAttempedProblems)
+        // console.log("arr:", userAttempedProblems)
         Axios.post("http://localhost:3002/getProblems", {filter:{
             questionID : { "$in": userAttempedProblems }
           }}).then((response) => {
-            console.log("resp:", response)
+            // console.log("resp:", response)
             this.setState({attemptedProblems: response.data.result}, ()=>{});
         });
     }
