@@ -96,36 +96,49 @@ export default function CodeArea({ color, questionID, userSolvedThis, beef }) {
     langSelect: {
       container: (styles) => ({
         ...styles,
+        height: '100%',
         flex: 1
       }),
-      control: (styles) => ({
+      control: (styles, state) => ({
         ...styles,
-        height: 'calc(100% - 4px)',
-        fontSize: '2em',
+        color: colors.white,
+        height: 'calc(100%)',
+        textAlign: 'center',
+        fontSize: '3em',
+        "&:hover": {
+          backgroundColor: colors.black
+        },
+        transition: 'all 0.3s ease',
         fontWeight: 'bold',
         border: 'none',
         outline: 'none',
+        outlineColor: 'transparent'
       }),
       option: (styles, state) => {
-        console.log(state)
         return {
           ...styles,
-          color: state.isFocused ? colors.white : colors.black,
+          color: colors.white,
           fontWeight: 'bold',
           fontSize: '2em',
           transition: 'all 0.3s ease'
         }
       },
+      singleValue: (styles) => {
+        return {
+          ...styles,
+          color: colors.white
+        }
+      },
       placeholder: (styles) => {
         return {
           ...styles,
-          color: "#555555"
+          color: colors.white
         }
       },
       input: (styles) => {
         return {
           ...styles,
-          color: colors.accent2,
+          color: colors.white,
         }
       },
       noOptionsMessage: (styles) => {
@@ -157,22 +170,22 @@ export default function CodeArea({ color, questionID, userSolvedThis, beef }) {
     <CodeEditor
       value={code}
       language={lang}
-      placeholder="Please enter Python code."
+      placeholder=""
       onChange={(evn) => setCode(evn.target.value)}
       style={styles.codeEditor}
     />
     <div style={styles.buttonDiv}>
       <Button onClick={handleSubmit} color={color} text={getCookingText}/>
-      <Select styles={styles.langSelect} options={languageOptions} onChange={handleLanguageChange} isSearchable closeMenuOnSelect defaultValue={languageOptions[0]} noOptionsMessage={() => "tag not found"}
+      <Select styles={styles.langSelect} options={languageOptions} onChange={handleLanguageChange} closeMenuOnSelect defaultValue={languageOptions[2]} noOptionsMessage={() => "tag not found"}
           theme={(theme) => ({
             ...theme,
             borderRadius: 0,
             colors: {
               ...theme.colors,
-              primary25: colors.accent2,
-              primary: colors.accent1,
+              primary25: colors.black,
+              primary: "#333333", //same color as default test cases box
               neutral0: colors.accent1,
-              neutral20: colors.black
+              neutral20: colors.white
             },
         })}/>
     </div>
