@@ -21,7 +21,7 @@ export default function DifficultyBar(props) {
     // console.log(completed / maxCompleted)
     // console.log(3/5)
     // console.log((3/5).toString)
-    // console.log((3/7 * 100).toString())
+    // console.log(completed, maxCompleted,Math.round(completed * 100 / maxCompleted ).toString())
     return (
         <div style={styles.bar}>
             <h4 style={styles.title}>{props.diff}</h4>
