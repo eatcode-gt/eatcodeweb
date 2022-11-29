@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom'
 import CodeArea from '../components/create/CodeArea'
 import View from '../components/create/View'
 import { userContext } from '../userContext'
+import pageContainer from '../components/common/PageContainer'
 
 const Question = () => {
   const user = useContext(userContext).user

@@ -43,7 +43,7 @@ export default class RecentlySolved extends Component {
 
     return (
         <div style={styles.container}>
-            <h3>Recently Solved Problems</h3>            
+            <h3>your latest submissions</h3>            
             <div style={styles.grid}>
                 <Scrollbars style={styles.scroll}>
                     {this.state.attemptedProblems.map((problem) => {
